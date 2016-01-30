@@ -1,0 +1,19 @@
+allprojects {
+	apply plugin: 'eclipse-wtp'
+	
+	group = 'com.gt.ml'
+	version = '1.0'
+	buildDir = 'build'
+
+	repositories {
+		maven {
+			name 'public-repositories'
+			url 'http://repo1.maven.org/maven2'
+		}
+	}
+}
+
+subprojects {
+	apply plugin: 'java'
+	compileJava.options.encoding = 'UTF-8'
+}

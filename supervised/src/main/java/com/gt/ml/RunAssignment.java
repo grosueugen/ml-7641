@@ -34,6 +34,8 @@ public class RunAssignment {
 		Instances trainingSet = new Instances(dataSet, 0, trainingSize);
 		Instances testSet = new Instances(dataSet, trainingSize, testSize);
 		
+		long start = System.currentTimeMillis();
+		
 		System.out.println("------------ DECISION TREE -------------");
 		ClassifierBuilder classifierBuilder = new ClassifierBuilder();
 		Classifier classifier = classifierBuilder.runDecissionTree(trainingSet, true);
@@ -69,6 +71,8 @@ public class RunAssignment {
 		classifier = classifierBuilder.runSvm(trainingSet, kernel);
 		eval = classifierBuilder.evaluate(classifier, testSet);
 		printStats(eval, trainingSet, testSet, classifier);
+		
+		System.out.println("Entire alg took " + (System.currentTimeMillis() - start)/1000 + " sec");
 	}
 
 	@SuppressWarnings("unchecked")

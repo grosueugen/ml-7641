@@ -3,7 +3,8 @@ package com.gt.ml;
 public enum ClassifierTypes {
 	
 	DECISION_TREE,
-	BOOSTING,
+	BOOSTING_DT,
+	BOOSTING_ST,
 	KNN,
 	NN,
 	SVM,

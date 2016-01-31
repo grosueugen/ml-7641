@@ -76,7 +76,8 @@ public abstract class BaseClassifier {
 	public static BaseClassifier newInstance(ClassifierTypes ct) {
 		switch (ct) {
 		case DECISION_TREE: return new DecisionTree();
-		case BOOSTING: return new Boosting();
+		case BOOSTING_DT: return new BoostingDT();
+		case BOOSTING_ST: return new BoostingST();
 		case KNN: return new KNN();
 		case NN: return new NN();
 		case SVM: return new SVM();

@@ -19,19 +19,19 @@ public class RunningTimeGraph {
 			System.exit(0);
 		}
 		Instances dataSet = Utils.getInstances(args[0]);
-		TimeResult res = BaseClassifier.runMultipleTimes(5, 500, dataSet);
+		TimeResult res = BaseClassifier.runMultipleTimes(50, 50, dataSet);
 		
 		Map<ClassifierTypes, List<TimeData>> trainData = res.getTrainData();
 		System.out.println("trainData: " + trainData);
-		ChartBuilder chart1 = new ChartBuilder().withTitle("Training time comparisons")
-				.withXY("Instance Size", "Train Time").withData(trainData);
-		new ChartFrame("Training time comparison", chart1.build());
+		ChartBuilder chart1 = new ChartBuilder().withTitle("Training time comparisons (ms)")
+				.withXY("Instance Size", "Train Time (ms)").withData(trainData);
+		new ChartFrame("Training time comparison (ms)", chart1.build());
 		
 		Map<ClassifierTypes, List<TimeData>> testData = res.getTestData();
 		System.out.println("testData: " + testData);
-		ChartBuilder chart2 = new ChartBuilder().withTitle("Test time comparisons")
-				.withXY("Instance Size", "Train Time").withData(testData);
-		new ChartFrame("Test time comparison", chart2.build());
+		ChartBuilder chart2 = new ChartBuilder().withTitle("Test time comparisons (ms)")
+				.withXY("Instance Size", "Test Time (ms)").withData(testData);
+		new ChartFrame("Test time comparison (ms)", chart2.build());
 	}
 	
 	

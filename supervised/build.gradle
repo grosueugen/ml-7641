@@ -1,6 +1,6 @@
 dependencies {
 	compile 'nz.ac.waikato.cms.weka:weka-stable:3.6.13',
-			'jfree:jfreechart:1.0.13',
+			fileTree(dir: 'local_libs', include: ['*.jar'])
 			'log4j:log4j:1.2.17'
 	
 	runtime 'org.slf4j:slf4j-log4j12:1.7.13'

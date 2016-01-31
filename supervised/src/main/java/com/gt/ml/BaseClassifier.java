@@ -1,6 +1,5 @@
 package com.gt.ml;
 
-import java.util.Arrays;
 import java.util.Enumeration;
 
 import weka.classifiers.Classifier;

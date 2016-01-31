@@ -50,30 +50,7 @@ public class ChartBuilder {
 			xyCol.addSeries(xy);
 		}
 		JFreeChart res = ChartFactory.createXYLineChart(chartTitle, xTitle, yTitle, xyCol);
-		customize(res);
 		return res;
 	}
 	
-	private void customize(JFreeChart chart) {
-		chart.setBackgroundPaint(Color.white);
-
-		//final StandardLegend legend = (StandardLegend) chart.getLegend();
-		//legend.setDisplaySeriesShapes(true);
-
-		// get a reference to the plot for further customisation...
-		final XYPlot plot = chart.getXYPlot();
-		plot.setBackgroundPaint(Color.lightGray);
-		plot.setDomainGridlinePaint(Color.white);
-		plot.setRangeGridlinePaint(Color.white);
-
-		final XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
-		renderer.setBaseStroke(new BasicStroke(4));
-		plot.setRenderer(renderer);
-
-		// change the auto tick unit selection to integer units only...
-		final NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
-		rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
-		// OPTIONAL CUSTOMISATION COMPLETED.
-	}
-
 }

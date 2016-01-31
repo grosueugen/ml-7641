@@ -19,7 +19,7 @@ public class RunningTimeGraph {
 			System.exit(0);
 		}
 		Instances dataSet = Utils.getInstances(args[0]);
-		TimeResult res = BaseClassifier.runMultipleTimes(1, 500, dataSet);
+		TimeResult res = BaseClassifier.runMultipleTimes(5, 500, dataSet);
 		
 		Map<ClassifierTypes, List<TimeData>> trainData = res.getTrainData();
 		System.out.println("trainData: " + trainData);

@@ -35,10 +35,15 @@ public abstract class BaseClassifier {
 		return evaluation;
 	}
 	
+	public void printMoreOptions() {
+		
+	}
+	
 	@SuppressWarnings("unchecked")
 	public void printResults() throws Exception {
 		//System.out.println(classifier + " with options: " + Arrays.toString(classifier.getOptions()));
-		System.out.println(classifier);
+		//System.out.println(classifier);
+		printMoreOptions();
 		System.out.println(evaluation.toMatrixString());
 		System.out.println("accuracy: " + evaluation.pctCorrect());
 		

@@ -1,0 +1,95 @@
+I have chose 2 data sets with numeric attributes that show that the algorithms 
+exhibit different performances.
+
+1. Graphs
+1.1. The time it takes for each classifier to run with different training data set sizes.
+1.2. The time it takes for each classifier to run with different test data set sizes.
+
+As per the instruction for decision tree, we don’t need to consider the information gain but need to mention 
+(e.g. document in the analysis report) the other parameters (which we should vary) 
+while finding the optimal algorithm. Is it a correct understanding?
+
+yep, this was my understanding... and plot results for some different parameters 
+--------------------------------------
+
+wine data set -> taken from http://archive.ics.uci.edu/ml/datasets/Wine+Quality
+1. DecisionTree
+- 
+
+0) 
+Q: Any sample answer?
+A:
+Just focus on showing us that you understand the algorithms, their properties, and how your data affects their performance. 
+Colin's link is a good one. As an aside, I personally used the assignment description as a checklist and went down it to ensure that I hit all of the points.
+If you do this, sometimes you'll realize that you really didn't hit the points you were asked to cover. That's why I think a lot of people lose points
+
+Colin link:
+https://piazza.com/class/ija9i70biv26r3?cid=53
+
+Pick the most salient points to write up. These are open ended assignments, which is why I suspect there is a page limit - to prevent me rambling on. 
+ 
+I would suggest playing around and discovering as much as you can. Then write about what you learnt 
+(from doing, not reading-but staff may disagree with me on this distinction though), presenting the most pertinent points. 
+The strengths of each method, its weaknesses, what domain it is best suited for, its rigidity or flexibility, running  time, accuracy, data requirements, 
+how easy is it to use, how can results be improved, etc. Compare and contrast.  
+And don't forget to talk about your unanswered questions (there must be some) and what you would do if you had more time (and the inclination) to explore further.
+ 
+As a peer reviewer I want to see well written "concise" summaries. So also think about how best to present your results.
+ 
+No one is going to be able to cover all aspects. So think of this assignment is an exploration and investigation exercise, 
+and the report as a way to share the most important things you discovered. 
+Having a page limit will help you internalize the material as you constantly mull over what you will say and how you will say it suscinctly.
+
+CI: What a remarkably good answer. 
+
+1) 
+Hello folks,
+Do you guys have a good handbook or material where the  learning Curves are explained in a better way. Below is the learning curve for Linear  SVM.
+
+How do you interpret the convergence, etc.I understand it but needs confirmation Thanks in advance. 
+I infer for neural nets since both training and test error curves are parallel there isn't high bias nor high variance. 
+For SVM the same thing if we assume the two curve converges (may be high bias under fitting). 
+Your views/opinions are highly appreciated. The accuracy on various algorithms are fairly less (around 0.6 on average so the error rate is high).			 
+https://piazza.com/class/ija9i70biv26r3?cid=208
+
+2)
+- performance on both training and test data as a function of training size
+- Create a training set. Then don't use all of it to train and report results. Then use more of it to train and report results, and so on.
+- X axis is size of training set. Y axis is error on test set. 
+Depending on how the results go, it may make sense to show a plot where Y is error on training set, too.
+
+3)
+I plotted out train and test error for number of iterations or loops - and yep, past a certain number of iterations overfitting starts. 
+I think its good to show that in a plot, where overfitting started.
+
+4) 
+Q:
+How do we explain results that are contrary to what we expect? For example, in both my datasets, increasing k in kNN (without weighting and with weighting) doesn't seem to overfit. 
+Also, for trees, increasing size of tree without pruning isn't overfitting. 
+I don't know that there is a way to visualize the data, given the number of attributes are in many dimensions. 
+I rechecked if there was an error in my methodology, but so far I haven't found any. Is anyone else running into this problem?
+
+A: 
+Just because you increase/decrease k or the size of a decision to infinity doesn't necessarily mean that it will overfit or underfit. 
+Think of it like this: As you increase the size of a decision tree or increase k (or vice versa), the probability of it overfitting or underfitting increases. 
+As for the analysis, talk about why you think this is occuring. As a word of caution though: increasing k actually will cause knn to underfit 
+(I know this is counter-intuitive). The lower the value of k, the greater probability of overfitting. 
+
+5) 
+I did a comparison for my classification tree with 5-fold cross validation and a tree without cv, however, kind of surprising to me, 
+the tree with the 5-fold cv performs worse (85% accuracy) than the tree without cv (94% accuracy). 
+I use a testing data set that is 100% absent from the training/cv processes. I am wondering why cv makes the tree perform worse. 
+
+That's why you do cross validation: It makes you test on different testing sets. This ensures that you don't just get one good dataset that you get lucky on. 
+It may be that the training set that wasn't cross validated has some key information (data samples) that were crucial 
+to the algorithm's performance that were left out in cross validation. Sometimes, data in it's entirety 
+(the entire training set rather than different sub spaces of it used in cross validation) are needed for better results. 
+This does not mean that you should not use cross validation when training your data. I think on this dataset, you just got lucky.
+
+
+------------------------
+
+http://www.cs.waikato.ac.nz/~remco/bias.pdf
+
+
+------------------------------

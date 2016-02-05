@@ -14,12 +14,20 @@ import weka.core.Instances;
 public class RunningTimeGraph {
 
 	public static void main(String[] args) throws Exception {
-		if (args.length != 1) {
+		/*if (args.length != 1) {
 			System.out.println("Please provide file name");
 			System.exit(0);
 		}
-		Instances dataSet = Utils.getInstances(args[0]);
-		TimeResult res = BaseClassifier.runMultipleTimes(50, 50, dataSet);
+		Instances dataSet = Utils.getInstances(args[0]);*/
+		boolean wine = true;
+		Instances dataSet = null;
+		if (wine) {
+			dataSet = Utils.getInstances("wine-white.arff");
+		} else {
+			dataSet = Utils.getInstances("sat.arff");
+		}
+		
+		TimeResult res = BaseClassifier.computeRunningTime(10, 300, dataSet);
 		
 		Map<ClassifierTypes, List<TimeData>> trainData = res.getTrainData();
 		System.out.println("trainData: " + trainData);

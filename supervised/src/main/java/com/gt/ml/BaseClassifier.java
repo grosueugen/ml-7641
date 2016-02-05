@@ -58,7 +58,7 @@ public abstract class BaseClassifier {
 		}
 	}
 	
-	public static TimeResult runMultipleTimes(int n, int step, Instances instances) throws Exception {
+	public static TimeResult computeRunningTime(int n, int step, Instances instances) throws Exception {
 		TimeResult result = new TimeResult();
 		int nrTimes = 0;
 		int current = step;
@@ -77,12 +77,33 @@ public abstract class BaseClassifier {
 		}
 		return result;
 	}
+	
+	public static AccuracyResult computeAccuracy(int n, int step, Instances instances) throws Exception {
+		AccuracyResult result = new AccuracyResult();
+		int nrTimes = 0;
+		int current = step;
+		while (current < instances.numInstances() && nrTimes < n) {
+			Instances newSet = new Instances(instances, 0, current);			
+			int size = newSet.numInstances();
+			for (ClassifierTypes ct : ClassifierTypes.values()) {
+				BaseClassifier c = newInstance(ct);
+				long trainTime = c.train(newSet);
+				//result.addTrainData(ct, size, trainTime);
+				long testTime = c.test(newSet);
+				//result.addTestData(ct, size, testTime);
+			}
+			current += step;
+			nrTimes++;
+		}
+		return result;
+	}
 
 	public static BaseClassifier newInstance(ClassifierTypes ct) {
 		switch (ct) {
-		case DECISION_TREE: return new DecisionTree();
-		case BOOSTING_DT: return new BoostingDT();
-		case BOOSTING_ST: return new BoostingST();
+		case DECISION_TREE: return new DecisionTree();		
+		case BOOSTING: return new BoostingDT();
+		//TODO:
+		//case BOOSTING_ST: return new BoostingST();
 		case KNN: return new KNN();
 		case NN: return new NN();
 		case SVM: return new SVM();

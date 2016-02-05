@@ -18,4 +18,18 @@ public class Utils {
 		return dataSet;
 	}
 	
+	public static Instances[] getTrainAndTest(Instances instances) {
+		int size = instances.numInstances();
+		int trainingSize = (int) (size * 0.7);
+		int testSize = size - trainingSize;
+
+		Instances trainSet = new Instances(instances, 0, trainingSize);
+		Instances testSet = new Instances(instances, trainingSize, testSize);
+		
+		Instances[] res = new Instances[2];
+		res[0] = trainSet;
+		res[1] = testSet;
+		return res;
+	}
+	
 }

@@ -1,0 +1,11 @@
+cross-validation:
+- separate training set from test set
+- bestClassifier = null, bestError = MAX 
+- for each classifier:
+    run cross-validation on training set, record the cross validation error (cross validation error = 100 - eval.accuracy)
+	run classifier on test set => test error
+	if (test error < bestError) then {
+		bestError = test error
+		bestClassifier = classifier
+	} 
+	

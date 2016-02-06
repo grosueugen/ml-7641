@@ -93,3 +93,35 @@ http://www.cs.waikato.ac.nz/~remco/bias.pdf
 
 
 ------------------------------
+
+
+cross-validation:
+- separate training set from test set
+- bestClassifier = null, bestError = MAX 
+- for each classifier:
+    run cross-validation on training set, record the cross validation error (cross validation error = 100 - eval.accuracy)
+	run classifier on test set => test error
+	if (test error < bestError) then {
+		bestError = test error
+		bestClassifier = classifier
+	} 
+
+1) cross validation on the whole set to obtain the best classifier
+2) learning curve
+- training 0.7
+- test 0.3
+- m = #training size (m = 100, step 100)
+for (m) {
+	buildClassifier(m)
+	trainClassifier(testSet)
+}
+
+3) used tanh activation function for NN as well as the default sigmoid one.
+As can be seen, the best is the xxx
+
+4) the instances are shuffled, so that ...
+
+---------------------------------------------------------
+
+
+	

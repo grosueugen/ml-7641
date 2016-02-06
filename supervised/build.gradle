@@ -1,5 +1,5 @@
 apply plugin: 'application'
-mainClassName = "com.gt.ml.main.RunClassifiers"
+mainClassName = "com.gt.ml.main.RunClassifier"
 
 dependencies {
 	compile 'nz.ac.waikato.cms.weka:weka-stable:3.6.13',

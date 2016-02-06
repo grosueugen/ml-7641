@@ -1,11 +1,25 @@
-cross-validation:
-- separate training set from test set
-- bestClassifier = null, bestError = MAX 
-- for each classifier:
-    run cross-validation on training set, record the cross validation error (cross validation error = 100 - eval.accuracy)
-	run classifier on test set => test error
-	if (test error < bestError) then {
-		bestError = test error
-		bestClassifier = classifier
-	} 
-	
+For this assignment, I wanted to compare how the 
+classification algorithms behave when the data sets have the same
+attribute types (e.g. all are numbers), but the output attributes are provided
+by a computer, on one set, and by a human, on the other one.
+The instances of the first data set are multi-spectral values of pixels in 3x3 neighbourhoods 
+in a satellite image, and the classification associated with the central 
+pixel in each neighbourhood.
+The attributes of the second data set represent chemical properties/substances recorded in wine
+(sulphates, alcohol etc), and the classification output specifies wine quality, according to 
+at least 3 evaluations made by wine experts. 
+By the above description of the data sets, one expects that predictions should be
+better obtained for the first data set, as the human taste is subjective.
+
+TODO:
+- relative importances of the input variables
+- feature selection
+- remove outliers (excelent/poor vs normal)
+- histo diagram -> distributionForInstance call in weka can help
+- project instances in 2D
+- gamma 
+They are not linearly separable in 2D so you want to transform them to a higher dimension where they will be linearly sepparable. 
+Imagine "raising" the green points, then you can sepparate them from the red points with a plane (hyperplane)
+To "raise" the points you use the RBF kernel, gamma controls the shape of the "peaks" where you raise the points. 
+A small gamma gives you a pointed bump in the higher dimensions, a large gamma gives you a softer, broader bump.
+So a small gamma will give you low bias and high variance while a large gamma will give you higher bias and low variance.

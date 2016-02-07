@@ -7,8 +7,10 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.Random;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import weka.classifiers.Classifier;
-import weka.classifiers.Evaluation;
 import weka.classifiers.functions.MultilayerPerceptron;
 import weka.classifiers.functions.SMO;
 import weka.classifiers.lazy.IBk;
@@ -17,6 +19,8 @@ import weka.classifiers.trees.J48;
 import weka.core.Instances;
 
 public class Utils {
+	
+	private static final Logger log = LoggerFactory.getLogger(Utils.class);
 	
 	public static Integer getInt(String str) {
 		try {
@@ -59,25 +63,69 @@ public class Utils {
 		}
 	}
 	
-	public static Classifier newBestInstance(ClassifierTypes ct) {
-		switch (ct) {
-		case DECISION_TREE:
-			J48 dt = new J48();
-			return dt;
-		case BOOSTING:
-			AdaBoostM1 boost = new AdaBoostM1();
-			return boost;
-		case KNN:
-			IBk knn = new IBk();
-			return knn;
-		case NN:
-			MultilayerPerceptron nn = new MultilayerPerceptron();
-			return nn;
-		case SVM:
-			SMO svm = new SMO();
-			return svm;
-		default:
-			throw new IllegalArgumentException("Classifier type " + ct + " not supported");
+	public static Classifier newBestInstance(String file, ClassifierTypes ct) {
+		if ("sat.arff".equals(file)) {
+			switch (ct) {
+			case DECISION_TREE:
+				J48 dt = new J48();
+				return dt;
+			case BOOSTING:
+				AdaBoostM1 boost = new AdaBoostM1();
+				return boost;
+			case KNN:
+				IBk knn = new IBk();
+				return knn;
+			case NN:
+				MultilayerPerceptron nn = new MultilayerPerceptron();
+				return nn;
+			case SVM:
+				SMO svm = new SMO();
+				return svm;
+			default:
+				throw new IllegalArgumentException("Classifier type " + ct + " not supported");
+			}
+
+		} else if ("wine-white.arff".equals(file)) {
+			switch (ct) {
+			case DECISION_TREE:
+				J48 dt = new J48();
+				return dt;
+			case BOOSTING:
+				AdaBoostM1 boost = new AdaBoostM1();
+				return boost;
+			case KNN:
+				IBk knn = new IBk();
+				return knn;
+			case NN:
+				MultilayerPerceptron nn = new MultilayerPerceptron();
+				return nn;
+			case SVM:
+				SMO svm = new SMO();
+				return svm;
+			default:
+				throw new IllegalArgumentException("Classifier type " + ct + " not supported");
+			}
+		} else {
+			log.warn("Using a file that was not tested for model complexity {}, using default parameters!", file);
+			switch (ct) {
+			case DECISION_TREE:
+				J48 dt = new J48();
+				return dt;
+			case BOOSTING:
+				AdaBoostM1 boost = new AdaBoostM1();
+				return boost;
+			case KNN:
+				IBk knn = new IBk();
+				return knn;
+			case NN:
+				MultilayerPerceptron nn = new MultilayerPerceptron();
+				return nn;
+			case SVM:
+				SMO svm = new SMO();
+				return svm;
+			default:
+				throw new IllegalArgumentException("Classifier type " + ct + " not supported");
+			}
 		}
 	}
 

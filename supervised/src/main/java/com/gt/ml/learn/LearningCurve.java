@@ -34,7 +34,7 @@ public class LearningCurve {
 				Instances trainingSet = new Instances(instances, 0, current);			
 				int size = trainingSet.numInstances();
 				for (ClassifierTypes ct : ClassifierTypes.values()) {
-					Classifier c = newBestInstance(ct);
+					Classifier c = newBestInstance(file, ct);
 					c.buildClassifier(trainingSet);
 					double trainingError = getError(c, trainingSet, trainingSet);
 					double testError = getError(c, trainingSet, testSet);
@@ -69,16 +69,4 @@ public class LearningCurve {
 		}
 	}
 	
-	private long test(Classifier c, Instances testSet) {
-		try {
-			long start = System.currentTimeMillis();
-			Evaluation evaluation = new Evaluation(testSet);
-			evaluation.evaluateModel(c, testSet);
-			return (System.currentTimeMillis()) - start;
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			throw new RuntimeException("Can not test classifier " + c, ex);
-		}
-	}
-
 }

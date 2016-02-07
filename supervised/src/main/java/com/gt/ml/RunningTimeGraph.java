@@ -23,9 +23,11 @@ public class RunningTimeGraph {
 	public static void main(String[] args) throws ParseException {
 		Options options = new Options()
 				.addOption(new Option("h", "help", false, "show help"))
+				.addOption(new Option("f", "file", true, "file with data sets "))
 				.addOption(new Option("n", "iteration", true, "#iterations to execute"))
 				.addOption(new Option("step", "step_size", true, "the incremental step size, used to increase the #instances used"));
 		
+		String file;
 		int n;
 		int step;
 		
@@ -34,6 +36,13 @@ public class RunningTimeGraph {
 			new HelpFormatter().printHelp("Model Complexity Experiment", options);
 			return;
 		}
+		if (commandLine.hasOption("f")) {
+			file = commandLine.getOptionValue("f");
+		} else {
+			System.out.println("Please provide a data set file. See help for details");
+			return;
+		}
+		
 		if (commandLine.hasOption("n")) {
 			Integer it = getInt(commandLine.getOptionValue("n"));
 			if (it == null) {
@@ -59,14 +68,12 @@ public class RunningTimeGraph {
 		}
 		
 		// String[] files = {"sat.arff", "wine-white.arff"};
-		String[] files = {"sat.arff"};
-		for (String file : files) {
-			TimeResult res = new RunningTime(file, n, step).compute();
-			Map<ClassifierTypes, List<TimeData>> data = res.getData();
-			TimeChartBuilder chart = new TimeChartBuilder().withTitle(file + " - Running time comparisons (ms)")
-					.withXY("Instance Size", "Running Time (ms)").withData(data);
-			new ChartFrame(file + " - Running time comparison (ms)", chart.build());
-		}
+		
+		TimeResult res = new RunningTime(file, n, step).compute();
+		Map<ClassifierTypes, List<TimeData>> data = res.getData();
+		TimeChartBuilder chart = new TimeChartBuilder().withTitle(file + " - Running time comparisons (ms)")
+				.withXY("Instance Size", "Running Time (ms)").withData(data);
+		new ChartFrame(file + " - Running time comparison (ms)", chart.build());
 	}
 	
 }

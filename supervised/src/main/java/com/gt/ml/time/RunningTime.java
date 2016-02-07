@@ -31,7 +31,7 @@ public class RunningTime {
 			Instances newSet = new Instances(instances, 0, current);			
 			int size = newSet.numInstances();
 			for (ClassifierTypes ct : ClassifierTypes.values()) {
-				Classifier c = newBestInstance(ct);
+				Classifier c = newBestInstance(file, ct);
 				long trainingTime = train(c, newSet);
 				long testTime = test(c, newSet);
 				result.addData(ct, size, trainingTime, testTime);

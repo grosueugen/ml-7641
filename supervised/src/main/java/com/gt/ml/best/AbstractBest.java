@@ -7,7 +7,12 @@ import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public abstract class AbstractBest {
+	
+	private static final Logger log = LoggerFactory.getLogger(AbstractBest.class);
 	
 	protected final int iterations;
 	
@@ -26,7 +31,14 @@ public abstract class AbstractBest {
 	
 	public final void compute() {
 		for (int i = 0; i < iterations; i++) {
-			doCompute();
+			try {
+				log.info("@@@@@@@@@@@ start compute iteration {} ", i);
+				doCompute();
+				log.info("@@@@@@@@@@@ end compute iteration {} ", i);
+			} catch (Exception ex) {
+				ex.printStackTrace();
+				log.error("{}", ex);
+			}
 		}
 	}
 	

@@ -26,8 +26,10 @@ public class KNNBest extends AbstractBest {
 
 	@Override
 	protected void doCompute() {
+		log.info("########### start compute ");
 		for (int k : ks) {
 			for (int wd : weightDistaince) {
+				log.info("########### start compute with k {} weight distance {} ", k, wd);
 				IBk knn = new IBk(k);
 				knn.setDistanceWeighting(new SelectedTag(wd, IBk.TAGS_WEIGHTING));
 				ClassifierContext cc = new ClassifierContext(file, knn);
@@ -36,8 +38,10 @@ public class KNNBest extends AbstractBest {
 				
 				BestResult res = new BestResult("knn:k=" + k+ ",weightDistance=" + wd, errorRate);
 				add(res);
+				log.info("########### start compute with result ", res);
 			}
 		}
+		log.info("########### end compute ");
 	}
 	
 	public void printResult() {
@@ -51,9 +55,9 @@ public class KNNBest extends AbstractBest {
 		bestSat.compute();
 		bestSat.printResult();
 		
-		KNNBest bestWine = new KNNBest("wine-white.arff", 1);
+		/*KNNBest bestWine = new KNNBest("wine-white.arff", 1);
 		bestWine.compute();
-		bestWine.printResult();
+		bestWine.printResult();*/
 	}
 
 }

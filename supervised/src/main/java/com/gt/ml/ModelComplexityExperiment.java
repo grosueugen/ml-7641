@@ -11,6 +11,8 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.gt.ml.best.AbstractBest;
 import com.gt.ml.best.BoostingBest;
@@ -20,6 +22,8 @@ import com.gt.ml.best.NeuralNetBest;
 import com.gt.ml.best.SVMBest;
 
 public class ModelComplexityExperiment {
+	
+	private static final Logger log = LoggerFactory.getLogger(ModelComplexityExperiment.class);
 	
 	private final String file;
 	private final int i;
@@ -62,17 +66,22 @@ public class ModelComplexityExperiment {
 	}
 	
 	private void runAll() {
+		log.info("########### start ModelComplexity for data set {} using {} iterations ", file, i);
 		List<AbstractBest> all = new ArrayList<>();
 		all.add(new DecisionTreeBest(file, i));
 		all.add(new BoostingBest(file, i));
 		all.add(new KNNBest(file, i));
 		all.add(new NeuralNetBest(file, i));
-		all.add(new SVMBest(file, i));
+		all.add(new SVMBest(file, i));		
 		
 		for (AbstractBest b : all) {
+			log.info("############## start computing best for " + b.getClass().getSimpleName());
 			b.compute();
 			b.printResult();
+			log.info("############## end computing best for " + b.getClass().getSimpleName());
 		}
+		
+		log.info("########### end ModelComplexity for data set {} using {} iterations ", file, i);
 	}
 
 }

@@ -13,7 +13,7 @@ public class NeuralNetBest extends AbstractBest {
 	
 	private Double[] learningRates = {0.1, 0.5, 0.9};
 	private Double[] moments = {0D, 0.1, 0.9};
-	private String[] hiddens = {"a,5", "1,5,10"};
+	private String[] hiddens = {"", "a,5", "a,5,10"};
 	
 	public NeuralNetBest(String file, int nrInterations) {
 		super(file, nrInterations);
@@ -29,21 +29,28 @@ public class NeuralNetBest extends AbstractBest {
 	}
 	
 	private void computeSigmoid() {
+		log.info("########### start compute ");
 		for (double lr : learningRates) {
 			for (double m : moments) {
 				for (String h : hiddens) {
+					log.info("########### start compute with learning rate {} moment {} hidden unit {} ", lr, m, h);
 					MultilayerPerceptron nn = new MultilayerPerceptron();
 					nn.setLearningRate(lr);
 					nn.setMomentum(m);
-					nn.setHiddenLayers(h);
+					if (!h.isEmpty()) {
+						nn.setHiddenLayers(h);
+					}
 					
 					ClassifierContext cc = new ClassifierContext(file, nn);
 					cc.run();
 					Double errorRate = cc.getErrorRate();
-					add(new BestResult("nn:activation=sigmoid,lr=" + lr + ",m=" + m + ",hu=" + h, errorRate));
+					BestResult res = new BestResult("nn:activation=sigmoid,lr=" + lr + ",m=" + m + ",hu=" + h, errorRate);
+					add(res);
+					log.info("########### end compute with result ", res);
 				}
 			}
 		}
+		log.info("########### end compute ");
 	}
 
 	public void printResult() {

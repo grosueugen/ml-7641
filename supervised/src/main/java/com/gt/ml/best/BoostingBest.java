@@ -31,7 +31,9 @@ public class BoostingBest extends AbstractBest {
 	}
 	
 	private void computeStump() {
+		log.info("########### start computeStump");
 		for (int i : boostIteration) {
+			log.info("########### start computeStump with boostIteration {} ", i);
 			AdaBoostM1 boost = new AdaBoostM1();
 			boost.setNumIterations(i);
 			ClassifierContext cc = new ClassifierContext(file, boost);
@@ -39,11 +41,15 @@ public class BoostingBest extends AbstractBest {
 			Double errorRate = cc.getErrorRate();
 			BestResult res = new BestResult("boost:classifier=stump,iterations=" + i, errorRate);
 			add(res);
+			log.info("########### end computeStump with result {} ", res);
 		}
+		log.info("########### end computeStump");
 	}
 
 	private void computeDecisionTreeNoPruning() {
+		log.info("########### start computeDecisionTreeNoPruning");
 		for (int i : boostIteration) {
+			log.info("########### start computeDecisionTreeNoPruning with boostIteration {} ", i);
 			AdaBoostM1 boost = new AdaBoostM1();
 			J48 dt = new J48();
 			dt.setUnpruned(true);
@@ -54,12 +60,16 @@ public class BoostingBest extends AbstractBest {
 			Double errorRate = cc.getErrorRate();
 			BestResult res = new BestResult("boost:classifier=dt,iterations=" + i, errorRate);
 			add(res);
+			log.info("########### end computeDecisionTreeNoPruning with result {} ", res);
 		}
+		log.info("########### end computeDecisionTreeNoPruning");
 	}
 
 	private void computeDecisionTreePruning() {
+		log.info("########### start computeDecisionTreePruning");
 		for (int i : boostIteration) {
 			for (float cf : dtCfs) {
+				log.info("########### start computeDecisionTreePruning with boostIteration {} and cf {} ", boostIteration, cf);
 				AdaBoostM1 boost = new AdaBoostM1();
 				J48 dt = new J48();
 				dt.setConfidenceFactor(cf);
@@ -70,8 +80,10 @@ public class BoostingBest extends AbstractBest {
 				Double errorRate = cc.getErrorRate();
 				BestResult res = new BestResult("boost:classifier=dt,iterations=" + i + ",cf=" + cf, errorRate);
 				add(res);
+				log.info("########### end computeDecisionTreePruning with res {} ", res);
 			}
 		}
+		log.info("########### end computeDecisionTreePruning");
 	}
 
 	public void printResult() {
@@ -81,13 +93,13 @@ public class BoostingBest extends AbstractBest {
 	}
 	
 	public static void main(String[] args) {
-		BoostingBest bestSat = new BoostingBest("sat.arff", 1);
+		BoostingBest bestSat = new BoostingBest("sat.arff", 2);
 		bestSat.compute();
 		bestSat.printResult();
 		
-		BoostingBest bestWine = new BoostingBest("wine-white.arff", 1);
+		/*BoostingBest bestWine = new BoostingBest("wine-white.arff", 1);
 		bestWine.compute();
-		bestWine.printResult();
+		bestWine.printResult();*/
 	}
 
 }

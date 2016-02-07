@@ -31,7 +31,9 @@ public class SVMBest extends AbstractBest {
 	}
 	
 	private void computePoly() {
+		log.info("########### start computePoly ");
 		for (int exp : exponents) {
+			log.info("########### start computePoly with exponent {} ", exp);
 			SMO svm = new SMO();
 			PolyKernel pk = new PolyKernel();
 			pk.setExponent(exp);
@@ -40,12 +42,17 @@ public class SVMBest extends AbstractBest {
 			ClassifierContext cc = new ClassifierContext(file, svm);
 			cc.run();
 			Double errorRate = cc.getErrorRate();
-			add(new BestResult("svm:kernel=poly,exp=" + exp, errorRate));
+			BestResult res = new BestResult("svm:kernel=poly,exp=" + exp, errorRate);
+			add(res);
+			log.info("########### end computePoly with result ", res);
 		}
+		log.info("########### end computePoly ");
 	}
 
 	private void computeRadial() {
+		log.info("########### start computeRadial ");
 		for (double g : gamma) {
+			log.info("########### start computeRadial with gamma {} ", gamma);
 			SMO svm = new SMO();
 			RBFKernel k = new RBFKernel();
 			k.setGamma(g);
@@ -54,8 +61,11 @@ public class SVMBest extends AbstractBest {
 			ClassifierContext cc = new ClassifierContext(file, svm);
 			cc.run();
 			Double errorRate = cc.getErrorRate();
-			add(new BestResult("svm:kernel=radial,gamma=" + g, errorRate));
+			BestResult res = new BestResult("svm:kernel=radial,gamma=" + g, errorRate);
+			add(res);
+			log.info("########### end computeRadial with result ", res);
 		}
+		log.info("########### end computeRadial ");
 	}
 
 	public void printResult() {

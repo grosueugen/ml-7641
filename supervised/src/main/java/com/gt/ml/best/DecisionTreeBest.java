@@ -28,6 +28,7 @@ public class DecisionTreeBest extends AbstractBest {
 	}
 
 	private void computeNoPruning() {
+		log.info("########### start computeNoPruning");
 		J48 dt = new J48();
 		dt.setUnpruned(true);
 		ClassifierContext cc = new ClassifierContext(file, dt);
@@ -36,17 +37,23 @@ public class DecisionTreeBest extends AbstractBest {
 		
 		BestResult res = new BestResult("dt:pruning=false", errorRate);
 		add(res);
+		log.info("########### start computeNoPruning with result {} ", res);
 	}
 
 	private void computePruning() {
+		log.info("########### start computePruning");
 		for (float cf : cfs) {
+			log.info("########### start computePruning with cf {}", cf);
 			J48 dt = new J48();
 			dt.setConfidenceFactor(cf);
 			ClassifierContext cc = new ClassifierContext(file, dt);
 			cc.run();
 			Double errorRate = cc.getErrorRate();
-			add(new BestResult("dt:pruning=true,cf=" + cf, errorRate));
+			BestResult res = new BestResult("dt:pruning=true,cf=" + cf, errorRate);
+			add(res);
+			log.info("########### end computePruning with result {} ", res);
 		}
+		log.info("########### end computePruning");
 	}
 
 	public void printResult() {

@@ -58,7 +58,7 @@ public class RunningTimeGraph {
 			return;
 		}
 		
-		//String[] files = {"sat.arff", "wine-white.arff"};
+		// String[] files = {"sat.arff", "wine-white.arff"};
 		String[] files = {"sat.arff"};
 		for (String file : files) {
 			TimeResult res = new RunningTime(file, n, step).compute();

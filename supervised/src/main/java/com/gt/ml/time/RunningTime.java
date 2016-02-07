@@ -1,9 +1,9 @@
-package com.gt.ml.main.time;
+package com.gt.ml.time;
 
-import static com.gt.ml.main.Utils.buildInstances;
-import static com.gt.ml.main.Utils.newBestInstance;
+import static com.gt.ml.Utils.buildInstances;
+import static com.gt.ml.Utils.newBestInstance;
 
-import com.gt.ml.main.ClassifierTypes;
+import com.gt.ml.ClassifierTypes;
 
 import weka.classifiers.Classifier;
 import weka.classifiers.Evaluation;
@@ -32,10 +32,9 @@ public class RunningTime {
 			int size = newSet.numInstances();
 			for (ClassifierTypes ct : ClassifierTypes.values()) {
 				Classifier c = newBestInstance(ct);
-				long trainTime = train(c, newSet);
-				result.addTrainData(ct, size, trainTime);
+				long trainingTime = train(c, newSet);
 				long testTime = test(c, newSet);
-				result.addTestData(ct, size, testTime);
+				result.addData(ct, size, trainingTime, testTime);
 			}
 			current += step;
 			nrTimes++;

@@ -1,4 +1,4 @@
-package com.gt.ml.main;
+package com.gt.ml;
 
 import java.io.BufferedReader;
 import java.io.IOException;

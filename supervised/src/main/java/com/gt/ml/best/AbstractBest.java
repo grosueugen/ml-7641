@@ -1,4 +1,4 @@
-package com.gt.ml.main.best;
+package com.gt.ml.best;
 
 import java.util.ArrayList;
 import java.util.HashMap;

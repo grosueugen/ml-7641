@@ -1,4 +1,4 @@
-package com.gt.ml.main.learn;
+package com.gt.ml.learn;
 
 public class LearnData {
 	

@@ -1,11 +1,11 @@
-package com.gt.ml.main.learn;
-
-import com.gt.ml.main.ClassifierTypes;
+package com.gt.ml.learn;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.gt.ml.ClassifierTypes;
 
 public class LearnResult {
 	

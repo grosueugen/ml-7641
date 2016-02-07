@@ -1,9 +1,9 @@
-package com.gt.ml.main.learn;
+package com.gt.ml.learn;
 
-import static com.gt.ml.main.Utils.buildInstances;
-import static com.gt.ml.main.Utils.newBestInstance;
+import static com.gt.ml.Utils.buildInstances;
+import static com.gt.ml.Utils.newBestInstance;
 
-import com.gt.ml.main.ClassifierTypes;
+import com.gt.ml.ClassifierTypes;
 
 import weka.classifiers.Classifier;
 import weka.classifiers.Evaluation;

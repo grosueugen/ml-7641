@@ -1,6 +1,6 @@
-package com.gt.ml.main;
+package com.gt.ml;
 
-import static com.gt.ml.main.Utils.*;
+import static com.gt.ml.Utils.*;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.DefaultParser;
@@ -11,7 +11,6 @@ import org.apache.commons.cli.ParseException;
 
 import weka.classifiers.Classifier;
 import weka.classifiers.functions.MultilayerPerceptron;
-import weka.classifiers.functions.MultilayerPerceptronTanh;
 import weka.classifiers.functions.SMO;
 import weka.classifiers.functions.supportVector.Kernel;
 import weka.classifiers.functions.supportVector.PolyKernel;
@@ -41,7 +40,6 @@ public class RunClassifier {
 	public static final String knnK = "knn_k";
 	public static final String knnWeightDistance = "knn_wd";
 	
-	public static final String nnActivationFunction = "nn_act_fct";
 	public static final String nnLearningRate = "nn_lr";
 	public static final String nnMomentum = "nn_mm";
 	public static final String nnHiddentUnits = "nn_hu";
@@ -74,7 +72,6 @@ public class RunClassifier {
 				.addOption(new Option(boostDtCf, "boost_dt_cf", true, "boost: use dt confidence-factor, used for pruning; type double, default value 0.25"))
 				.addOption(new Option(knnK, "knn_k", true, "knn: specify the #nearest neighbours; type integer, default value 1"))
 				.addOption(new Option(knnWeightDistance, "knn_weight_distance", true, "knn: specify a weight distance; type integer <1=None,2=Inverse,3=Similarity>, default value 1"))
-				.addOption(new Option(nnActivationFunction, "nn_activation_function", true, "nn: activation function; one of <sigmoid, tanh>, default sigmoid"))
 				.addOption(new Option(nnLearningRate, "nn_learning_rate", true, "nn: backpropagation learning rate; type double, default value 0.3"))
 				.addOption(new Option(nnMomentum, "nn_momentum", true, "nn: backpropagation momentum rate; type double, default value 0.2"))
 				.addOption(new Option(nnHiddentUnits, "nn_hidden_units", true, "nn: comma-separated string for #hidden layers and nodes per layer. e.g. \"a,3,4\"; see weka for more details"))
@@ -208,20 +205,7 @@ public class RunClassifier {
 				cls = ibk;
 				break;
 			case NN:
-				MultilayerPerceptron nn = null;
-				if (commandLine.hasOption(nnActivationFunction)) {
-					String nnaf = commandLine.getOptionValue(nnActivationFunction);
-					if ("sigmoid".equalsIgnoreCase(nnaf)) {
-						nn = new MultilayerPerceptron();						
-					} else if ("tanh".equalsIgnoreCase(nnaf)) {
-						nn = new MultilayerPerceptronTanh();
-					} else {
-						System.out.println("Please provide one of <sigmoid, tanh> for nn_act_fct. See help for more details");
-						return null;
-					}
-				} else {
-					nn = new MultilayerPerceptron();
-				}
+				MultilayerPerceptron nn = new MultilayerPerceptron();
 				if (commandLine.hasOption(nnLearningRate)) {
 					Double nnLR = getDouble(commandLine.getOptionValue(nnLearningRate));
 					if (nnLR == null) {

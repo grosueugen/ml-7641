@@ -1,6 +1,6 @@
-package com.gt.ml.main;
+package com.gt.ml;
 
-import static com.gt.ml.main.Utils.*;
+import static com.gt.ml.Utils.getInt;
 
 import java.util.List;
 import java.util.Map;
@@ -12,14 +12,14 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
-import com.gt.ml.graph.TimeChartBuilder;
 import com.gt.ml.graph.ChartFrame;
-import com.gt.ml.main.time.RunningTime;
-import com.gt.ml.main.time.TimeData;
-import com.gt.ml.main.time.TimeResult;
+import com.gt.ml.graph.LearnChartBuilder;
+import com.gt.ml.learn.LearnData;
+import com.gt.ml.learn.LearnResult;
+import com.gt.ml.learn.LearningCurve;
 
-public class RunningTimeGraph {
-
+public class LearningCurveGraph {
+	
 	public static void main(String[] args) throws ParseException {
 		Options options = new Options()
 				.addOption(new Option("h", "help", false, "show help"))
@@ -59,19 +59,15 @@ public class RunningTimeGraph {
 		}
 		
 		String[] files = {"sat.arff", "wine-white.arff"};
+		//String[] files = {"sat.arff"};
 		for (String file : files) {
-			TimeResult res = new RunningTime(file, n, step).compute();
+			LearnResult res = new LearningCurve(file, n, step).compute();
 			
-			Map<ClassifierTypes, List<TimeData>> trainData = res.getTrainData();
-			TimeChartBuilder chart1 = new TimeChartBuilder().withTitle(file + " - Training time comparisons (ms)")
-					.withXY("Instance Size", "Training Time (ms)").withData(trainData);
-			new ChartFrame("Training time comparison (ms)", chart1.build());
-			
-			Map<ClassifierTypes, List<TimeData>> testData = res.getTestData();
-			TimeChartBuilder chart2 = new TimeChartBuilder().withTitle(file + " - Test time comparisons (ms)")
-					.withXY("Instance Size", "Test Time (ms)").withData(testData);
-			new ChartFrame("Test time comparison (ms)", chart2.build());
+			Map<ClassifierTypes, List<LearnData>> data = res.getData();
+			LearnChartBuilder chart = new LearnChartBuilder().withTitle(file + " - Learning Curve")
+					.withXY("Instance Size", "Error Rate").withData(data);
+			new ChartFrame("Training time comparison (ms)", chart.build());
 		}
 	}
-	
+
 }

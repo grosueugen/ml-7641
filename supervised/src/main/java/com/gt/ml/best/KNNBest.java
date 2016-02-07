@@ -1,9 +1,9 @@
-package com.gt.ml.main.best;
+package com.gt.ml.best;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.gt.ml.main.ClassifierContext;
+import com.gt.ml.ClassifierContext;
 
 import weka.classifiers.lazy.IBk;
 import weka.core.SelectedTag;

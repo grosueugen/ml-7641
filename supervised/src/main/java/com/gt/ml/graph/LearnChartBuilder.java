@@ -13,8 +13,8 @@ import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
-import com.gt.ml.main.ClassifierTypes;
-import com.gt.ml.main.learn.LearnData;
+import com.gt.ml.ClassifierTypes;
+import com.gt.ml.learn.LearnData;
 
 public class LearnChartBuilder {
 	

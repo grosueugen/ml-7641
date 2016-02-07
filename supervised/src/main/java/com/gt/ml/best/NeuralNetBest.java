@@ -1,12 +1,11 @@
-package com.gt.ml.main.best;
+package com.gt.ml.best;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.gt.ml.main.ClassifierContext;
+import com.gt.ml.ClassifierContext;
 
 import weka.classifiers.functions.MultilayerPerceptron;
-import weka.classifiers.functions.MultilayerPerceptronTanh;
 
 public class NeuralNetBest extends AbstractBest {
 	
@@ -27,7 +26,6 @@ public class NeuralNetBest extends AbstractBest {
 	@Override
 	protected void doCompute() {
 		computeSigmoid();
-		computeTanh();
 	}
 	
 	private void computeSigmoid() {
@@ -43,24 +41,6 @@ public class NeuralNetBest extends AbstractBest {
 					cc.run();
 					Double errorRate = cc.getErrorRate();
 					add(new BestResult("nn:activation=sigmoid,lr=" + lr + ",m=" + m + ",hu=" + h, errorRate));
-				}
-			}
-		}
-	}
-
-	private void computeTanh() {
-		for (double lr : learningRates) {
-			for (double m : moments) {
-				for (String h : hiddens) {
-					MultilayerPerceptronTanh nn = new MultilayerPerceptronTanh();
-					nn.setLearningRate(lr);
-					nn.setMomentum(m);
-					nn.setHiddenLayers(h);
-					
-					ClassifierContext cc = new ClassifierContext(file, nn);
-					cc.run();
-					Double errorRate = cc.getErrorRate();
-					add(new BestResult("nn:activation=tanh,lr=" + lr + ",m=" + m + ",hu=" + h, errorRate));
 				}
 			}
 		}

@@ -1,4 +1,4 @@
-package com.gt.ml.main;
+package com.gt.ml;
 
 public enum ClassifierTypes {
 	

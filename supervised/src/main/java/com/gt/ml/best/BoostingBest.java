@@ -80,7 +80,7 @@ public class BoostingBest extends AbstractBest {
 				Double errorRate = cc.getErrorRate();
 				BestResult res = new BestResult("boost:classifier=dt,iterations=" + i + ",cf=" + cf, errorRate);
 				add(res);
-				log.info("########### end computeDecisionTreePruning with res {} ", res);
+				log.info("########### end computeDecisionTreePruning with result {} ", res);
 			}
 		}
 		log.info("########### end computeDecisionTreePruning");

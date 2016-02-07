@@ -38,7 +38,7 @@ public class KNNBest extends AbstractBest {
 				
 				BestResult res = new BestResult("knn:k=" + k+ ",weightDistance=" + wd, errorRate);
 				add(res);
-				log.info("########### start compute with result ", res);
+				log.info("########### start compute with result {} ", res);
 			}
 		}
 		log.info("########### end compute ");

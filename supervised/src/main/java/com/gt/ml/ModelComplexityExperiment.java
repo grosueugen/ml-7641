@@ -59,6 +59,7 @@ public class ModelComplexityExperiment {
 				System.out.println("Please provide a correct integer for i. See help for more details");
 				return;
 			}
+			i = it;
 		}
 		
 		new ModelComplexityExperiment(file, i).runAll();

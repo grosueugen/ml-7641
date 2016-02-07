@@ -46,7 +46,7 @@ public class NeuralNetBest extends AbstractBest {
 					Double errorRate = cc.getErrorRate();
 					BestResult res = new BestResult("nn:activation=sigmoid,lr=" + lr + ",m=" + m + ",hu=" + h, errorRate);
 					add(res);
-					log.info("########### end compute with result ", res);
+					log.info("########### end compute with result {} ", res);
 				}
 			}
 		}

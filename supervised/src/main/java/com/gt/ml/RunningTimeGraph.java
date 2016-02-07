@@ -1,7 +1,9 @@
 package com.gt.ml;
 
-import static com.gt.ml.Utils.*;
+import static com.gt.ml.Utils.getInt;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -11,25 +13,36 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
+import org.jfree.chart.ChartUtilities;
+import org.jfree.chart.JFreeChart;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.gt.ml.graph.TimeChartBuilder;
 import com.gt.ml.time.RunningTime;
 import com.gt.ml.time.TimeData;
 import com.gt.ml.time.TimeResult;
-import com.gt.ml.graph.ChartFrame;
 
 public class RunningTimeGraph {
+	
+	private static final Logger log = LoggerFactory.getLogger(LearningCurveGraph.class);
 
-	public static void main(String[] args) throws ParseException {
+	public static void main(String[] args) throws ParseException, IOException {
 		Options options = new Options()
 				.addOption(new Option("h", "help", false, "show help"))
-				.addOption(new Option("f", "file", true, "file with data sets "))
+				.addOption(new Option("f", "file", true, "file with data sets"))
+				.addOption(new Option("of", "output_file", true, "location of the output jpeg graph file e.g. runningTime.jpeg"))
+				.addOption(new Option("width", "width", true, "width of the image, type integer, default 800"))
+				.addOption(new Option("height", "height", true, "height of the image, default 600"))
 				.addOption(new Option("n", "iteration", true, "#iterations to execute"))
 				.addOption(new Option("step", "step_size", true, "the incremental step size, used to increase the #instances used"));
 		
+		String outputFile;
 		String file;
 		int n;
 		int step;
+		int width = 800;
+		int height = 600;
 		
 		CommandLine commandLine = new DefaultParser().parse(options, args);
 		if (commandLine.hasOption("h")) {
@@ -42,6 +55,28 @@ public class RunningTimeGraph {
 			System.out.println("Please provide a data set file. See help for details");
 			return;
 		}
+		if (commandLine.hasOption("of")) {
+			outputFile = commandLine.getOptionValue("of");
+		} else {
+			System.out.println("Please provide an output file to store jpeg graph. See help for details");
+			return;
+		}
+		if (commandLine.hasOption("width")) {
+			Integer w = getInt(commandLine.getOptionValue("width"));
+			if (w == null) {
+				System.out.println("Please provide an integer for width. See help for details");
+				return;
+			}
+			width = w;
+		} 
+		if (commandLine.hasOption("height")) {
+			Integer h = getInt(commandLine.getOptionValue("height"));
+			if (h == null) {
+				System.out.println("Please provide an integer for height. See help for details");
+				return;
+			}
+			height = h;
+		} 
 		
 		if (commandLine.hasOption("n")) {
 			Integer it = getInt(commandLine.getOptionValue("n"));
@@ -69,11 +104,22 @@ public class RunningTimeGraph {
 		
 		// String[] files = {"sat.arff", "wine-white.arff"};
 		
+		log.info(
+				"$$$$$$$$$ start computing RunningTime for data set {}, #n {}, #step {}, output file {}, width {}, height {} ",
+				file, n, step, outputFile, width, height);
+		
 		TimeResult res = new RunningTime(file, n, step).compute();
 		Map<ClassifierTypes, List<TimeData>> data = res.getData();
 		TimeChartBuilder chart = new TimeChartBuilder().withTitle(file + " - Running time comparisons (ms)")
 				.withXY("Instance Size", "Running Time (ms)").withData(data);
-		new ChartFrame(file + " - Running time comparison (ms)", chart.build());
+		JFreeChart freeChart = chart.build();
+		ChartUtilities.saveChartAsJPEG(new File(outputFile), freeChart, width, height);
+		
+		log.info(
+				"$$$$$$$$$ end computing RunningTime for data set {}, #n {}, #step {}, output file {}, width {}, height {} ",
+				file, n, step, outputFile, width, height);
+		
+		// new ChartFrame(file + " - Running time comparison (ms)", chart.build());
 	}
 	
 }

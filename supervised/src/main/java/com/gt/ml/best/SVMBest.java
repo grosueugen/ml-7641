@@ -13,7 +13,7 @@ public class SVMBest extends AbstractBest {
 	
 	private static final Logger log = LoggerFactory.getLogger(SVMBest.class);
 	
-	private int[] exponents = {1, 2, 3, 5, 10};
+	private int[] exponents = {1, 2, 3, 5};
 	private double[] gamma = {0.01, 0.03, 1, 2, 5};
 	
 	public SVMBest(String file, int nrIterations) {
@@ -44,7 +44,7 @@ public class SVMBest extends AbstractBest {
 			Double errorRate = cc.getErrorRate();
 			BestResult res = new BestResult("svm:kernel=poly,exp=" + exp, errorRate);
 			add(res);
-			log.info("########### end computePoly with result ", res);
+			log.info("########### end computePoly with result {} ", res);
 		}
 		log.info("########### end computePoly ");
 	}
@@ -63,7 +63,7 @@ public class SVMBest extends AbstractBest {
 			Double errorRate = cc.getErrorRate();
 			BestResult res = new BestResult("svm:kernel=radial,gamma=" + g, errorRate);
 			add(res);
-			log.info("########### end computeRadial with result ", res);
+			log.info("########### end computeRadial with result {} ", res);
 		}
 		log.info("########### end computeRadial ");
 	}

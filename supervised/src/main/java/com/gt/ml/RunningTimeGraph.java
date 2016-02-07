@@ -115,6 +115,18 @@ public class RunningTimeGraph {
 		JFreeChart freeChart = chart.build();
 		ChartUtilities.saveChartAsJPEG(new File(outputFile), freeChart, width, height);
 		
+		String output2 = outputFile + "600_400";
+		ChartUtilities.saveChartAsJPEG(new File(output2), freeChart, 600, 400);
+		
+		String output3 = outputFile + "800_600";
+		ChartUtilities.saveChartAsJPEG(new File(output3), freeChart, 800, 600);
+		
+		String output4 = outputFile + "800_800";
+		ChartUtilities.saveChartAsJPEG(new File(output4), freeChart, 800, 800);
+		
+		String output5 = outputFile + "1000_800";
+		ChartUtilities.saveChartAsJPEG(new File(output5), freeChart, 1000, 800);
+		
 		log.info(
 				"$$$$$$$$$ end computing RunningTime for data set {}, #n {}, #step {}, output file {}, width {}, height {} ",
 				file, n, step, outputFile, width, height);

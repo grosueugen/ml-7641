@@ -1,13 +1,13 @@
 package com.gt.ml.main;
 
+import static com.gt.ml.main.Utils.*;
+
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
-
-import com.gt.ml.ClassifierTypes;
 
 import weka.classifiers.Classifier;
 import weka.classifiers.functions.MultilayerPerceptron;
@@ -300,31 +300,4 @@ public class RunClassifier {
 		return new ClassifierContext(f, trainP, cls, cv, kfolds);
 	}
 
-	private static Integer getInt(String str) {
-		try {
-			return Integer.parseInt(str);
-		} catch (Exception ex) {
-			System.out.println(ex.getMessage());
-			return null;
-		}
-	}
-	
-	private static Float getFloat(String str) {
-		try {
-			return Float.parseFloat(str);
-		} catch (Exception ex) {			
-			System.out.println(ex.getMessage());
-			return null;
-		}
-	}
-	
-	private static Double getDouble(String str) {
-		try {
-			return Double.parseDouble(str);
-		} catch (Exception ex) {			
-			System.out.println(ex.getMessage());
-			return null;
-		}
-	}
-	
 }

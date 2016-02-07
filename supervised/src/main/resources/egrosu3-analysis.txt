@@ -23,3 +23,4 @@ Imagine "raising" the green points, then you can sepparate them from the red poi
 To "raise" the points you use the RBF kernel, gamma controls the shape of the "peaks" where you raise the points. 
 A small gamma gives you a pointed bump in the higher dimensions, a large gamma gives you a softer, broader bump.
 So a small gamma will give you low bias and high variance while a large gamma will give you higher bias and low variance.
+- change code from Cosmin for Frame Learning Curve

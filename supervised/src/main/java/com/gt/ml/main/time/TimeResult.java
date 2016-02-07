@@ -1,9 +1,11 @@
-package com.gt.ml;
+package com.gt.ml.main.time;
 
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
+import com.gt.ml.main.ClassifierTypes;
 
 public class TimeResult {
 	

@@ -1,5 +1,7 @@
 package com.gt.ml.main;
 
+import static com.gt.ml.main.Utils.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +11,13 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
+
+import com.gt.ml.main.best.AbstractBest;
+import com.gt.ml.main.best.BoostingBest;
+import com.gt.ml.main.best.DecisionTreeBest;
+import com.gt.ml.main.best.KNNBest;
+import com.gt.ml.main.best.NeuralNetBest;
+import com.gt.ml.main.best.SVMBest;
 
 public class ModelComplexityExperiment {
 	
@@ -63,15 +72,6 @@ public class ModelComplexityExperiment {
 		for (AbstractBest b : all) {
 			b.compute();
 			b.printResult();
-		}
-	}
-
-	private static Integer getInt(String str) {
-		try {
-			return Integer.parseInt(str);
-		} catch (Exception ex) {
-			System.out.println(ex.getMessage());
-			return null;
 		}
 	}
 

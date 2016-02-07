@@ -8,27 +8,27 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
-import com.gt.ml.ClassifierTypes;
-import com.gt.ml.TimeData;
+import com.gt.ml.main.ClassifierTypes;
+import com.gt.ml.main.time.TimeData;
 
-public class ChartBuilder {
+public class TimeChartBuilder {
 	
 	private String chartTitle;
 	private Map<ClassifierTypes, List<TimeData>> data;
 	private String xTitle;
 	private String yTitle;
 	
-	public ChartBuilder withTitle(String value) {
+	public TimeChartBuilder withTitle(String value) {
 		this.chartTitle = value;
 		return this;
 	}
 	
-	public ChartBuilder withData(Map<ClassifierTypes, List<TimeData>> value) {
+	public TimeChartBuilder withData(Map<ClassifierTypes, List<TimeData>> value) {
 		this.data = value;
 		return this;
 	}
 	
-	public ChartBuilder withXY(String xTitle, String yTitle) {
+	public TimeChartBuilder withXY(String xTitle, String yTitle) {
 		this.xTitle = xTitle;
 		this.yTitle = yTitle;
 		return this;

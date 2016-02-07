@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.gt.ml.main.ClassifierTypes;
+
 public class AccuracyResult {
 	
 	private Map<ClassifierTypes, List<AccuracyData>> accuracyData = new HashMap<>();

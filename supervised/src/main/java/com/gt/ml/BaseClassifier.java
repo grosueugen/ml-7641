@@ -2,6 +2,9 @@ package com.gt.ml;
 
 import java.util.Enumeration;
 
+import com.gt.ml.main.ClassifierTypes;
+import com.gt.ml.main.time.TimeResult;
+
 import weka.classifiers.Classifier;
 import weka.classifiers.Evaluation;
 import weka.core.Attribute;

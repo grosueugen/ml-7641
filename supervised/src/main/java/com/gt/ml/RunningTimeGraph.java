@@ -1,13 +1,13 @@
-package com.gt.ml.graph;
+package com.gt.ml;
 
 import java.util.List;
 import java.util.Map;
 
-import com.gt.ml.BaseClassifier;
-import com.gt.ml.ClassifierTypes;
-import com.gt.ml.TimeData;
-import com.gt.ml.TimeResult;
-import com.gt.ml.Utils;
+import com.gt.ml.graph.TimeChartBuilder;
+import com.gt.ml.graph.ChartFrame;
+import com.gt.ml.main.ClassifierTypes;
+import com.gt.ml.main.time.TimeData;
+import com.gt.ml.main.time.TimeResult;
 
 import weka.core.Instances;
 
@@ -31,13 +31,13 @@ public class RunningTimeGraph {
 		
 		Map<ClassifierTypes, List<TimeData>> trainData = res.getTrainData();
 		System.out.println("trainData: " + trainData);
-		ChartBuilder chart1 = new ChartBuilder().withTitle("Training time comparisons (ms)")
+		TimeChartBuilder chart1 = new TimeChartBuilder().withTitle("Training time comparisons (ms)")
 				.withXY("Instance Size", "Train Time (ms)").withData(trainData);
 		new ChartFrame("Training time comparison (ms)", chart1.build());
 		
 		Map<ClassifierTypes, List<TimeData>> testData = res.getTestData();
 		System.out.println("testData: " + testData);
-		ChartBuilder chart2 = new ChartBuilder().withTitle("Test time comparisons (ms)")
+		TimeChartBuilder chart2 = new TimeChartBuilder().withTitle("Test time comparisons (ms)")
 				.withXY("Instance Size", "Test Time (ms)").withData(testData);
 		new ChartFrame("Test time comparison (ms)", chart2.build());
 	}

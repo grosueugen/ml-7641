@@ -1,4 +1,4 @@
-package com.gt.ml.main;
+package com.gt.ml.main.best;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -56,6 +56,6 @@ public abstract class AbstractBest {
 		return q.peek();
 	}
 	
-	protected abstract void printResult();
+	public abstract void printResult();
 
 }

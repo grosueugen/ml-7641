@@ -5,7 +5,6 @@ import static com.gt.ml.DataSetup.inputLayer;
 import static com.gt.ml.DataSetup.nrLabels;
 import static com.gt.ml.DataSetup.outputLayer;
 import static com.gt.ml.DataSetup.testSet;
-import static com.gt.ml.DataSetup.trainingIterations;
 import static com.gt.ml.DataSetup.trainingSet;
 
 import java.util.HashMap;
@@ -36,8 +35,10 @@ public class RHCOptimization {
     
     private final Map<Integer, AccuracyResult> trainingAccuracyMap = new HashMap<>();
     private final Map<Integer, AccuracyResult> testAccuracyMap = new HashMap<>();
+    private final int iterations;
     
-    public RHCOptimization() {
+    public RHCOptimization(int iterations) {
+    	this.iterations = iterations;
     	init();
     }
 
@@ -53,22 +54,38 @@ public class RHCOptimization {
 	public void train() {
         log.info("\nError results for RHC \n---------------------------");
 
-        for(int i = 0; i < trainingIterations; i++) {
+        // set the first values
+        AccuracyResult trainingAcc = accuracy(trainingSet);
+        AccuracyResult testAcc = accuracy(testSet);
+        trainingAccuracyMap.put(0, trainingAcc);
+        testAccuracyMap.put(0, testAcc);
+        
+        // iterate
+        for(int i = 1; i <= iterations; i++) {
         	Instance cur1 = alg.getOptimal();
             alg.train();
             Instance cur2 = alg.getOptimal();
             boolean progress = (cur1 != cur2);
             if (progress) {
-	            AccuracyResult trainingAcc = accuracy(trainingSet);
-	            trainingAccuracyMap.put(i, trainingAcc);
-	            AccuracyResult testAcc = accuracy(testSet);
-	            testAccuracyMap.put(i, testAcc);
-	            log.info("{}", trainingAcc);
-	            log.info("{}", testAcc);
+	            trainingAcc = accuracy(trainingSet);
+	            testAcc = accuracy(testSet);
             } else {
-            	log.info("no progress...");
+            	log.info("no progress, using earlier accuracy results...");
             }
+            trainingAccuracyMap.put(i, trainingAcc);
+            testAccuracyMap.put(i, testAcc);
+            log.info("{}", trainingAcc);
+            log.info("{}", testAcc);
         }
+        
+        // set the optimal values
+        Instance optimal = alg.getOptimal();
+        network.setWeights(optimal.getData());
+        trainingAcc = accuracy(trainingSet);
+        testAcc = accuracy(testSet);
+        trainingAccuracyMap.put((iterations+1), trainingAcc);
+        testAccuracyMap.put((iterations+1), testAcc);
+        
     }
 	
 	public AccuracyResult accuracy(DataSet dataSet) {
@@ -101,46 +118,50 @@ public class RHCOptimization {
 		return trainingAccuracyMap;
 	}
 	
-	public Map<Integer, AccuracyResult> getTestingAccuracy() {
-		return trainingAccuracyMap;
+	public Map<Integer, AccuracyResult> getTestAccuracy() {
+		return testAccuracyMap;
+	}
+	
+	public int getIterations() {
+		return iterations;
 	}
 	
 	public static void main(String[] args) {
-		log.info("Start RHC, using {} iterations", trainingIterations);
-		RHCOptimization rhc = new RHCOptimization();
+		int iterations;
+		if (args.length == 0) {
+			iterations = DataSetup.trainingIterations;
+		} else {
+			iterations = Integer.valueOf(args[0]);
+		}
+		RHCOptimization rhc = new RHCOptimization(iterations);
+		log.info("Start RHC, using {} iterations", iterations);
 		rhc.train();
 		Map<Integer, AccuracyResult> trainingAccuracy = rhc.getTrainingAccuracy();
-		Map<Integer, AccuracyResult> testingAccuracy = rhc.getTestingAccuracy();
+		Map<Integer, AccuracyResult> testAccuracy = rhc.getTestAccuracy();
 		log.info("steps with better approximation: {}", trainingAccuracy.size());
 		int step = 100;
-		int next = 0;
+		int next = 1;
 		while (next < trainingAccuracy.size()) {
 			AccuracyResult trainingRes = trainingAccuracy.get(next);
-			if (trainingRes == null) {				
-				next++;
-				while (next < trainingAccuracy.size()) {
-					if (trainingAccuracy.containsKey(next)) {
-						trainingRes = trainingAccuracy.get(next);
-						AccuracyResult testRes = testingAccuracy.get(next);
-						log.info("training accuracy: iteration {}: {}", next, trainingRes);
-						log.info("test accuracy: iteration {}: {}", next, testRes);
-						break;
-					} else {
-						next++;
-					}
-				}
-			} else {
-				AccuracyResult testRes = testingAccuracy.get(next);
-				log.info("training accuracy: iteration {}: {}", next, trainingRes);
-				log.info("test accuracy: iteration {}: {}", next, testRes);
-			}
+			AccuracyResult testRes = testAccuracy.get(next);
+			log.info("training accuracy: iteration {}: {}", next, trainingRes);
+			log.info("test accuracy: iteration {}: {}", next, testRes);
 			next += step;
 		}
+		
 		log.info("final results========================");
-		AccuracyResult finalTrainingAccuracy = rhc.accuracy(trainingSet);
-		AccuracyResult finalTestAccuracy = rhc.accuracy(testSet);
+		AccuracyResult startTrainingAccuracy = trainingAccuracy.get(0);
+		AccuracyResult finalTrainingAccuracy = trainingAccuracy.get(iterations+1);
+		
+		AccuracyResult startTestAccuracy = testAccuracy.get(0);
+		AccuracyResult finalTestAccuracy = testAccuracy.get(iterations+1);
+		
+		log.info("start training accuracy: {}", startTrainingAccuracy);
 		log.info("final training accuracy: {}", finalTrainingAccuracy);
+		
+		log.info("start test accuracy: {}", startTestAccuracy);
 		log.info("final test accuracy: {}", finalTestAccuracy);
+		
 		log.info("End RHC");
 	}
 	

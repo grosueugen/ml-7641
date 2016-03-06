@@ -13,8 +13,11 @@ public class DataSetup {
 	public final static int nrAttributes = 36;
 	public final static int nrLabels = 6;
 	
-	public static Instance[] trainInstances = initializeInstances(4435, "sat-train-new.txt");
-	public static Instance[] testInstances = initializeInstances(2000, "sat-test-new.txt");
+	/*public static Instance[] trainInstances = initializeInstances(4435, "sat-train-new.txt");
+	public static Instance[] testInstances = initializeInstances(2000, "sat-test-new.txt");*/
+	
+	public static Instance[] trainInstances = initializeInstances(4435, "sat-train-norm.txt");
+	public static Instance[] testInstances = initializeInstances(2000, "sat-test-norm.txt");
 
 	public static int inputLayer = nrAttributes, hiddenLayer = (nrAttributes + nrLabels)/2, outputLayer = nrLabels; 
     public static int trainingIterations = 1000;

@@ -77,8 +77,8 @@ public class AlgOptimization {
             }
             trainingAccuracyMap.put(i, trainingAcc);
             testAccuracyMap.put(i, testAcc);
-            log.info("{}", trainingAcc);
-            log.info("{}", testAcc);
+            log.info("{}:{}",i, trainingAcc);
+            log.info("{}:{}",i, testAcc);
         }
         
         // set the optimal values

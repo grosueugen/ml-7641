@@ -127,27 +127,18 @@ public class RHCOptimization {
 	}
 	
 	public static void main(String[] args) {
-		int iterations;
-		if (args.length == 0) {
-			iterations = DataSetup.trainingIterations;
-		} else {
-			iterations = Integer.valueOf(args[0]);
+		if (args.length != 2) {
+			System.out.println("2 params needed: #iterations and step size for excel printing");
+			System.exit(0);
 		}
+		int iterations = Integer.valueOf(args[0]);
+		int step = Integer.valueOf(args[1]);
+		
 		RHCOptimization rhc = new RHCOptimization(iterations);
 		log.info("Start RHC, using {} iterations", iterations);
 		rhc.train();
 		Map<Integer, AccuracyResult> trainingAccuracy = rhc.getTrainingAccuracy();
 		Map<Integer, AccuracyResult> testAccuracy = rhc.getTestAccuracy();
-		log.info("steps with better approximation: {}", trainingAccuracy.size());
-		int step = 100;
-		int next = 1;
-		while (next < trainingAccuracy.size()) {
-			AccuracyResult trainingRes = trainingAccuracy.get(next);
-			AccuracyResult testRes = testAccuracy.get(next);
-			log.info("training accuracy: iteration {}: {}", next, trainingRes);
-			log.info("test accuracy: iteration {}: {}", next, testRes);
-			next += step;
-		}
 		
 		log.info("final results========================");
 		AccuracyResult startTrainingAccuracy = trainingAccuracy.get(0);
@@ -163,6 +154,29 @@ public class RHCOptimization {
 		log.info("final test accuracy: {}", finalTestAccuracy);
 		
 		log.info("End RHC");
+		
+		///////////////////////////////////////////////////
+		System.out.println("Excel data start @@@@@@");
+		
+		System.out.println("training accuracy start #####");
+		int next = 1;
+		while (next < trainingAccuracy.size()) {
+			AccuracyResult trainingRes = trainingAccuracy.get(next);			
+			System.out.println(next + "," + trainingRes.toCommaString());
+			next += step;
+		}
+		System.out.println("training accuracy end #####");
+		
+		System.out.println("test accuracy start #####");
+		next = 1;
+		while (next < testAccuracy.size()) {
+			AccuracyResult testRes = testAccuracy.get(next);			
+			System.out.println(next + "," + testRes.toCommaString());
+			next += step;
+		}
+		System.out.println("test accuracy end #####");
+		
+		System.out.println("Excel data end @@@@@");
 	}
 	
 }

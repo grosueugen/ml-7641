@@ -19,8 +19,13 @@ public class AccuracyResult {
 
 	@Override
 	public String toString() {
-		return "[correct=" + correct + ", incorrect=" + incorrect + ", error="
+		return "[dataSize=" + dataSize + ", correct=" + correct + ", incorrect=" + incorrect + ", error="
 				+ error + ", accuracy=" + accuracy + "]";
+	}
+
+	public String toCommaString() {
+		return new StringBuilder("").append(correct).append(",").append(dataSize).append(",")
+				.append(accuracy).append(",").append(error).toString();
 	}
 	
 	

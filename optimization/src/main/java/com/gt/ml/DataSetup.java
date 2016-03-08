@@ -20,7 +20,7 @@ public class DataSetup {
 	public static Instance[] testInstances = initializeInstances(2000, "sat-test-norm.txt");
 
 	public static int inputLayer = nrAttributes, hiddenLayer = (nrAttributes + nrLabels)/2, outputLayer = nrLabels; 
-    public static int trainingIterations = 1000;
+    public static int trainingIterations = 30000;
     
     public static DataSet trainingSet = new DataSet(trainInstances);
     public static DataSet testSet = new DataSet(testInstances);

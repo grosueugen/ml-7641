@@ -23,6 +23,11 @@ import shared.Instance;
 import shared.SumOfSquaresError;
 import util.linalg.Vector;
 
+/*
+ * nohup ./optimization rhc 50000 500 > rhc.log &
+ * nohup ./optimization sa 50000 500 > sa.log &
+ * nohup ./optimization ga,40,20,5 50000 500 > ga.log &
+ */
 public class AlgOptimization {
 	
 	private static Logger log = LoggerFactory.getLogger(AlgOptimization.class);

@@ -25,7 +25,7 @@ import util.linalg.Vector;
 
 public class AlgOptimization {
 	
-	private static Logger log = LoggerFactory.getLogger(RHCOptimization.class);
+	private static Logger log = LoggerFactory.getLogger(AlgOptimization.class);
 
 	protected ErrorMeasure measure;
 	protected BackPropagationNetworkFactory factory;

@@ -19,6 +19,7 @@ public class RunOptimizer {
 	public static void main(String[] args) {
 		if (args.length != 3) {
 			log.info("there should be 3 args: Alg: [rhc, sa, ga], #iterations, #step for print ");
+			log.info("To run ga, you need extra 3 params, population, crossover, mutation: ga,200,100,10");
 			System.exit(0);
 		}
 		String algName = args[0];
@@ -28,12 +29,15 @@ public class RunOptimizer {
 		AlgOptimization opt = new AlgOptimization();
 		
 		OptimizationAlgorithm alg;
-		if (algName.equalsIgnoreCase("rhc")) {
+		if (algName.equals("rhc")) {
 			alg = new RandomizedHillClimbing(opt.getPb());
-		} else if (algName.equalsIgnoreCase("sa")) {
+		} else if (algName.equals("sa")) {
 			alg = new SimulatedAnnealing(1E11, .95, opt.getPb());
-		} else if (algName.equalsIgnoreCase("ga")) {
-			alg = new StandardGeneticAlgorithm(200, 100, 10, opt.getPb());
+		} else if (algName.startsWith("ga")) {
+			String[] split = args[0].split(",");
+			if (split.length != 4) throw new RuntimeException("Example of GA run: ga,200,100,10");
+			log.info("GA with params {} {} {}", split[1], split[2], split[3]);
+			alg = new StandardGeneticAlgorithm(Integer.valueOf(split[1]), Integer.valueOf(split[2]), Integer.valueOf(split[3]), opt.getPb());
 		} else {
 			throw new IllegalArgumentException("alg must be one of [rhc, sa, ga]");
 		}

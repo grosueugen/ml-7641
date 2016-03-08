@@ -1,5 +1,5 @@
 apply plugin: 'application'
-mainClassName = "com.gt.ml.RHCOptimization"
+mainClassName = "com.gt.ml.AlgOptimization"
 
 dependencies {
 	compile fileTree(dir: 'local_libs', include: ['*.jar']),

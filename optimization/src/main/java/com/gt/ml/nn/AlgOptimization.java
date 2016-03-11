@@ -1,11 +1,11 @@
-package com.gt.ml;
+package com.gt.ml.nn;
 
-import static com.gt.ml.DataSetup.hiddenLayer;
-import static com.gt.ml.DataSetup.inputLayer;
-import static com.gt.ml.DataSetup.nrLabels;
-import static com.gt.ml.DataSetup.outputLayer;
-import static com.gt.ml.DataSetup.testSet;
-import static com.gt.ml.DataSetup.trainingSet;
+import static com.gt.ml.nn.DataSetup.hiddenLayer;
+import static com.gt.ml.nn.DataSetup.inputLayer;
+import static com.gt.ml.nn.DataSetup.nrLabels;
+import static com.gt.ml.nn.DataSetup.outputLayer;
+import static com.gt.ml.nn.DataSetup.testSet;
+import static com.gt.ml.nn.DataSetup.trainingSet;
 
 import java.util.HashMap;
 import java.util.Map;

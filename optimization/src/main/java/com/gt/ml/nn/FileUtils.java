@@ -1,4 +1,4 @@
-package com.gt.ml;
+package com.gt.ml.nn;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

@@ -1,11 +1,11 @@
-package com.gt.ml;
+package com.gt.ml.nn;
 
 import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.gt.ml.AccuracyResult;
+import com.gt.ml.nn.AccuracyResult;
 
 import opt.OptimizationAlgorithm;
 import opt.RandomizedHillClimbing;

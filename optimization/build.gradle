@@ -1,7 +1,8 @@
 apply plugin: 'application'
 // mainClassName = "com.gt.ml.nn.RunOptimizer"
 // mainClassName = "com.gt.ml.count.CountOnesIterations"
-mainClassName = "com.gt.ml.count.CountOnesTime"
+// mainClassName = "com.gt.ml.count.CountOnesTime"
+mainClassName = "com.gt.ml.PbRunner"
 
 dependencies {
 	compile fileTree(dir: 'local_libs', include: ['*.jar']),

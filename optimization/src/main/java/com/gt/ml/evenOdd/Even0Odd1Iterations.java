@@ -1,4 +1,4 @@
-package com.gt.ml.count;
+package com.gt.ml.evenOdd;
 
 import java.util.Arrays;
 
@@ -26,14 +26,14 @@ import opt.prob.ProbabilisticOptimizationProblem;
 import shared.FixedIterationTrainer;
 import shared.Instance;
 
-public class CountOnesIterations {
+public class Even0Odd1Iterations {
 	
 	public static void main(String[] args) {		
 		if (args.length != 4) {
 			System.out.println("4 params neeed: alg(all|rhc|sa|ga), N, runs, iterations");
 			System.exit(0);
 		}
-		System.out.println("CountOnesIterations starts...");
+		System.out.println("Even0Odd1Iterations starts...");
 		String alg = args[0];
 		int N = Integer.valueOf(args[1]);
 		int runs = Integer.valueOf(args[2]);

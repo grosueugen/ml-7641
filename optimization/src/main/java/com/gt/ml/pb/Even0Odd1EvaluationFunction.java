@@ -1,4 +1,4 @@
-package com.gt.ml.evenOdd;
+package com.gt.ml.pb;
 
 import opt.EvaluationFunction;
 import shared.Instance;

@@ -1,4 +1,4 @@
-package com.gt.ml.count;
+package com.gt.ml.pb;
 
 import java.util.Arrays;
 
@@ -12,7 +12,6 @@ import opt.HillClimbingProblem;
 import opt.NeighborFunction;
 import opt.RandomizedHillClimbing;
 import opt.SimulatedAnnealing;
-import opt.example.CountOnesEvaluationFunction;
 import opt.ga.CrossoverFunction;
 import opt.ga.DiscreteChangeOneMutation;
 import opt.ga.GenericGeneticAlgorithmProblem;
@@ -26,45 +25,46 @@ import opt.prob.ProbabilisticOptimizationProblem;
 import shared.FixedIterationTrainer;
 import shared.Instance;
 
-public class CountOnesIterations {
+public class IterationRunner {
 	
-	public static void main(String[] args) {		
-		if (args.length != 4) {
-			System.out.println("4 params neeed: alg(all|rhc|sa|ga), N, runs, iterations");
-			System.exit(0);
-		}
-		System.out.println("CountOnesIterations starts...");
-		String alg = args[0];
-		int N = Integer.valueOf(args[1]);
-		int runs = Integer.valueOf(args[2]);
-		int iterations = Integer.valueOf(args[3]);
-		
-		if (alg.equals("all")) {
-			runRHC(N, runs, iterations);
-			runSA(N, runs, iterations);
-			runGA(N, runs, iterations);
-			runMimic(N, runs, iterations);
-		} else if (alg.equals("rhc")) {
-			runRHC(N, runs, iterations);
-		} else if (alg.equals("sa")) {
-			runSA(N, runs, iterations);
-		} else if (alg.equals("ga")) {
-			runGA(N, runs, iterations);
-		} else if (alg.equals("mimic")) {
-			runMimic(N, runs, iterations);
-		} else {
-			System.out.println("Incorrect alg, should be one of all, rhc, sa, ga, mimic");
-			System.exit(0);
-		}
-		
-    }
-
-	private static void runRHC(int N, int runs, int iterations) {
+	private int runs;
+	private int N;
+	private int iterations;
+	
+	private EvaluationFunction ef;
+	
+	public IterationRunner runs(int value) {
+		this.runs = value;
+		return this;
+	}
+	
+	public IterationRunner n(int value) {
+		this.N = value;
+		return this;
+	}
+	
+	public IterationRunner iterations(int value) {
+		this.iterations = value;
+		return this;
+	}
+	
+	public IterationRunner fct(EvaluationFunction value) {
+		this.ef = value;
+		return this;
+	}
+	
+	public void runAll() {
+		runRHC();
+		runSA();
+		runGA();
+		runMimic();
+	}
+	
+	public void runRHC() {
 		System.out.println("##### RHC start");
 		for (int r = 0; r < runs; r++) {
 			int[] ranges = new int[N];
 	        Arrays.fill(ranges, 2);        
-			EvaluationFunction ef = new CountOnesEvaluationFunction();
 	        Distribution odd = new DiscreteUniformDistribution(ranges);
 	        NeighborFunction nf = new DiscreteChangeOneNeighbor(ranges);
 	        HillClimbingProblem hcp = new GenericHillClimbingProblem(ef, odd, nf);
@@ -73,17 +73,16 @@ public class CountOnesIterations {
 	        fit.train();
 	        Instance optimal = rhc.getOptimal();
 	        double optimalValue = ef.value(optimal);
-			System.out.println("RHC," + optimalValue);
+	        System.out.println("RHC," + optimalValue);
 		}
 		System.out.println("##### RHC end");
 	}
 	
-	private static void runSA(int N, int runs, int iterations) {
+	public void runSA() {
 		System.out.println("##### SA start");
 		for (int r = 0; r < runs; r++) {
 			int[] ranges = new int[N];
 	        Arrays.fill(ranges, 2);        
-			EvaluationFunction ef = new CountOnesEvaluationFunction();
 	        Distribution odd = new DiscreteUniformDistribution(ranges);
 	        NeighborFunction nf = new DiscreteChangeOneNeighbor(ranges);
 	        HillClimbingProblem hcp = new GenericHillClimbingProblem(ef, odd, nf);
@@ -97,12 +96,11 @@ public class CountOnesIterations {
 		System.out.println("##### SA end");
 	}
 	
-	private static void runGA(int N, int runs, int iterations) {
+	public void runGA() {
 		System.out.println("##### GA start");
 		for (int r = 0; r < runs; r++) {
 			int[] ranges = new int[N];
 	        Arrays.fill(ranges, 2);        
-	        EvaluationFunction ef = new CountOnesEvaluationFunction();
 	        Distribution odd = new DiscreteUniformDistribution(ranges);
 	        MutationFunction mf = new DiscreteChangeOneMutation(ranges);
 	        CrossoverFunction cf = new UniformCrossOver();	        
@@ -117,12 +115,11 @@ public class CountOnesIterations {
 		System.out.println("##### GA end");
 	}
 	
-	private static void runMimic(int N, int runs, int iterations) {
+	public void runMimic() {
 		System.out.println("##### MIMIC start");
 		for (int r = 0; r < runs; r++) {
 			int[] ranges = new int[N];
 	        Arrays.fill(ranges, 2);        
-	        EvaluationFunction ef = new CountOnesEvaluationFunction();
 	        Distribution odd = new DiscreteUniformDistribution(ranges);
 	        Distribution df = new DiscreteDependencyTree(.1, ranges);
 	        ProbabilisticOptimizationProblem pop = new GenericProbabilisticOptimizationProblem(ef, odd, df);

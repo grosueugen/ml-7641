@@ -1,4 +1,4 @@
-package com.gt.ml;
+package com.gt.ml.pb;
 
 import java.sql.Timestamp;
 import java.util.concurrent.TimeUnit;

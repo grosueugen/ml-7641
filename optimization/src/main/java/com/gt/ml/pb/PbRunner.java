@@ -1,4 +1,4 @@
-package com.gt.ml;
+package com.gt.ml.pb;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.DefaultParser;
@@ -6,8 +6,6 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
-
-import com.gt.ml.evenOdd.Even0Odd1EvaluationFunction;
 
 import opt.EvaluationFunction;
 import opt.example.CountOnesEvaluationFunction;

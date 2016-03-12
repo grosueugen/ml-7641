@@ -11,19 +11,19 @@ public class TimeTrainer implements Trainer {
 
 	private final Trainer trainer;
 	
-	private final long millis;
+	private final long time;
 	
 	private int i = 0;
 	
-	public TimeTrainer(Trainer trainer, long millis) {
+	public TimeTrainer(Trainer trainer, long timeMillis) {
 		this.trainer = trainer;
-		this.millis = millis;
+		this.time = timeMillis;
 	}
 	
 	@Override
 	public double train() {
 		double sum = 0;		
-		long endTime = System.nanoTime() + TimeUnit.MILLISECONDS.toNanos(millis);
+		long endTime = System.nanoTime() + TimeUnit.MILLISECONDS.toNanos(time);
 		while (System.nanoTime() <= endTime) {			
 			sum += trainer.train();
 			i++;			

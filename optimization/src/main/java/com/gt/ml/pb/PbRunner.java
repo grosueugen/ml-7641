@@ -6,9 +6,6 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
-
-import opt.EvaluationFunction;
-import opt.example.CountOnesEvaluationFunction;
 /*
 optimization.bat -p 1 -a all -N 100 -r 3 -i 10
  */
@@ -17,12 +14,13 @@ public class PbRunner {
 	public static void main(String[] args) throws ParseException {		
 		Options options = new Options()
 				.addOption(new Option("h", "help", false, "show help"))
-				.addOption(new Option("p", "problem", true, "type of problem, one of <1=countOnes,2=Even0Odd1>"))
-				.addOption(new Option("a", "alg", true, "algorithm to run, one of <all,rhc,sa,ga,mimic>"))
-				.addOption(new Option("N", "N", true, "size of problem"))
+				.addOption(new Option("p", "problem", true, 
+						"type of problem, one of <1=Count1,2=Even0Odd1,3=TSP,4=Knapsack>"))
+				.addOption(new Option("params", "params", true, 
+						"parameters for pb: <CountOnes: N, Even0Odd1: N, Knapsack: >"))
 				.addOption(new Option("r", "restarts", true, "#restarts (runs)"))
 				.addOption(new Option("i", "iterations", true, "#iterations per each run"))
-				.addOption(new Option("t", "time", true, "time in millis or sec; e.g. 100m=100 millis, 10=10seconds"));
+				.addOption(new Option("t", "time", true, "time in millis or sec; e.g. 100m=100 millis, 10=10 seconds"));
 		
 		CommandLine commandLine = new DefaultParser().parse(options, args);
 		if (commandLine.hasOption("h")) {
@@ -31,8 +29,7 @@ public class PbRunner {
 		}
 		
 		int problem;
-		String alg;
-		int N;
+		String params;
 		int runs;
 		int iterations = -1;
 		long timeMillis = -1;
@@ -44,17 +41,10 @@ public class PbRunner {
 			return;
 		}
 		
-		if (commandLine.hasOption("a")) {
-			alg = commandLine.getOptionValue("a");
+		if (commandLine.hasOption("params")) {
+			params = commandLine.getOptionValue("params");
 		} else {
-			System.out.println("Please choose an algorithm; see help for information");
-			return;
-		}
-		
-		if (commandLine.hasOption("N")) {
-			N = Integer.valueOf(commandLine.getOptionValue("N"));
-		} else {
-			System.out.println("Please choose problem size; see help for information");
+			System.out.println("Please choose parameters for the problem; see help for information");
 			return;
 		}
 		
@@ -83,50 +73,53 @@ public class PbRunner {
 			}
 		}
 		
-		EvaluationFunction fct = getFct(problem);
 		if (it) {
-			System.out.println("Running Iteration pb " + fct.getClass().getSimpleName());	
-		} else {
-			System.out.println("Running Time pb " + fct.getClass().getSimpleName());
-		}
-		
-		
-		if (it) {
-			IterationRunner runner = new IterationRunner().n(N).runs(runs).iterations(iterations).fct(fct);
-			if (alg.equals("all")) {
-				runner.runAll();
-			} else if (alg.equals("rhc")) {
-				runner.runRHC();
-			} else if (alg.equals("sa")) {
-				runner.runSA();
-			} else if (alg.equals("ga")) {
-				runner.runGA();
-			} else if (alg.equals("mimic")) {
-				runner.runMimic();
+			switch (problem) {
+			case 1: 
+				int N = Integer.valueOf(params);
+				new CountOnesIt(N, runs, iterations).run();
+				break;
+			case 2:
+				N = Integer.valueOf(params);
+				new Even0Odd1It(N, runs, iterations).run();
+				break;
+			case 3: 
+				N = Integer.valueOf(params);
+				new TSPIt(N, runs, iterations).run();
+				break;
+			case 4: 
+				int NUM_ITEMS = Integer.valueOf(params);
+				int COPIES_EACH = 4;
+			    double MAX_WEIGHT = 50;
+			    double MAX_VOLUME = 50;
+				new KnapsackIt(NUM_ITEMS, COPIES_EACH, MAX_WEIGHT, MAX_VOLUME, runs, iterations).run();
+				break;
 			}
 		} else {
-			TimeRunner runner = new TimeRunner().n(N).runs(runs).time(timeMillis).fct(fct);
-			if (alg.equals("all")) {
-				runner.runAll();
-			} else if (alg.equals("rhc")) {
-				runner.runRHC();
-			} else if (alg.equals("sa")) {
-				runner.runSA();
-			} else if (alg.equals("ga")) {
-				runner.runGA();
-			} else if (alg.equals("mimic")) {
-				runner.runMimic();
+			switch (problem) {
+			case 1: 
+				int N = Integer.valueOf(params);
+				new CountOnesTime(N, runs, timeMillis).run();
+				break;
+			case 2:
+				N = Integer.valueOf(params);
+				new Even0Odd1Time(N, runs, timeMillis).run();
+				break;
+			case 3: 
+				N = Integer.valueOf(params);
+				new TSPTime(N, runs, timeMillis).run();
+				break;
+			case 4: 
+				int NUM_ITEMS = Integer.valueOf(params);
+				int COPIES_EACH = 4;
+			    double MAX_WEIGHT = 50;
+			    double MAX_VOLUME = 50;
+				new KnapsackTime(NUM_ITEMS, COPIES_EACH, MAX_WEIGHT, MAX_VOLUME, runs, timeMillis).run();
+				break;
 			}
+			
 		}
+			
     }
-
-	private static EvaluationFunction getFct(int problem) {
-		if (problem == 1) {
-			return new CountOnesEvaluationFunction();
-		} else if (problem == 2) {
-			return new Even0Odd1EvaluationFunction();
-		} 
-		throw new RuntimeException("type of problem, one of <1=countOnes,2=Even0Odd1>");
-	}
 
 }

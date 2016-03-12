@@ -22,118 +22,111 @@ import opt.ga.UniformCrossOver;
 import opt.prob.GenericProbabilisticOptimizationProblem;
 import opt.prob.MIMIC;
 import opt.prob.ProbabilisticOptimizationProblem;
+import shared.FixedIterationTrainer;
 import shared.Instance;
 
-public class TimeRunner {
+public class Even0Odd1It {
 	
-	private int runs;
-	private int N;
-	private long time;
+	private final int N;
+	private final int runs;
+	private final int iterations;
 	
-	private EvaluationFunction ef;
-	
-	public TimeRunner runs(int value) {
-		this.runs = value;
-		return this;
+	public Even0Odd1It(int N, int runs, int iterations) {
+		this.N = N;
+		this.runs = runs;
+		this.iterations = iterations;
 	}
 	
-	public TimeRunner n(int value) {
-		this.N = value;
-		return this;
-	}
-	
-	public TimeRunner time(long value) {
-		this.time = value;
-		return this;
-	}
-	
-	public TimeRunner fct(EvaluationFunction value) {
-		this.ef = value;
-		return this;
-	}
-	
-	public void runAll() {
+	public void run() {
 		runRHC();
 		runSA();
 		runGA();
 		runMimic();
 	}
-	
-	public void runRHC() {
+
+	private void runRHC() {
 		System.out.println("##### RHC start");
+		double sumOptimalValue = 0;
 		for (int r = 0; r < runs; r++) {
 			int[] ranges = new int[N];
 	        Arrays.fill(ranges, 2);        
+	        EvaluationFunction ef = new Even0Odd1EvaluationFunction();
 	        Distribution odd = new DiscreteUniformDistribution(ranges);
 	        NeighborFunction nf = new DiscreteChangeOneNeighbor(ranges);
 	        HillClimbingProblem hcp = new GenericHillClimbingProblem(ef, odd, nf);
 	        RandomizedHillClimbing rhc = new RandomizedHillClimbing(hcp);
-	        TimeTrainer fit = new TimeTrainer(rhc, time);
-	        fit.train();	
-	        int iterations = fit.getIterations();
+	        FixedIterationTrainer fit = new FixedIterationTrainer(rhc, iterations);
+	        fit.train();
 	        Instance optimal = rhc.getOptimal();
 	        double optimalValue = ef.value(optimal);
-			System.out.println("RHC," + optimalValue + ",iterations," + iterations);
+	        sumOptimalValue += optimalValue;
+	        System.out.println("RHC," + optimalValue);
 		}
-		System.out.println("##### RHC end");
+		System.out.println("RHC AVG," + (sumOptimalValue/runs));
 	}
-	
-	public void runSA() {
+
+	private void runSA() {
 		System.out.println("##### SA start");
+		double sumOptimalValue = 0;
 		for (int r = 0; r < runs; r++) {
 			int[] ranges = new int[N];
-	        Arrays.fill(ranges, 2);        
+	        Arrays.fill(ranges, 2);     
+	        EvaluationFunction ef = new Even0Odd1EvaluationFunction();  
 	        Distribution odd = new DiscreteUniformDistribution(ranges);
 	        NeighborFunction nf = new DiscreteChangeOneNeighbor(ranges);
 	        HillClimbingProblem hcp = new GenericHillClimbingProblem(ef, odd, nf);
 	        SimulatedAnnealing sa = new SimulatedAnnealing(100, .95, hcp);	        
-	        TimeTrainer fit = new TimeTrainer(sa, time);	        
+	        FixedIterationTrainer fit = new FixedIterationTrainer(sa, iterations);
 	        fit.train();
-	        int iterations = fit.getIterations();
 	        Instance optimal = sa.getOptimal();
 	        double optimalValue = ef.value(optimal);
-	        System.out.println("SA," + optimalValue + ",iterations," + iterations);
+	        sumOptimalValue += optimalValue;
+			System.out.println("SA," + optimalValue);
 		}
-		System.out.println("##### SA end");
+		System.out.println("SA AVG," + (sumOptimalValue/runs));
 	}
-	
-	public void runGA() {
+
+	private void runGA() {
 		System.out.println("##### GA start");
+		double sumOptimalValue = 0;
 		for (int r = 0; r < runs; r++) {
 			int[] ranges = new int[N];
 	        Arrays.fill(ranges, 2);        
+	        EvaluationFunction ef = new Even0Odd1EvaluationFunction();  
 	        Distribution odd = new DiscreteUniformDistribution(ranges);
 	        MutationFunction mf = new DiscreteChangeOneMutation(ranges);
 	        CrossoverFunction cf = new UniformCrossOver();	        
 	        GeneticAlgorithmProblem gap = new GenericGeneticAlgorithmProblem(ef, odd, mf, cf);			
 	        StandardGeneticAlgorithm ga = new StandardGeneticAlgorithm(20, 20, 0, gap);	        
-	        TimeTrainer fit = new TimeTrainer(ga, time);
+	        FixedIterationTrainer fit = new FixedIterationTrainer(ga, iterations);
 	        fit.train();
-	        int iterations = fit.getIterations();
 	        Instance optimal = ga.getOptimal();
 	        double optimalValue = ef.value(optimal);
-	        System.out.println("GA," + optimalValue + ",iterations," + iterations);
+	        sumOptimalValue += optimalValue;
+			System.out.println("GA," + optimalValue);
 		}
-		System.out.println("##### GA end");
+		System.out.println("GA AVG," + (sumOptimalValue/runs));
 	}
-	
-	public void runMimic() {
+
+	private void runMimic() {
 		System.out.println("##### MIMIC start");
+		double sumOptimalValue = 0;
 		for (int r = 0; r < runs; r++) {
 			int[] ranges = new int[N];
-	        Arrays.fill(ranges, 2);        
+	        Arrays.fill(ranges, 2);      
+	        EvaluationFunction ef = new Even0Odd1EvaluationFunction();
 	        Distribution odd = new DiscreteUniformDistribution(ranges);
 	        Distribution df = new DiscreteDependencyTree(.1, ranges);
 	        ProbabilisticOptimizationProblem pop = new GenericProbabilisticOptimizationProblem(ef, odd, df);
 	        MIMIC mimic = new MIMIC(50, 10, pop);	        
-	        TimeTrainer fit = new TimeTrainer(mimic, time);
+	        FixedIterationTrainer fit = new FixedIterationTrainer(mimic, iterations);
 	        fit.train();
-	        int iterations = fit.getIterations();
 	        Instance optimal = mimic.getOptimal();
 	        double optimalValue = ef.value(optimal);
-	        System.out.println("MIMIC," + optimalValue + ",iterations," + iterations);
+	        sumOptimalValue += optimalValue;
+			System.out.println("MIMIC," + optimalValue);
 		}
-		System.out.println("##### MIMIC end");
+		System.out.println("MIMIC AVG," + (sumOptimalValue/runs));
 	}
 
 }

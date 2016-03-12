@@ -97,7 +97,7 @@ public class Even0Odd1It {
 	        MutationFunction mf = new DiscreteChangeOneMutation(ranges);
 	        CrossoverFunction cf = new UniformCrossOver();	        
 	        GeneticAlgorithmProblem gap = new GenericGeneticAlgorithmProblem(ef, odd, mf, cf);			
-	        StandardGeneticAlgorithm ga = new StandardGeneticAlgorithm(20, 20, 0, gap);	        
+	        StandardGeneticAlgorithm ga = new StandardGeneticAlgorithm(200, 150, 25, gap);	        
 	        FixedIterationTrainer fit = new FixedIterationTrainer(ga, iterations);
 	        fit.train();
 	        Instance optimal = ga.getOptimal();
@@ -118,7 +118,7 @@ public class Even0Odd1It {
 	        Distribution odd = new DiscreteUniformDistribution(ranges);
 	        Distribution df = new DiscreteDependencyTree(.1, ranges);
 	        ProbabilisticOptimizationProblem pop = new GenericProbabilisticOptimizationProblem(ef, odd, df);
-	        MIMIC mimic = new MIMIC(50, 10, pop);	        
+	        MIMIC mimic = new MIMIC(200, 100, pop);	        
 	        FixedIterationTrainer fit = new FixedIterationTrainer(mimic, iterations);
 	        fit.train();
 	        Instance optimal = mimic.getOptimal();

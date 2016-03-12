@@ -115,7 +115,7 @@ public class TSPTime {
 	        CrossoverFunction cf = new TravelingSalesmanCrossOver(ef);
 	        GeneticAlgorithmProblem gap = new GenericGeneticAlgorithmProblem(ef, odd, mf, cf);
 	        
-	        StandardGeneticAlgorithm ga = new StandardGeneticAlgorithm(200, 150, 20, gap);
+	        StandardGeneticAlgorithm ga = new StandardGeneticAlgorithm(200, 150, 25, gap);
 	        TimeTrainer fit = new TimeTrainer(ga, time);
 	        fit.train();	
 	        int iterations = fit.getIterations();

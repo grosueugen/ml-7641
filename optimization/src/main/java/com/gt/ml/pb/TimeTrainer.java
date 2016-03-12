@@ -25,9 +25,14 @@ public class TimeTrainer implements Trainer {
 		double sum = 0;		
 		long endTime = System.nanoTime() + TimeUnit.MILLISECONDS.toNanos(time);
 		while (System.nanoTime() <= endTime) {			
-			sum += trainer.train();
-			i++;			
+			double result = trainer.train();
+			// mimic can take a long time for 1 iteration, I do not want it to cheat when time contraint
+			if (System.nanoTime() <= endTime) {
+				sum += result;
+				i++;			
+			}
 		}
+		if (i == 0) return 0;
 		return sum / i;
 	}
 	
@@ -46,12 +51,15 @@ public class TimeTrainer implements Trainer {
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-				return 0;
+				return 2;
 			}
 		};
 		System.out.println(new Timestamp(System.currentTimeMillis()));
-		TimeTrainer tt = new TimeTrainer(dummy, 5);
-		tt.train();
+		TimeTrainer tt = new TimeTrainer(dummy, 450);
+		double train = tt.train();
+		int iterations = tt.getIterations();
+		System.out.println("res: " + train);
+		System.out.println("it: " + iterations);
 		System.out.println(new Timestamp(System.currentTimeMillis()));
 	}
 

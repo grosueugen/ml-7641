@@ -114,7 +114,7 @@ public class TSPIt {
 	        CrossoverFunction cf = new TravelingSalesmanCrossOver(ef);
 	        GeneticAlgorithmProblem gap = new GenericGeneticAlgorithmProblem(ef, odd, mf, cf);
 	        
-	        StandardGeneticAlgorithm ga = new StandardGeneticAlgorithm(200, 150, 20, gap);
+	        StandardGeneticAlgorithm ga = new StandardGeneticAlgorithm(200, 150, 25, gap);
 	        FixedIterationTrainer fit = new FixedIterationTrainer(ga, iterations);
 	        fit.train();
 	        Instance optimal = ga.getOptimal();

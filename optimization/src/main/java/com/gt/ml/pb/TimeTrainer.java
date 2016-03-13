@@ -13,7 +13,11 @@ public class TimeTrainer implements Trainer {
 	
 	private final long time;
 	
-	private int i = 0;
+	private long i = 0;
+	
+	private long bestIteration = 0;
+	
+	private long bestValueInTime;
 	
 	public TimeTrainer(Trainer trainer, long timeMillis) {
 		this.trainer = trainer;
@@ -23,21 +27,39 @@ public class TimeTrainer implements Trainer {
 	@Override
 	public double train() {
 		double sum = 0;		
-		long endTime = System.nanoTime() + TimeUnit.MILLISECONDS.toNanos(time);
-		while (System.nanoTime() <= endTime) {			
+		long startTime = System.nanoTime();
+		long endTime = startTime + TimeUnit.MILLISECONDS.toNanos(time);
+		
+		double bestResult = Double.MIN_VALUE;
+		long bestTime = startTime;
+		long now = System.nanoTime();
+		while (now <= endTime) {			
 			double result = trainer.train();
-			// mimic can take a long time for 1 iteration, I do not want it to cheat when time contraint
-			if (System.nanoTime() <= endTime) {
-				sum += result;
-				i++;			
+			if (result > bestResult) {
+				bestResult = result;
+				bestTime = now; 
+				bestIteration = i;
 			}
+			sum += result;
+			i++;
+			now = System.nanoTime();
 		}
+		
+		bestValueInTime = TimeUnit.NANOSECONDS.toMillis(bestTime - startTime);
 		if (i == 0) return 0;
 		return sum / i;
 	}
 	
-	public int getIterations() {
+	public long getIterations() {
 		return i;
+	}
+	
+	public long getBestValueInTime() {
+		return bestValueInTime;
+	}
+	
+	public long getBestValueInIteration() {
+		return bestIteration;
 	}
 	
 	public static void main(String[] args) {
@@ -57,7 +79,7 @@ public class TimeTrainer implements Trainer {
 		System.out.println(new Timestamp(System.currentTimeMillis()));
 		TimeTrainer tt = new TimeTrainer(dummy, 450);
 		double train = tt.train();
-		int iterations = tt.getIterations();
+		long iterations = tt.getIterations();
 		System.out.println("res: " + train);
 		System.out.println("it: " + iterations);
 		System.out.println(new Timestamp(System.currentTimeMillis()));

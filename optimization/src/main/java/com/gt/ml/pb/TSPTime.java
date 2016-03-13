@@ -64,7 +64,7 @@ public class TSPTime {
 	        RandomizedHillClimbing rhc = new RandomizedHillClimbing(hcp);
 	        TimeTrainer fit = new TimeTrainer(rhc, time);
 	        fit.train();	
-	        int iterations = fit.getIterations();
+	        long iterations = fit.getIterations();
 	        Instance optimal = rhc.getOptimal();
 	        double optimalValue = ef.value(optimal);
 	        sumOptimalValue += optimalValue;
@@ -90,7 +90,7 @@ public class TSPTime {
 	        SimulatedAnnealing sa = new SimulatedAnnealing(1E12, .95, hcp);
 	        TimeTrainer fit = new TimeTrainer(sa, time);
 	        fit.train();	
-	        int iterations = fit.getIterations();
+	        long iterations = fit.getIterations();
 	        Instance optimal = sa.getOptimal();
 	        double optimalValue = ef.value(optimal);
 	        sumOptimalValue += optimalValue;
@@ -118,7 +118,7 @@ public class TSPTime {
 	        StandardGeneticAlgorithm ga = new StandardGeneticAlgorithm(200, 150, 25, gap);
 	        TimeTrainer fit = new TimeTrainer(ga, time);
 	        fit.train();	
-	        int iterations = fit.getIterations();
+	        long iterations = fit.getIterations();
 	        Instance optimal = ga.getOptimal();
 	        double optimalValue = ef.value(optimal);
 	        sumOptimalValue += optimalValue;
@@ -147,7 +147,7 @@ public class TSPTime {
 	        MIMIC mimic = new MIMIC(200, 100, pop);
 	        TimeTrainer fit = new TimeTrainer(mimic, time);
 	        fit.train();	
-	        int iterations = fit.getIterations();
+	        long iterations = fit.getIterations();
 	        Instance optimal = mimic.getOptimal();
 	        double optimalValue = ef.value(optimal);
 	        sumOptimalValue += optimalValue;

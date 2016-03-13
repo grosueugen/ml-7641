@@ -27,6 +27,7 @@ public class PbRunner {
 			new HelpFormatter().printHelp("Run Problem", options);
 			return;
 		}
+		System.nanoTime();
 		
 		int problem;
 		String params;

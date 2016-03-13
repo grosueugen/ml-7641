@@ -77,7 +77,7 @@ public class KnapsackTime {
 	        RandomizedHillClimbing rhc = new RandomizedHillClimbing(hcp); 
 	        TimeTrainer fit = new TimeTrainer(rhc, time);
 	        fit.train();	
-	        int iterations = fit.getIterations();
+	        long iterations = fit.getIterations();
 	        Instance optimal = rhc.getOptimal();
 	        double optimalValue = ef.value(optimal);
 	        sumOptimalValue += optimalValue;
@@ -109,7 +109,7 @@ public class KnapsackTime {
 	        SimulatedAnnealing sa = new SimulatedAnnealing(100, .95, hcp);
 	        TimeTrainer fit = new TimeTrainer(sa, time);
 	        fit.train();	
-	        int iterations = fit.getIterations();
+	        long iterations = fit.getIterations();
 	        Instance optimal = sa.getOptimal();
 	        double optimalValue = ef.value(optimal);
 	        sumOptimalValue += optimalValue;
@@ -131,7 +131,7 @@ public class KnapsackTime {
 	            weights[i] = random.nextDouble() * MAX_WEIGHT;
 	            volumes[i] = random.nextDouble() * MAX_VOLUME;
 	        }
-	         int[] ranges = new int[NUM_ITEMS];
+	        int[] ranges = new int[NUM_ITEMS];
 	        Arrays.fill(ranges, COPIES_EACH + 1);
 	        EvaluationFunction ef = new KnapsackEvaluationFunction(weights, volumes, KNAPSACK_VOLUME, copies);
 	        Distribution odd = new DiscreteUniformDistribution(ranges);
@@ -141,7 +141,7 @@ public class KnapsackTime {
 	        StandardGeneticAlgorithm ga = new StandardGeneticAlgorithm(200, 150, 25, gap);
 	        TimeTrainer fit = new TimeTrainer(ga, time);
 	        fit.train();	
-	        int iterations = fit.getIterations();
+	        long iterations = fit.getIterations();
 	        Instance optimal = ga.getOptimal();
 	        double optimalValue = ef.value(optimal);
 	        sumOptimalValue += optimalValue;
@@ -172,7 +172,7 @@ public class KnapsackTime {
 	        MIMIC mimic = new MIMIC(200, 100, pop);
 	        TimeTrainer fit = new TimeTrainer(mimic, time);
 	        fit.train();	
-	        int iterations = fit.getIterations();
+	        long iterations = fit.getIterations();
 	        Instance optimal = mimic.getOptimal();
 	        double optimalValue = ef.value(optimal);
 	        sumOptimalValue += optimalValue;

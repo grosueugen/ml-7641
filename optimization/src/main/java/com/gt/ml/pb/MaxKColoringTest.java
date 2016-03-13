@@ -1,32 +1,25 @@
-package opt.test;
+package com.gt.ml.pb;
 
-import java.util.Arrays;
 import java.util.Random;
-
-import opt.ga.MaxKColorFitnessFunction;
-import opt.ga.Vertex;
 
 import dist.DiscreteDependencyTree;
 import dist.DiscretePermutationDistribution;
-import dist.DiscreteUniformDistribution;
 import dist.Distribution;
-import opt.DiscreteChangeOneNeighbor;
-import opt.EvaluationFunction;
-import opt.SwapNeighbor;
 import opt.GenericHillClimbingProblem;
 import opt.HillClimbingProblem;
 import opt.NeighborFunction;
 import opt.RandomizedHillClimbing;
 import opt.SimulatedAnnealing;
+import opt.SwapNeighbor;
 import opt.ga.CrossoverFunction;
-import opt.ga.DiscreteChangeOneMutation;
-import opt.ga.SingleCrossOver;
-import opt.ga.SwapMutation;
 import opt.ga.GenericGeneticAlgorithmProblem;
 import opt.ga.GeneticAlgorithmProblem;
+import opt.ga.MaxKColorFitnessFunction;
 import opt.ga.MutationFunction;
+import opt.ga.SingleCrossOver;
 import opt.ga.StandardGeneticAlgorithm;
-import opt.ga.UniformCrossOver;
+import opt.ga.SwapMutation;
+import opt.ga.Vertex;
 import opt.prob.GenericProbabilisticOptimizationProblem;
 import opt.prob.MIMIC;
 import opt.prob.ProbabilisticOptimizationProblem;
@@ -40,8 +33,8 @@ import shared.FixedIterationTrainer;
 public class MaxKColoringTest {
     /** The n value */
     private static final int N = 200; // number of vertices
-    private static final int L =4; // L adjacent nodes per vertex
-    private static final int K = 8; // K possible colors
+    private static final int L = 8; // L adjacent nodes per vertex
+    private static final int K = 16; // K possible colors
     /**
      * The test main
      * @param args ignored
@@ -95,7 +88,7 @@ public class MaxKColoringTest {
         System.out.println("============================");
         
         starttime = System.currentTimeMillis();
-        StandardGeneticAlgorithm ga = new StandardGeneticAlgorithm(200, 10, 60, gap);
+        StandardGeneticAlgorithm ga = new StandardGeneticAlgorithm(200, 100, 20, gap);
         fit = new FixedIterationTrainer(ga, 50);
         fit.train();
         System.out.println("GA: " + ef.value(ga.getOptimal()));
@@ -114,3 +107,4 @@ public class MaxKColoringTest {
         
     }
 }
+

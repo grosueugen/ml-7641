@@ -16,7 +16,8 @@ public class PbRunner {
 				.addOption(new Option("h", "help", false, "show help"))
 				.addOption(new Option("p", "problem", true, 
 						"type of problem, one of <1=Even0Odd1,2=TSP,3=Knapsack>"))
-				.addOption(new Option("n", "n", true, "size of the pb"))
+				.addOption(new Option("n", "n", true, "size of the pb; runs using only this n"))
+				.addOption(new Option("mn", "mn", true, "multiple runs using different pb size n :<startSize,stepSize,stopSize>"))
 				.addOption(new Option("r", "restarts", true, "#restarts (runs)"))
 				.addOption(new Option("i", "iterations", true, "#iterations per each run"))
 				.addOption(new Option("t", "time", true, "time in millis or sec; e.g. 100m=100 millis, 10=10 seconds"));
@@ -29,7 +30,8 @@ public class PbRunner {
 		System.nanoTime();
 		
 		int problem;
-		String params;
+		int N;
+		String mn;
 		int runs;
 		int iterations = -1;
 		long timeMillis = -1;
@@ -38,13 +40,6 @@ public class PbRunner {
 			problem = Integer.valueOf(commandLine.getOptionValue("p"));
 		} else {
 			System.out.println("Please choose a problem; see help for information");
-			return;
-		}
-		
-		if (commandLine.hasOption("n")) {
-			params = commandLine.getOptionValue("n");
-		} else {
-			System.out.println("Please choose parameters for the problem; see help for information");
 			return;
 		}
 		
@@ -73,45 +68,64 @@ public class PbRunner {
 			}
 		}
 		
+		if (!commandLine.hasOption("n") && !commandLine.hasOption("mn")) {
+			System.out.println("Please choose whether to run using one pb size 'n' or multiple pb sizes 'mn'; see help for information");
+			return;
+		} 
+		if (commandLine.hasOption("n")) {
+			N = Integer.valueOf(commandLine.getOptionValue("n"));
+			runAlg(problem, N, runs, iterations, timeMillis, it);
+		} else {
+			mn = commandLine.getOptionValue("mn");
+			String[] split = mn.split(",");
+			if (split.length != 3) {
+				System.out.println("mn must have 3 parameters, for example: 50,10,100 for <startSize, stepSize, stopSize>");
+				return;
+			}
+			int startSize = Integer.valueOf(split[0]);
+			int stepSize = Integer.valueOf(split[1]);
+			int stopSize = Integer.valueOf(split[2]);
+			for (int currentSize = startSize; currentSize <= stopSize; currentSize = currentSize + stepSize) {
+				long now = System.currentTimeMillis();
+				System.out.println("@@@ start: current size: " + currentSize);
+				runAlg(problem, currentSize, runs, iterations, timeMillis, it);
+				System.out.println("@@@ end: current size: " + currentSize + ", and took " + (System.currentTimeMillis() - now) + " millis");
+			}
+		}
+    }
+
+	private static void runAlg(int problem, int N, int runs, int iterations, long timeMillis, boolean it) {
 		if (it) {
 			switch (problem) {
 			case 1:
-				int N = Integer.valueOf(params);
 				new Even0Odd1It(N, runs, iterations).run();
 				break;
 			case 2: 
-				N = Integer.valueOf(params);
 				new TSPIt(N, runs, iterations).run();
 				break;
 			case 3: 
-				int NUM_ITEMS = Integer.valueOf(params);
 				int COPIES_EACH = 4;
 			    double MAX_WEIGHT = 50;
 			    double MAX_VOLUME = 50;
-				new KnapsackIt(NUM_ITEMS, COPIES_EACH, MAX_WEIGHT, MAX_VOLUME, runs, iterations).run();
+				new KnapsackIt(N, COPIES_EACH, MAX_WEIGHT, MAX_VOLUME, runs, iterations).run();
 				break;
 			}
 		} else {
 			switch (problem) {
 			case 1:
-				int N = Integer.valueOf(params);
 				new Even0Odd1Time(N, runs, timeMillis).run();
 				break;
 			case 2: 
-				N = Integer.valueOf(params);
 				new TSPTime(N, runs, timeMillis).run();
 				break;
 			case 3: 
-				int NUM_ITEMS = Integer.valueOf(params);
 				int COPIES_EACH = 4;
 			    double MAX_WEIGHT = 50;
 			    double MAX_VOLUME = 50;
-				new KnapsackTime(NUM_ITEMS, COPIES_EACH, MAX_WEIGHT, MAX_VOLUME, runs, timeMillis).run();
+				new KnapsackTime(N, COPIES_EACH, MAX_WEIGHT, MAX_VOLUME, runs, timeMillis).run();
 				break;
 			}
-			
 		}
-			
-    }
+	}
 
 }

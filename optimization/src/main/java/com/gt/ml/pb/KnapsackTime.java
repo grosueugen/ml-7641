@@ -56,8 +56,9 @@ public class KnapsackTime {
 	}
 
 	private void runRHC() {
-		System.out.println("##### N," + N + ",RHC start");
+		//System.out.println("##### N," + N + ",RHC start");
 		double sumOptimalValue = 0;
+		long sumIterations = 0;
 		long bestTime = 0;
 		long bestIteration = 0;
 		for (int r = 0; r < runs; r++) {
@@ -86,19 +87,23 @@ public class KnapsackTime {
 	        Instance optimal = rhc.getOptimal();
 	        double optimalValue = ef.value(optimal);
 	        sumOptimalValue += optimalValue;
+	        sumIterations += iterations;
 	        bestTime += timeMs;
 	        bestIteration += it;
 	        
-	        System.out.println("N," + N + ",RHC," + optimalValue + ",iterations," + iterations 
-	        		+ ",bestValueInTime," + timeMs + ",bestValueInIteration," + it);
+	        //System.out.println("N," + N + ",RHC," + optimalValue + ",iterations," + iterations 
+	        //		+ ",bestValueInTime," + timeMs + ",bestValueInIteration," + it);
 		}
-		System.out.println("##### N," + N + ",RHC AVG," + (sumOptimalValue/runs) 
-				+ ",bestValueInTime," + (bestTime/runs) + ",bestValueInIteration," + (bestIteration/runs));
+		//System.out.println("##### N," + N + ",RHC AVG," + (sumOptimalValue/runs) 
+		//		+ ",bestValueInTime," + (bestTime/runs) + ",bestValueInIteration," + (bestIteration/runs));
+		System.out.println("RHC," + N + "," + (sumOptimalValue/runs) + "," + (sumIterations/runs) 
+				+ "," + (bestTime/runs) + "," + (bestIteration/runs));
 	}
 
 	private void runSA() {
-		System.out.println("##### N," + N + ",SA start");
+		//System.out.println("##### N," + N + ",SA start");
 		double sumOptimalValue = 0;
+		long sumIterations = 0;
 		long bestTime = 0; 
 		long bestIteration = 0;
 		for (int r = 0; r < runs; r++) {
@@ -128,18 +133,22 @@ public class KnapsackTime {
 	        Instance optimal = sa.getOptimal();
 	        double optimalValue = ef.value(optimal);
 	        sumOptimalValue += optimalValue;
+	        sumIterations += iterations;
 	        bestTime += timeMs;
 	        bestIteration += it;
-	        System.out.println("N," + N + ",SA," + optimalValue + ",iterations," + iterations 
-	        		+ ",bestValueInTime," + timeMs + ",bestValueInIteration," + it);
+	        //System.out.println("N," + N + ",SA," + optimalValue + ",iterations," + iterations 
+	        //		+ ",bestValueInTime," + timeMs + ",bestValueInIteration," + it);
 		}
-		System.out.println("##### N," + N + ",SA AVG," + (sumOptimalValue/runs) 
-				+ ",bestValueInTime," + (bestTime/runs) + ",bestValueInIteration," + (bestIteration/runs));
+		//System.out.println("##### N," + N + ",SA AVG," + (sumOptimalValue/runs) 
+		//		+ ",bestValueInTime," + (bestTime/runs) + ",bestValueInIteration," + (bestIteration/runs));
+		System.out.println("SA," + N + "," + (sumOptimalValue/runs) + "," + (sumIterations/runs) 
+				+ "," + (bestTime/runs) + "," + (bestIteration/runs));
 	}
 
 	private void runGA() {
-		System.out.println("##### N," + N + ",GA start");
+		//System.out.println("##### N," + N + ",GA start");
 		double sumOptimalValue = 0;
+		long sumIterations = 0;
 		long bestTime = 0;
 		long bestIteration = 0;
 		for (int r = 0; r < runs; r++) {
@@ -169,19 +178,23 @@ public class KnapsackTime {
 	        Instance optimal = ga.getOptimal();
 	        double optimalValue = ef.value(optimal);
 	        sumOptimalValue += optimalValue;
+	        sumIterations += iterations;
 	        bestTime += timeMs;
 	        bestIteration += it;
 	        
-	        System.out.println("N," + N + ",GA," + optimalValue + ",iterations," + iterations 
-	        		+ ",bestValueInTime," + timeMs + ",bestValueInIteration," + it);
+	        //System.out.println("N," + N + ",GA," + optimalValue + ",iterations," + iterations 
+	        //		+ ",bestValueInTime," + timeMs + ",bestValueInIteration," + it);
 		}
-		System.out.println("##### N," + N + ",GA AVG," + (sumOptimalValue/runs) 
-				+ ",bestValueInTime," + (bestTime/runs) + ",bestValueInIteration," + (bestIteration/runs));
+		//System.out.println("##### N," + N + ",GA AVG," + (sumOptimalValue/runs) 
+		//		+ ",bestValueInTime," + (bestTime/runs) + ",bestValueInIteration," + (bestIteration/runs));
+		System.out.println("GA," + N + "," + (sumOptimalValue/runs) + "," + (sumIterations/runs) 
+				+ "," + (bestTime/runs) + "," + (bestIteration/runs));
 	}
 
 	private void runMimic() {
-		System.out.println("##### N," + N + ",MIMIC start");
+		//System.out.println("##### N," + N + ",MIMIC start");
 		double sumOptimalValue = 0;
+		long sumIterations = 0;
 		long bestTime = 0;
 		long bestIteration = 0;
 		for (int r = 0; r < runs; r++) {
@@ -210,14 +223,17 @@ public class KnapsackTime {
 	        Instance optimal = mimic.getOptimal();
 	        double optimalValue = ef.value(optimal);
 	        sumOptimalValue += optimalValue;
+	        sumIterations += iterations;
 	        bestTime += timeMs;
 	        bestIteration += it;
 	        
-	        System.out.println("N," + N + ",MIMIC," + optimalValue + ",iterations," + iterations 
-	        		+ ",bestValueInTime," + timeMs + ",bestValueInIteration," + it);
+	        //System.out.println("N," + N + ",MIMIC," + optimalValue + ",iterations," + iterations 
+	        //		+ ",bestValueInTime," + timeMs + ",bestValueInIteration," + it);
 		}
-		System.out.println("##### N," + N + ",GA AVG," + (sumOptimalValue/runs) 
-				+ ",bestValueInTime," + (bestTime/runs) + ",bestValueInIteration," + (bestIteration/runs));
+		//System.out.println("##### N," + N + ",GA AVG," + (sumOptimalValue/runs) 
+		//		+ ",bestValueInTime," + (bestTime/runs) + ",bestValueInIteration," + (bestIteration/runs));
+		System.out.println("MIMIC," + N + "," + (sumOptimalValue/runs) + "," + (sumIterations/runs) 
+				+ "," + (bestTime/runs) + "," + (bestIteration/runs));
 	}
 
 }

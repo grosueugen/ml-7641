@@ -74,7 +74,11 @@ public class PbRunner {
 		} 
 		if (commandLine.hasOption("n")) {
 			N = Integer.valueOf(commandLine.getOptionValue("n"));
+			long now = System.currentTimeMillis();
+			//System.out.println("@@@ start: single time N: " + N);
 			runAlg(problem, N, runs, iterations, timeMillis, it);
+			//System.out.println("@@@ end: single time N: " + N + " and took "  
+			//		+ (System.currentTimeMillis() - now) + " millis");
 		} else {
 			mn = commandLine.getOptionValue("mn");
 			String[] split = mn.split(",");
@@ -87,9 +91,10 @@ public class PbRunner {
 			int stopSize = Integer.valueOf(split[2]);
 			for (int currentSize = startSize; currentSize <= stopSize; currentSize = currentSize + stepSize) {
 				long now = System.currentTimeMillis();
-				System.out.println("@@@ start: current size: " + currentSize);
+				//System.out.println("@@@ start: current size: " + currentSize);
 				runAlg(problem, currentSize, runs, iterations, timeMillis, it);
-				System.out.println("@@@ end: current size: " + currentSize + ", and took " + (System.currentTimeMillis() - now) + " millis");
+				//System.out.println("@@@ end: current size: " + currentSize + ", and took " 
+				//		+ (System.currentTimeMillis() - now) + " millis");
 			}
 		}
     }

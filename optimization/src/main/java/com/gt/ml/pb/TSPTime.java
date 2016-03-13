@@ -48,8 +48,10 @@ public class TSPTime {
 	}
 
 	private void runRHC() {
-		System.out.println("##### RHC start");
+		System.out.println("##### N," + N + ",RHC start");
 		double sumOptimalValue = 0;
+		long bestTime = 0;
+		long bestIteration = 0;
 		for (int r = 0; r < runs; r++) {
 			Random random = new Random();
 	        double[][] points = new double[N][2];
@@ -65,16 +67,26 @@ public class TSPTime {
 	        TimeTrainer fit = new TimeTrainer(rhc, time);
 	        fit.train();	
 	        long iterations = fit.getIterations();
+	        long timeMs = fit.getBestValueInTime();
+	        long it = fit.getBestValueInIteration();
+	        
 	        Instance optimal = rhc.getOptimal();
 	        double optimalValue = ef.value(optimal);
 	        sumOptimalValue += optimalValue;
-	        System.out.println("RHC," + optimalValue + ",iterations," + iterations);
+	        bestTime += timeMs;
+	        bestIteration += it;
+	        
+	        System.out.println("N," + N + ",RHC," + optimalValue + ",iterations," + iterations 
+	        		+ ",bestValueInTime," + timeMs + ",bestValueInIteration," + it);
 		}
-		System.out.println("RHC AVG," + (sumOptimalValue/runs));
+		System.out.println("##### N," + N + ",RHC AVG," + (sumOptimalValue/runs) 
+				+ ",bestValueInTime," + (bestTime/runs) + ",bestValueInIteration," + (bestIteration/runs));
 	}
 
 	private void runSA() {
-		System.out.println("##### SA start");
+		System.out.println("##### N," + N + ",SA start");
+		long bestTime = 0; 
+		long bestIteration = 0;
 		double sumOptimalValue = 0;
 		for (int r = 0; r < runs; r++) {
 			Random random = new Random();
@@ -91,17 +103,26 @@ public class TSPTime {
 	        TimeTrainer fit = new TimeTrainer(sa, time);
 	        fit.train();	
 	        long iterations = fit.getIterations();
+	        long timeMs = fit.getBestValueInTime();
+	        long it = fit.getBestValueInIteration();
+	        
 	        Instance optimal = sa.getOptimal();
 	        double optimalValue = ef.value(optimal);
 	        sumOptimalValue += optimalValue;
-	        System.out.println("SA," + optimalValue + ",iterations," + iterations);
+	        bestTime += timeMs;
+	        bestIteration += it;
+	        System.out.println("N," + N + ",SA," + optimalValue + ",iterations," + iterations 
+	        		+ ",bestValueInTime," + timeMs + ",bestValueInIteration," + it);
 		}
-		System.out.println("SA AVG," + (sumOptimalValue/runs));
+		System.out.println("##### N," + N + ",SA AVG," + (sumOptimalValue/runs) 
+				+ ",bestValueInTime," + (bestTime/runs) + ",bestValueInIteration," + (bestIteration/runs));
 	}
 
 	private void runGA() {
-		System.out.println("##### GA start");
+		System.out.println("##### N," + N + ",GA start");
 		double sumOptimalValue = 0;
+		long bestTime = 0;
+		long bestIteration = 0;
 		for (int r = 0; r < runs; r++) {
 			Random random = new Random();
 	        double[][] points = new double[N][2];
@@ -115,21 +136,31 @@ public class TSPTime {
 	        CrossoverFunction cf = new TravelingSalesmanCrossOver(ef);
 	        GeneticAlgorithmProblem gap = new GenericGeneticAlgorithmProblem(ef, odd, mf, cf);
 	        
-	        StandardGeneticAlgorithm ga = new StandardGeneticAlgorithm(200, 150, 25, gap);
+	        StandardGeneticAlgorithm ga = new StandardGeneticAlgorithm(200, 100, 10, gap);
 	        TimeTrainer fit = new TimeTrainer(ga, time);
 	        fit.train();	
 	        long iterations = fit.getIterations();
+	        long timeMs = fit.getBestValueInTime();
+	        long it = fit.getBestValueInIteration();
+	        
 	        Instance optimal = ga.getOptimal();
 	        double optimalValue = ef.value(optimal);
 	        sumOptimalValue += optimalValue;
-	        System.out.println("GA," + optimalValue + ",iterations," + iterations);
+	        bestTime += timeMs;
+	        bestIteration += it;
+	        
+	        System.out.println("N," + N + ",GA," + optimalValue + ",iterations," + iterations 
+	        		+ ",bestValueInTime," + timeMs + ",bestValueInIteration," + it);
 		}
-		System.out.println("GA AVG," + (sumOptimalValue/runs));
+		System.out.println("##### N," + N + ",GA AVG," + (sumOptimalValue/runs) 
+				+ ",bestValueInTime," + (bestTime/runs) + ",bestValueInIteration," + (bestIteration/runs));
 	}
 
 	private void runMimic() {
-		System.out.println("##### MIMIC start");
+		System.out.println("##### N," + N + ",MIMIC start");
 		double sumOptimalValue = 0;
+		long bestTime = 0;
+		long bestIteration = 0;
 		for (int r = 0; r < runs; r++) {
 			Random random = new Random();
 	        double[][] points = new double[N][2];
@@ -148,12 +179,20 @@ public class TSPTime {
 	        TimeTrainer fit = new TimeTrainer(mimic, time);
 	        fit.train();	
 	        long iterations = fit.getIterations();
+	        long timeMs = fit.getBestValueInTime();
+	        long it = fit.getBestValueInIteration();
+	        
 	        Instance optimal = mimic.getOptimal();
 	        double optimalValue = ef.value(optimal);
 	        sumOptimalValue += optimalValue;
-	        System.out.println("MIMIC," + optimalValue + ",iterations," + iterations);
+	        bestTime += timeMs;
+	        bestIteration += it;
+	        
+	        System.out.println("N," + N + ",MIMIC," + optimalValue + ",iterations," + iterations 
+	        		+ ",bestValueInTime," + timeMs + ",bestValueInIteration," + it);
 		}
-		System.out.println("MIMIC AVG," + (sumOptimalValue/runs));
+		System.out.println("##### N," + N + ",GA AVG," + (sumOptimalValue/runs) 
+				+ ",bestValueInTime," + (bestTime/runs) + ",bestValueInIteration," + (bestIteration/runs));
 	}
 
 }

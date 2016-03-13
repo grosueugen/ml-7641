@@ -28,7 +28,7 @@ import shared.Instance;
 
 public class KnapsackTime {
 	
-	private final int NUM_ITEMS;
+	private final int N;
 	private final int COPIES_EACH;
 	private final double MAX_WEIGHT;
 	private final double MAX_VOLUME;
@@ -39,7 +39,7 @@ public class KnapsackTime {
 	
 	public KnapsackTime(int NUM_ITEMS, int COPIES_EACH, double MAX_WEIGHT, double MAX_VOLUME, 
 			int runs, long time) {
-		this.NUM_ITEMS = NUM_ITEMS;
+		this.N = NUM_ITEMS;
 		this.COPIES_EACH = COPIES_EACH;
 		this.MAX_WEIGHT = MAX_WEIGHT;
 		this.MAX_VOLUME = MAX_VOLUME;
@@ -56,19 +56,21 @@ public class KnapsackTime {
 	}
 
 	private void runRHC() {
-		System.out.println("##### RHC start");
+		System.out.println("##### N," + N + ",RHC start");
 		double sumOptimalValue = 0;
+		long bestTime = 0;
+		long bestIteration = 0;
 		for (int r = 0; r < runs; r++) {
 			Random random = new Random();
-			int[] copies = new int[NUM_ITEMS];
+			int[] copies = new int[N];
 	        Arrays.fill(copies, COPIES_EACH);
-	        double[] weights = new double[NUM_ITEMS];
-	        double[] volumes = new double[NUM_ITEMS];
-	        for (int i = 0; i < NUM_ITEMS; i++) {
+	        double[] weights = new double[N];
+	        double[] volumes = new double[N];
+	        for (int i = 0; i < N; i++) {
 	            weights[i] = random.nextDouble() * MAX_WEIGHT;
 	            volumes[i] = random.nextDouble() * MAX_VOLUME;
 	        }
-	         int[] ranges = new int[NUM_ITEMS];
+	         int[] ranges = new int[N];
 	        Arrays.fill(ranges, COPIES_EACH + 1);
 	        EvaluationFunction ef = new KnapsackEvaluationFunction(weights, volumes, KNAPSACK_VOLUME, copies);
 	        Distribution odd = new DiscreteUniformDistribution(ranges);
@@ -78,28 +80,38 @@ public class KnapsackTime {
 	        TimeTrainer fit = new TimeTrainer(rhc, time);
 	        fit.train();	
 	        long iterations = fit.getIterations();
+	        long timeMs = fit.getBestValueInTime();
+	        long it = fit.getBestValueInIteration();
+	        
 	        Instance optimal = rhc.getOptimal();
 	        double optimalValue = ef.value(optimal);
 	        sumOptimalValue += optimalValue;
-	        System.out.println("RHC," + optimalValue + ",iterations," + iterations);
+	        bestTime += timeMs;
+	        bestIteration += it;
+	        
+	        System.out.println("N," + N + ",RHC," + optimalValue + ",iterations," + iterations 
+	        		+ ",bestValueInTime," + timeMs + ",bestValueInIteration," + it);
 		}
-		System.out.println("RHC AVG," + (sumOptimalValue/runs));
+		System.out.println("##### N," + N + ",RHC AVG," + (sumOptimalValue/runs) 
+				+ ",bestValueInTime," + (bestTime/runs) + ",bestValueInIteration," + (bestIteration/runs));
 	}
 
 	private void runSA() {
-		System.out.println("##### SA start");
+		System.out.println("##### N," + N + ",SA start");
 		double sumOptimalValue = 0;
+		long bestTime = 0; 
+		long bestIteration = 0;
 		for (int r = 0; r < runs; r++) {
 			Random random = new Random();
-			int[] copies = new int[NUM_ITEMS];
+			int[] copies = new int[N];
 	        Arrays.fill(copies, COPIES_EACH);
-	        double[] weights = new double[NUM_ITEMS];
-	        double[] volumes = new double[NUM_ITEMS];
-	        for (int i = 0; i < NUM_ITEMS; i++) {
+	        double[] weights = new double[N];
+	        double[] volumes = new double[N];
+	        for (int i = 0; i < N; i++) {
 	            weights[i] = random.nextDouble() * MAX_WEIGHT;
 	            volumes[i] = random.nextDouble() * MAX_VOLUME;
 	        }
-	         int[] ranges = new int[NUM_ITEMS];
+	         int[] ranges = new int[N];
 	        Arrays.fill(ranges, COPIES_EACH + 1);
 	        EvaluationFunction ef = new KnapsackEvaluationFunction(weights, volumes, KNAPSACK_VOLUME, copies);
 	        Distribution odd = new DiscreteUniformDistribution(ranges);
@@ -110,60 +122,79 @@ public class KnapsackTime {
 	        TimeTrainer fit = new TimeTrainer(sa, time);
 	        fit.train();	
 	        long iterations = fit.getIterations();
+	        long timeMs = fit.getBestValueInTime();
+	        long it = fit.getBestValueInIteration();
+	        
 	        Instance optimal = sa.getOptimal();
 	        double optimalValue = ef.value(optimal);
 	        sumOptimalValue += optimalValue;
-	        System.out.println("SA," + optimalValue + ",iterations," + iterations);
+	        bestTime += timeMs;
+	        bestIteration += it;
+	        System.out.println("N," + N + ",SA," + optimalValue + ",iterations," + iterations 
+	        		+ ",bestValueInTime," + timeMs + ",bestValueInIteration," + it);
 		}
-		System.out.println("SA AVG," + (sumOptimalValue/runs));
+		System.out.println("##### N," + N + ",SA AVG," + (sumOptimalValue/runs) 
+				+ ",bestValueInTime," + (bestTime/runs) + ",bestValueInIteration," + (bestIteration/runs));
 	}
 
 	private void runGA() {
-		System.out.println("##### GA start");
+		System.out.println("##### N," + N + ",GA start");
 		double sumOptimalValue = 0;
+		long bestTime = 0;
+		long bestIteration = 0;
 		for (int r = 0; r < runs; r++) {
 			Random random = new Random();
-			int[] copies = new int[NUM_ITEMS];
+			int[] copies = new int[N];
 	        Arrays.fill(copies, COPIES_EACH);
-	        double[] weights = new double[NUM_ITEMS];
-	        double[] volumes = new double[NUM_ITEMS];
-	        for (int i = 0; i < NUM_ITEMS; i++) {
+	        double[] weights = new double[N];
+	        double[] volumes = new double[N];
+	        for (int i = 0; i < N; i++) {
 	            weights[i] = random.nextDouble() * MAX_WEIGHT;
 	            volumes[i] = random.nextDouble() * MAX_VOLUME;
 	        }
-	        int[] ranges = new int[NUM_ITEMS];
+	        int[] ranges = new int[N];
 	        Arrays.fill(ranges, COPIES_EACH + 1);
 	        EvaluationFunction ef = new KnapsackEvaluationFunction(weights, volumes, KNAPSACK_VOLUME, copies);
 	        Distribution odd = new DiscreteUniformDistribution(ranges);
 	        MutationFunction mf = new DiscreteChangeOneMutation(ranges);
 	        CrossoverFunction cf = new UniformCrossOver();
 	        GeneticAlgorithmProblem gap = new GenericGeneticAlgorithmProblem(ef, odd, mf, cf);
-	        StandardGeneticAlgorithm ga = new StandardGeneticAlgorithm(200, 150, 25, gap);
+	        StandardGeneticAlgorithm ga = new StandardGeneticAlgorithm(200, 100, 10, gap);
 	        TimeTrainer fit = new TimeTrainer(ga, time);
 	        fit.train();	
 	        long iterations = fit.getIterations();
+	        long timeMs = fit.getBestValueInTime();
+	        long it = fit.getBestValueInIteration();
+	        
 	        Instance optimal = ga.getOptimal();
 	        double optimalValue = ef.value(optimal);
 	        sumOptimalValue += optimalValue;
-	        System.out.println("GA," + optimalValue + ",iterations," + iterations);
+	        bestTime += timeMs;
+	        bestIteration += it;
+	        
+	        System.out.println("N," + N + ",GA," + optimalValue + ",iterations," + iterations 
+	        		+ ",bestValueInTime," + timeMs + ",bestValueInIteration," + it);
 		}
-		System.out.println("GA AVG," + (sumOptimalValue/runs));
+		System.out.println("##### N," + N + ",GA AVG," + (sumOptimalValue/runs) 
+				+ ",bestValueInTime," + (bestTime/runs) + ",bestValueInIteration," + (bestIteration/runs));
 	}
 
 	private void runMimic() {
-		System.out.println("##### MIMIC start");
+		System.out.println("##### N," + N + ",MIMIC start");
 		double sumOptimalValue = 0;
+		long bestTime = 0;
+		long bestIteration = 0;
 		for (int r = 0; r < runs; r++) {
 			Random random = new Random();
-			int[] copies = new int[NUM_ITEMS];
+			int[] copies = new int[N];
 	        Arrays.fill(copies, COPIES_EACH);
-	        double[] weights = new double[NUM_ITEMS];
-	        double[] volumes = new double[NUM_ITEMS];
-	        for (int i = 0; i < NUM_ITEMS; i++) {
+	        double[] weights = new double[N];
+	        double[] volumes = new double[N];
+	        for (int i = 0; i < N; i++) {
 	            weights[i] = random.nextDouble() * MAX_WEIGHT;
 	            volumes[i] = random.nextDouble() * MAX_VOLUME;
 	        }
-	         int[] ranges = new int[NUM_ITEMS];
+	         int[] ranges = new int[N];
 	        Arrays.fill(ranges, COPIES_EACH + 1);
 	        EvaluationFunction ef = new KnapsackEvaluationFunction(weights, volumes, KNAPSACK_VOLUME, copies);
 	        Distribution odd = new DiscreteUniformDistribution(ranges);
@@ -173,12 +204,20 @@ public class KnapsackTime {
 	        TimeTrainer fit = new TimeTrainer(mimic, time);
 	        fit.train();	
 	        long iterations = fit.getIterations();
+	        long timeMs = fit.getBestValueInTime();
+	        long it = fit.getBestValueInIteration();
+	        
 	        Instance optimal = mimic.getOptimal();
 	        double optimalValue = ef.value(optimal);
 	        sumOptimalValue += optimalValue;
-	        System.out.println("MIMIC," + optimalValue + ",iterations," + iterations);
+	        bestTime += timeMs;
+	        bestIteration += it;
+	        
+	        System.out.println("N," + N + ",MIMIC," + optimalValue + ",iterations," + iterations 
+	        		+ ",bestValueInTime," + timeMs + ",bestValueInIteration," + it);
 		}
-		System.out.println("MIMIC AVG," + (sumOptimalValue/runs));
+		System.out.println("##### N," + N + ",GA AVG," + (sumOptimalValue/runs) 
+				+ ",bestValueInTime," + (bestTime/runs) + ",bestValueInIteration," + (bestIteration/runs));
 	}
 
 }

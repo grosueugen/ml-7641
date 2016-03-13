@@ -15,9 +15,8 @@ public class PbRunner {
 		Options options = new Options()
 				.addOption(new Option("h", "help", false, "show help"))
 				.addOption(new Option("p", "problem", true, 
-						"type of problem, one of <1=Count1,2=Even0Odd1,3=TSP,4=Knapsack>"))
-				.addOption(new Option("params", "params", true, 
-						"parameters for pb: <CountOnes: N, Even0Odd1: N, Knapsack: >"))
+						"type of problem, one of <1=Even0Odd1,2=TSP,3=Knapsack>"))
+				.addOption(new Option("n", "n", true, "size of the pb"))
 				.addOption(new Option("r", "restarts", true, "#restarts (runs)"))
 				.addOption(new Option("i", "iterations", true, "#iterations per each run"))
 				.addOption(new Option("t", "time", true, "time in millis or sec; e.g. 100m=100 millis, 10=10 seconds"));
@@ -42,8 +41,8 @@ public class PbRunner {
 			return;
 		}
 		
-		if (commandLine.hasOption("params")) {
-			params = commandLine.getOptionValue("params");
+		if (commandLine.hasOption("n")) {
+			params = commandLine.getOptionValue("n");
 		} else {
 			System.out.println("Please choose parameters for the problem; see help for information");
 			return;
@@ -76,19 +75,15 @@ public class PbRunner {
 		
 		if (it) {
 			switch (problem) {
-			case 1: 
+			case 1:
 				int N = Integer.valueOf(params);
-				new CountOnesIt(N, runs, iterations).run();
-				break;
-			case 2:
-				N = Integer.valueOf(params);
 				new Even0Odd1It(N, runs, iterations).run();
 				break;
-			case 3: 
+			case 2: 
 				N = Integer.valueOf(params);
 				new TSPIt(N, runs, iterations).run();
 				break;
-			case 4: 
+			case 3: 
 				int NUM_ITEMS = Integer.valueOf(params);
 				int COPIES_EACH = 4;
 			    double MAX_WEIGHT = 50;
@@ -98,19 +93,15 @@ public class PbRunner {
 			}
 		} else {
 			switch (problem) {
-			case 1: 
+			case 1:
 				int N = Integer.valueOf(params);
-				new CountOnesTime(N, runs, timeMillis).run();
-				break;
-			case 2:
-				N = Integer.valueOf(params);
 				new Even0Odd1Time(N, runs, timeMillis).run();
 				break;
-			case 3: 
+			case 2: 
 				N = Integer.valueOf(params);
 				new TSPTime(N, runs, timeMillis).run();
 				break;
-			case 4: 
+			case 3: 
 				int NUM_ITEMS = Integer.valueOf(params);
 				int COPIES_EACH = 4;
 			    double MAX_WEIGHT = 50;

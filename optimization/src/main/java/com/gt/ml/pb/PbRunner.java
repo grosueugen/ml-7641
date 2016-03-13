@@ -15,7 +15,7 @@ public class PbRunner {
 		Options options = new Options()
 				.addOption(new Option("h", "help", false, "show help"))
 				.addOption(new Option("p", "problem", true, 
-						"type of problem, one of <1=Even0Odd1,2=TSP,3=Knapsack>"))
+						"type of problem, one of <1=Even0Odd1,2=TSP,3=Knapsack,4=Alternates>"))
 				.addOption(new Option("n", "n", true, "size of the pb; runs using only this n"))
 				.addOption(new Option("mn", "mn", true, "multiple runs using different pb size n :<startSize,stepSize,stopSize>"))
 				.addOption(new Option("r", "restarts", true, "#restarts (runs)"))
@@ -72,6 +72,9 @@ public class PbRunner {
 			System.out.println("Please choose whether to run using one pb size 'n' or multiple pb sizes 'mn'; see help for information");
 			return;
 		} 
+		
+		System.out.println("alg,N,optValue,#it,bestTime,bestIt");
+		
 		if (commandLine.hasOption("n")) {
 			N = Integer.valueOf(commandLine.getOptionValue("n"));
 			long now = System.currentTimeMillis();
@@ -114,6 +117,7 @@ public class PbRunner {
 			    double MAX_VOLUME = 50;
 				new KnapsackIt(N, COPIES_EACH, MAX_WEIGHT, MAX_VOLUME, runs, iterations).run();
 				break;
+			default: throw new RuntimeException("pb not implemented, see help for information");
 			}
 		} else {
 			switch (problem) {
@@ -129,6 +133,10 @@ public class PbRunner {
 			    double MAX_VOLUME = 50;
 				new KnapsackTime(N, COPIES_EACH, MAX_WEIGHT, MAX_VOLUME, runs, timeMillis).run();
 				break;
+			case 4: 
+				new AlternatesTime(N, runs, timeMillis).run();
+				break;
+			default: throw new RuntimeException("pb not implemented, see help for information");
 			}
 		}
 	}

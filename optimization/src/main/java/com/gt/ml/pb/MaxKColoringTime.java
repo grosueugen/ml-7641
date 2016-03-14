@@ -53,6 +53,8 @@ public class MaxKColoringTime {
 		long sumIterations = 0;
 		long bestTime = 0;
 		long bestIteration = 0;
+		int conflict = 0;
+		int nonConflict = 0;
 		for (int r = 0; r < runs; r++) {
 			Random random = new Random(N * L);
 			// create the random velocity
@@ -83,6 +85,11 @@ public class MaxKColoringTime {
 			sumIterations += iterations;
 			bestTime += timeMs;
 			bestIteration += it;
+			if (ef.isConflict()) {
+				conflict++;
+			} else {
+				nonConflict++;
+			}
 
 			// System.out.println("N," + N + ",RHC," + optimalValue +
 			// ",iterations," + iterations
@@ -93,7 +100,8 @@ public class MaxKColoringTime {
 		// + ",bestValueInTime," + (bestTime/runs) + ",bestValueInIteration," +
 		// (bestIteration/runs));
 		System.out.println("RHC," + N + "," + (sumOptimalValue / runs) + "," + (sumIterations / runs) + ","
-				+ (bestTime / runs) + "," + (bestIteration / runs));
+				+ (bestTime / runs) + "," + (bestIteration / runs) 
+				+ "," + conflict + "," + nonConflict);
 	}
 
 	private void runSA() {
@@ -102,6 +110,8 @@ public class MaxKColoringTime {
 		long sumIterations = 0;
 		long bestTime = 0;
 		long bestIteration = 0;
+		int conflict = 0;
+		int nonConflict = 0;
 		for (int r = 0; r < runs; r++) {
 			Random random = new Random(N * L);
 			// create the random velocity
@@ -132,6 +142,11 @@ public class MaxKColoringTime {
 			sumIterations += iterations;
 			bestTime += timeMs;
 			bestIteration += it;
+			if (ef.isConflict()) {
+				conflict++;
+			} else {
+				nonConflict++;
+			}
 
 			// System.out.println("N," + N + ",RHC," + optimalValue +
 			// ",iterations," + iterations
@@ -142,7 +157,8 @@ public class MaxKColoringTime {
 		// + ",bestValueInTime," + (bestTime/runs) + ",bestValueInIteration," +
 		// (bestIteration/runs));
 		System.out.println("SA," + N + "," + (sumOptimalValue / runs) + "," + (sumIterations / runs) + ","
-				+ (bestTime / runs) + "," + (bestIteration / runs));
+				+ (bestTime / runs) + "," + (bestIteration / runs) 
+				+ "," + conflict + "," + nonConflict);
 	}
 
 	private void runGA() {
@@ -151,6 +167,8 @@ public class MaxKColoringTime {
 		long sumIterations = 0;
 		long bestTime = 0;
 		long bestIteration = 0;
+		int conflict = 0;
+		int nonConflict = 0;
 		for (int r = 0; r < runs; r++) {
 			Random random = new Random(N * L);
 			// create the random velocity
@@ -182,6 +200,11 @@ public class MaxKColoringTime {
 			sumIterations += iterations;
 			bestTime += timeMs;
 			bestIteration += it;
+			if (ef.isConflict()) {
+				conflict++;
+			} else {
+				nonConflict++;
+			}
 
 			// System.out.println("N," + N + ",RHC," + optimalValue +
 			// ",iterations," + iterations
@@ -192,7 +215,8 @@ public class MaxKColoringTime {
 		// + ",bestValueInTime," + (bestTime/runs) + ",bestValueInIteration," +
 		// (bestIteration/runs));
 		System.out.println("GA," + N + "," + (sumOptimalValue / runs) + "," + (sumIterations / runs) + ","
-				+ (bestTime / runs) + "," + (bestIteration / runs));
+				+ (bestTime / runs) + "," + (bestIteration / runs) 
+				+ "," + conflict + "," + nonConflict);
 	}
 
 	private void runMimic() {
@@ -201,6 +225,8 @@ public class MaxKColoringTime {
 		long sumIterations = 0;
 		long bestTime = 0;
 		long bestIteration = 0;
+		int conflict = 0;
+		int nonConflict = 0;
 		for (int r = 0; r < runs; r++) {
 			Random random = new Random(N * L);
 			// create the random velocity
@@ -232,6 +258,11 @@ public class MaxKColoringTime {
 			sumIterations += iterations;
 			bestTime += timeMs;
 			bestIteration += it;
+			if (ef.isConflict()) {
+				conflict++;
+			} else {
+				nonConflict++;
+			}
 
 			// System.out.println("N," + N + ",RHC," + optimalValue +
 			// ",iterations," + iterations
@@ -242,7 +273,8 @@ public class MaxKColoringTime {
 		// + ",bestValueInTime," + (bestTime/runs) + ",bestValueInIteration," +
 		// (bestIteration/runs));
 		System.out.println("MIMIC," + N + "," + (sumOptimalValue / runs) + "," + (sumIterations / runs) + ","
-				+ (bestTime / runs) + "," + (bestIteration / runs));
+				+ (bestTime / runs) + "," + (bestIteration / runs) 
+				+ "," + conflict + "," + nonConflict);
 	}
 
 }

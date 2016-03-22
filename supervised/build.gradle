@@ -1,9 +1,13 @@
+apply plugin: 'application'
+mainClassName = "com.gt.ml.ModelComplexityExperiment"
+
 dependencies {
 	compile 'nz.ac.waikato.cms.weka:weka-stable:3.6.13',
-			fileTree(dir: 'local_libs', include: ['*.jar'])
-			'log4j:log4j:1.2.17'
-	
-	runtime 'org.slf4j:slf4j-log4j12:1.7.13'
+			fileTree(dir: 'local_libs', include: ['*.jar']),
+			'commons-cli:commons-cli:1.3.1',
+			'log4j:log4j:1.2.17',
+			'org.slf4j:slf4j-log4j12:1.7.13'
+			
 	testCompile 'junit:junit:4.12'
 }
 

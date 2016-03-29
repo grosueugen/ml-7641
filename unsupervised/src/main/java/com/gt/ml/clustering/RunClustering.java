@@ -1,13 +1,15 @@
 package com.gt.ml.clustering;
 
 import weka.clusterers.ClusterEvaluation;
+import weka.clusterers.EM;
 import weka.clusterers.SimpleKMeans;
 
 public class RunClustering {
 	
 	public static void main(String[] args) throws Exception {
 		//runKMeansSat();
-		runKMeansWine();
+		//runKMeansWine();
+		runEMSat();
 	}
 
 	// params: file: sat, wine, distance
@@ -20,6 +22,18 @@ public class RunClustering {
 						"-t", "src/main/resources/sat.arff", 
 						"-c", "last",
 						"-A", "weka.core.ManhattanDistance -R first-last",
+						});
+		System.out.println(res);
+	}
+	
+	private static void runEMSat() throws Exception {
+		EM em = new EM();
+		em.setNumClusters(6);
+		
+		String res = ClusterEvaluation.evaluateClusterer(em, 
+				new String[]{
+						"-t", "src/main/resources/sat.arff", 
+						"-c", "last",
 						});
 		System.out.println(res);
 	}

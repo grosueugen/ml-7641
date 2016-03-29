@@ -1,1 +1,1 @@
-include 'supervised', 'optimization'
+include 'supervised', 'optimization', 'unsupervised'

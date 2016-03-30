@@ -1,5 +1,4 @@
-@relation wine-weka.filters.unsupervised.instance.Resample-S0-Z30.0-no-replacement-V
-
+@relation wine
 @attribute fixedacid numeric
 @attribute volacid numeric
 @attribute citricacid numeric

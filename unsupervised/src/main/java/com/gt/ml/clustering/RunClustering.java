@@ -1,15 +1,24 @@
 package com.gt.ml.clustering;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+
 import weka.clusterers.ClusterEvaluation;
 import weka.clusterers.EM;
 import weka.clusterers.SimpleKMeans;
+import weka.core.Instances;
 
 public class RunClustering {
 	
 	public static void main(String[] args) throws Exception {
 		//runKMeansSat();
 		//runKMeansWine();
-		runEMSat();
+		//runEMSat();
+		//runEMWine();
+		runEMWine2();
 	}
 
 	// params: file: sat, wine, distance
@@ -32,7 +41,7 @@ public class RunClustering {
 		
 		String res = ClusterEvaluation.evaluateClusterer(em, 
 				new String[]{
-						"-t", "src/main/resources/sat.arff", 
+						"-t", "src/main/resources/sat-train.arff", 
 						"-c", "last",
 						});
 		System.out.println(res);
@@ -49,6 +58,42 @@ public class RunClustering {
 						"-A", "weka.core.EuclideanDistance -R first-last",
 						});
 		System.out.println(res);
+	}
+	
+	private static void runEMWine() throws Exception {
+		EM em = new EM();
+		em.setNumClusters(7);
+		em.setDebug(true);
+		
+		String res = ClusterEvaluation.evaluateClusterer(em, 
+				new String[]{
+						"-N", "7",
+						"-t", "src/main/resources/wine.arff", 
+						"-c", "last"
+						});
+		System.out.println(res);
+	}
+	
+	private static void runEMWine2() throws Exception {
+		EM em = new EM();
+		em.setNumClusters(7);
+		em.setDebug(true);
+		Instances training = get("wine-train.arff");
+		//training.setClassIndex(-1);
+		em.buildClusterer(training);
+		
+		ClusterEvaluation eval = new ClusterEvaluation();
+		eval.setClusterer(em);
+		Instances test = get("wine-test.arff");
+		test.setClassIndex(11);
+		eval.evaluateClusterer(test);
+		System.out.println(eval.clusterResultsToString());
+	}
+	
+	private static Instances get(String file) throws IOException {
+		InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(file);
+		Reader r = new BufferedReader(new InputStreamReader(is));
+		return new Instances(r);
 	}
 	
 }

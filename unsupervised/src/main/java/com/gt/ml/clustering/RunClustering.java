@@ -9,16 +9,19 @@ import java.io.Reader;
 import weka.clusterers.ClusterEvaluation;
 import weka.clusterers.EM;
 import weka.clusterers.SimpleKMeans;
+import weka.core.ChebyshevDistance;
+import weka.core.DistanceFunction;
 import weka.core.Instances;
+import weka.filters.Filter;
+import weka.filters.unsupervised.attribute.Remove;
 
 public class RunClustering {
 	
 	public static void main(String[] args) throws Exception {
-		//runKMeansSat();
+		runKMeansSat();
 		//runKMeansWine();
 		//runEMSat();
 		//runEMWine();
-		runEMWine2();
 	}
 
 	// params: file: sat, wine, distance
@@ -30,7 +33,7 @@ public class RunClustering {
 				new String[]{
 						"-t", "src/main/resources/sat.arff", 
 						"-c", "last",
-						"-A", "weka.core.ManhattanDistance -R first-last",
+						"-A", "weka.core.EuclideanDistance -R first-last",
 						});
 		System.out.println(res);
 	}
@@ -38,13 +41,16 @@ public class RunClustering {
 	private static void runEMSat() throws Exception {
 		EM em = new EM();
 		em.setNumClusters(6);
+		em.setDebug(true);
+		Instances instances = get("sat.arff");
+		instances.setClassIndex(36);
+		Instances instancesNoClass = removeAttributes(instances, String.valueOf(instances.numAttributes()));
+		em.buildClusterer(instancesNoClass);
 		
-		String res = ClusterEvaluation.evaluateClusterer(em, 
-				new String[]{
-						"-t", "src/main/resources/sat-train.arff", 
-						"-c", "last",
-						});
-		System.out.println(res);
+		ClusterEvaluation eval = new ClusterEvaluation();
+		eval.setClusterer(em);
+		eval.evaluateClusterer(instances);
+		System.out.println(eval.clusterResultsToString());
 	}
 	
 	private static void runKMeansWine() throws Exception {
@@ -64,29 +70,14 @@ public class RunClustering {
 		EM em = new EM();
 		em.setNumClusters(7);
 		em.setDebug(true);
-		
-		String res = ClusterEvaluation.evaluateClusterer(em, 
-				new String[]{
-						"-N", "7",
-						"-t", "src/main/resources/wine.arff", 
-						"-c", "last"
-						});
-		System.out.println(res);
-	}
-	
-	private static void runEMWine2() throws Exception {
-		EM em = new EM();
-		em.setNumClusters(7);
-		em.setDebug(true);
-		Instances training = get("wine-train.arff");
-		//training.setClassIndex(-1);
-		em.buildClusterer(training);
+		Instances instances = get("wine.arff");
+		instances.setClassIndex(11);
+		Instances instancesNoClass = removeAttributes(instances, String.valueOf(instances.numAttributes()));
+		em.buildClusterer(instancesNoClass);
 		
 		ClusterEvaluation eval = new ClusterEvaluation();
 		eval.setClusterer(em);
-		Instances test = get("wine-test.arff");
-		test.setClassIndex(11);
-		eval.evaluateClusterer(test);
+		eval.evaluateClusterer(instances);
 		System.out.println(eval.clusterResultsToString());
 	}
 	
@@ -94,6 +85,18 @@ public class RunClustering {
 		InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(file);
 		Reader r = new BufferedReader(new InputStreamReader(is));
 		return new Instances(r);
+	}
+	
+	private static Instances removeAttributes(Instances dataSet, String attributesToRemove) {
+		try {
+			Remove filter = new Remove();
+			filter.setInvertSelection(false);
+			filter.setAttributeIndices(attributesToRemove);
+			filter.setInputFormat(dataSet);
+			return Filter.useFilter(dataSet, filter);
+		} catch (Exception e) {
+			throw new RuntimeException("Error removing attributes " + attributesToRemove, e);
+		}
 	}
 	
 }

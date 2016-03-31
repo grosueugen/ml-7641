@@ -14,19 +14,19 @@ public class IPCA {
 	
 	public static void main(String[] args) {
 		if(args.length != 6) {
-			System.out.println("Usage: IPCA <inputFile> <numInstances> <numAttributes> <numEigenVectorsToKeep> <dataFileOuput> <commaSeparatedListOfClassLabels>");
+			System.out.println("Usage: IPCA <inputFile> <numInstances> <numAttributes> <varianceToKeep> <dataFileOuput> <commaSeparatedListOfClassLabels>");
 			System.exit(-1);
 		}
 		String inputFile = args[0];
 		int numInstances = Integer.valueOf(args[1]);
 		int numAttributes = Integer.valueOf(args[2]);
-		int numEigenVectorsToKeep = Integer.valueOf(args[3]);
+		double varianceToKeep = Double.valueOf(args[3]);
 		String outputFile = args[4];
 		List<String> labels = Arrays.asList(args[5].split(","));
 		Instance[] instances = MLAssignmentUtils.initializeInstances(numInstances, inputFile, numAttributes, labels);
 		DataSet original = new DataSet(instances);
 		
-		InsignificantComponentAnalysis ipca = new InsignificantComponentAnalysis(original, numEigenVectorsToKeep);
+		InsignificantComponentAnalysis ipca = new InsignificantComponentAnalysis(original, varianceToKeep);
 		DataSet transformed = run(ipca,original);
 		saveAsArff(transformed, outputFile, labels);
 		DataSet reconstructed = reconstruct(ipca, transformed);
@@ -34,11 +34,24 @@ public class IPCA {
 	}
 
 	private static DataSet run(InsignificantComponentAnalysis ipca, DataSet original) {
-        System.out.println("Eigenvalues");
-        System.out.println(ipca.getEigenValues());
-        System.out.println("===============================================");
-        System.out.println("The projection matrix");
-        System.out.println(ipca.getProjection());
+		System.out.println("Eigenvalues");
+        //System.out.println(pca.getEigenValues());
+        Matrix eigenValues = ipca.getEigenValues();
+		int m = eigenValues.m();
+        int n = eigenValues.n();
+        if (m != n) {
+        	System.out.println("calculation error, m!=n eigenvalue matrix");
+        	System.exit(0);
+        }
+        for (int i = 0; i < m; i++) {
+        	System.out.println(eigenValues.get(i, i));
+        }
+        
+        System.out.println("r dimension = " + ipca.getProjection().m());
+        //System.out.println("===============================================");
+        //System.out.println("The projection matrix");
+        //System.out.println(pca.getProjection());
+        
         DataSet transformed = original.copy(); 
         ipca.filter(transformed);
         return transformed;

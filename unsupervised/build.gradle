@@ -1,9 +1,81 @@
 apply plugin: 'application'
 mainClassName = ""
 
+task kmeansScripts(type: CreateStartScripts) {
+    mainClassName = "com.gt.ml.KMeans"
+    applicationName = "kmeans" 
+    outputDir = new File(project.buildDir, 'scripts')
+    classpath = jar.outputs.files + project.configurations.runtime
+}
+
+applicationDistribution.into("bin") {
+    from(kmeansScripts)
+    fileMode = 0755
+}
+
+task emScripts(type: CreateStartScripts) {
+    mainClassName = "com.gt.ml.EM"
+    applicationName = "em" 
+    outputDir = new File(project.buildDir, 'scripts')
+    classpath = jar.outputs.files + project.configurations.runtime
+}
+
+applicationDistribution.into("bin") {
+    from(emScripts)
+    fileMode = 0755
+}
+
+task pcaScripts(type: CreateStartScripts) {
+    mainClassName = "com.gt.ml.PCA"
+    applicationName = "pca" 
+    outputDir = new File(project.buildDir, 'scripts')
+    classpath = jar.outputs.files + project.configurations.runtime
+}
+
+applicationDistribution.into("bin") {
+    from(pcaScripts)
+    fileMode = 0755
+}
+
+task icaScripts(type: CreateStartScripts) {
+    mainClassName = "com.gt.ml.ICA"
+    applicationName = "ica" 
+    outputDir = new File(project.buildDir, 'scripts')
+    classpath = jar.outputs.files + project.configurations.runtime
+}
+
+applicationDistribution.into("bin") {
+    from(icaScripts)
+    fileMode = 0755
+}
+
+task rcaScripts(type: CreateStartScripts) {
+    mainClassName = "com.gt.ml.RCA"
+    applicationName = "rca" 
+    outputDir = new File(project.buildDir, 'scripts')
+    classpath = jar.outputs.files + project.configurations.runtime
+}
+
+applicationDistribution.into("bin") {
+    from(rcaScripts)
+    fileMode = 0755
+}
+
+task ipcaScripts(type: CreateStartScripts) {
+    mainClassName = "com.gt.ml.IPCA"
+    applicationName = "ipca" 
+    outputDir = new File(project.buildDir, 'scripts')
+    classpath = jar.outputs.files + project.configurations.runtime
+}
+
+applicationDistribution.into("bin") {
+    from(ipcaScripts)
+    fileMode = 0755
+}
+
+
 dependencies {
-	compile 'nz.ac.waikato.cms.weka:weka-stable:3.6.13',
-			fileTree(dir: 'local_libs', include: ['*.jar']),
+	compile fileTree(dir: 'local_libs', include: ['*.jar']),
 			'commons-cli:commons-cli:1.3.1',
 			'log4j:log4j:1.2.17',
 			'org.slf4j:slf4j-log4j12:1.7.13'

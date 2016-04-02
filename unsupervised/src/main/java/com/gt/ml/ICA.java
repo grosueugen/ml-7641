@@ -26,7 +26,7 @@ public class ICA {
 	public static void main(String[] args) {
 		if (args.length != 6) {
 			System.out
-					.println("Usage: PCA <inputFile> <numInstances> <numAttributes> <numComponents> <dataFileOuput> <commaSeparatedListOfClassLabels>");
+					.println("Usage: ICA <inputFile> <numInstances> <numAttributes> <numComponents> <dataFileOuput> <commaSeparatedListOfClassLabels>");
 			System.exit(-1);
 		}
 		String inputFile = args[0];
@@ -52,7 +52,7 @@ public class ICA {
 			DataSet original) {
 		System.out.println("===============================================");
 		System.out.println("The projection matrix");
-		System.out.println(ica.getProjection().transpose());
+		System.out.println(ica.getProjection());
 		DataSet transformed = original.copy();
 		ica.filter(transformed);
 		return transformed;

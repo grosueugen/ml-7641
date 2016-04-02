@@ -19,7 +19,8 @@ import util.linalg.Vector;
  * @author cosmin
  *
  */
-//pca.bat D:\GT\files\abagail\sat.arff 6000 36 6 pca.out 1,2,3,4,5,7
+//pca.bat sat.arff 6000 36 6 pca.out 1,2,3,4,5,7
+//pca.bat wine.abi 1000 11 0.95 pca-wine1.out 3,4,5,6,7,8,9
 public class PCA {
 
 	public static void main(String[] args) {
@@ -92,7 +93,7 @@ public class PCA {
 		for (Instance instance : instances) {
 			Vector vector = instance.getData();
 			for (int i = 0; i < vector.size(); i++) {
-				MLAssignmentUtils.writeToFile(outputFile, String.valueOf(vector.get(i)) + ",", true);
+				MLAssignmentUtils.writeToFile(outputFile, String.valueOf(vector.get(i)) + " ", true);
 			}
 			MLAssignmentUtils.writeToFile(outputFile, getLabel(instance.getLabel(),labels) + "\n", true);
 		}

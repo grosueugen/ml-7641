@@ -46,7 +46,7 @@ public class RunningTimeGraph {
 		
 		CommandLine commandLine = new DefaultParser().parse(options, args);
 		if (commandLine.hasOption("h")) {
-			new HelpFormatter().printHelp("Model Complexity Experiment", options);
+			new HelpFormatter().printHelp("Running Time Experiment", options);
 			return;
 		}
 		if (commandLine.hasOption("f")) {

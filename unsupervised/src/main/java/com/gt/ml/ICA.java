@@ -61,12 +61,15 @@ public class ICA {
 	private static DataSet reconstruct(IndependentComponentAnalysis ica,
 			DataSet transformed) {
 		DataSet reconstructed = transformed.copy();
+		ica.reverse(reconstructed);
+		return reconstructed;
+		/*DataSet reconstructed = transformed.copy();
 		Matrix reverse = ica.getProjection().transpose();
 		for (int i = 0; i < reconstructed.size(); i++) {
 			Instance instance = reconstructed.get(i);
 			instance.setData(reverse.times(instance.getData()));
 		}
-		return reconstructed;
+		return reconstructed;*/
 	}
 
 	private static void computeReconstructionError(DataSet original,

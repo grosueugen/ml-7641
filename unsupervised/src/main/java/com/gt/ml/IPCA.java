@@ -14,19 +14,19 @@ public class IPCA {
 	
 	public static void main(String[] args) {
 		if(args.length != 6) {
-			System.out.println("Usage: IPCA <inputFile> <numInstances> <numAttributes> <varianceToKeep> <dataFileOuput> <commaSeparatedListOfClassLabels>");
+			System.out.println("Usage: IPCA <inputFile> <numInstances> <numAttributes> <numComponents> <dataFileOuput> <commaSeparatedListOfClassLabels>");
 			System.exit(-1);
 		}
 		String inputFile = args[0];
 		int numInstances = Integer.valueOf(args[1]);
 		int numAttributes = Integer.valueOf(args[2]);
-		double varianceToKeep = Double.valueOf(args[3]);
+		int numComponents = Integer.valueOf(args[3]);
 		String outputFile = args[4];
 		List<String> labels = Arrays.asList(args[5].split(","));
 		Instance[] instances = MLAssignmentUtils.initializeInstances(numInstances, inputFile, numAttributes, labels);
 		DataSet original = new DataSet(instances);
 		
-		InsignificantComponentAnalysis ipca = new InsignificantComponentAnalysis(original, varianceToKeep);
+		InsignificantComponentAnalysis ipca = new InsignificantComponentAnalysis(original, numComponents);
 		DataSet transformed = run(ipca,original);
 		saveAsArff(transformed, outputFile, labels);
 		DataSet reconstructed = reconstruct(ipca, transformed);

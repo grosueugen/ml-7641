@@ -1,5 +1,53 @@
 apply plugin: 'application'
-mainClassName = "com.gt.ml.ModelComplexityExperiment"
+mainClassName = ""
+
+task modelComplexityScripts(type: CreateStartScripts) {
+    mainClassName = "com.gt.ml.ModelComplexityExperiment"
+    applicationName = "modelComplexity" 
+    outputDir = new File(project.buildDir, 'scripts')
+    classpath = jar.outputs.files + project.configurations.runtime
+}
+
+applicationDistribution.into("bin") {
+    from(modelComplexityScripts)
+    fileMode = 0755
+}
+
+task classifierScripts(type: CreateStartScripts) {
+    mainClassName = "com.gt.ml.RunClassifier"
+    applicationName = "classifier" 
+    outputDir = new File(project.buildDir, 'scripts')
+    classpath = jar.outputs.files + project.configurations.runtime
+}
+
+applicationDistribution.into("bin") {
+    from(classifierScripts)
+    fileMode = 0755
+}
+
+task learningCurveScripts(type: CreateStartScripts) {
+    mainClassName = "com.gt.ml.LearningCurveGraph"
+    applicationName = "learningCurve" 
+    outputDir = new File(project.buildDir, 'scripts')
+    classpath = jar.outputs.files + project.configurations.runtime
+}
+
+applicationDistribution.into("bin") {
+    from(learningCurveScripts)
+    fileMode = 0755
+}
+
+task runningTimeScripts(type: CreateStartScripts) {
+    mainClassName = "com.gt.ml.RunningTimeGraph"
+    applicationName = "runningTime" 
+    outputDir = new File(project.buildDir, 'scripts')
+    classpath = jar.outputs.files + project.configurations.runtime
+}
+
+applicationDistribution.into("bin") {
+    from(runningTimeScripts)
+    fileMode = 0755
+}
 
 dependencies {
 	compile 'nz.ac.waikato.cms.weka:weka-stable:3.6.13',

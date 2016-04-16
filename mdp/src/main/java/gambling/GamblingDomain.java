@@ -45,7 +45,7 @@ public class GamblingDomain implements DomainGenerator {
 		agent.addAttribute(currentIteration);
 		
 		for (int i = 1; i <= maxAmount; i++) {
-			new Bet(ACTION_BET, domain, winProb, i);
+			new Bet(ACTION_BET + "_" + i, domain, winProb, i);
 		}
 		
 		return domain;

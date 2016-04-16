@@ -22,6 +22,7 @@ public class Bet extends SimpleAction implements FullActionModel {
 	public Bet(String actionName, Domain domain, double winProb, int betAmount) {
 		super(actionName, domain);
 		this.winProb = winProb;
+		this.betAmount = betAmount;
 	}
 	
 	@Override

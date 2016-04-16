@@ -16,6 +16,7 @@ public class RunGambling {
 		int rounds = 10;
 		double winProb = 0.6;
 		int goalAmount = new ExpectedValueCalculator(initialAmount, rounds, winProb).compute();
+		System.out.println("goalAmount = " + goalAmount);
 		
 		GamblingDomain gamblingDomain = new GamblingDomain(initialAmount, rounds, winProb);
 		Domain domain = gamblingDomain.generateDomain();

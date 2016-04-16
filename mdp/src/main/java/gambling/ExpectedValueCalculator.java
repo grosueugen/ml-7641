@@ -46,7 +46,7 @@ public class ExpectedValueCalculator {
 	}
 
 	public static void main(String[] args) {
-		int res = new ExpectedValueCalculator(100, 20, 0.6).compute();
+		int res = new ExpectedValueCalculator(10, 10, 0.6).compute();
 		System.out.println(res);
 	}
 

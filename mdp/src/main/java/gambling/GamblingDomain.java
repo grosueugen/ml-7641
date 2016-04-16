@@ -2,19 +2,21 @@ package gambling;
 
 import burlap.oomdp.auxiliary.DomainGenerator;
 import burlap.oomdp.core.Attribute;
+import burlap.oomdp.core.Attribute.AttributeType;
 import burlap.oomdp.core.Domain;
 import burlap.oomdp.core.ObjectClass;
 import burlap.oomdp.core.objects.MutableObjectInstance;
 import burlap.oomdp.core.objects.ObjectInstance;
 import burlap.oomdp.core.states.MutableState;
 import burlap.oomdp.core.states.State;
-import burlap.oomdp.core.Attribute.AttributeType;
 import burlap.oomdp.singleagent.SADomain;
 import burlap.oomdp.singleagent.explorer.TerminalExplorer;
 
 public class GamblingDomain implements DomainGenerator {
 	
 	public static final String STATE_CURRENT_AMOUNT = "currentAmount";
+	public static final String STATE_CURRENT_ITERATION = "currentIteration";
+	
 	public static final String CLASS_AGENT = "agent";
 	public static final String ACTION_BET = "bet";
 	
@@ -35,9 +37,12 @@ public class GamblingDomain implements DomainGenerator {
 		int maxAmount = (int) (Math.pow(2, rounds) * initialAmount);
 		Attribute currentAmount = new Attribute(domain, STATE_CURRENT_AMOUNT, AttributeType.INT);
 		currentAmount.setLims(0, maxAmount);
+		Attribute currentIteration = new Attribute(domain, STATE_CURRENT_ITERATION, AttributeType.INT);
+		currentIteration.setLims(0, rounds);
 		
 		ObjectClass agent = new ObjectClass(domain, CLASS_AGENT);
 		agent.addAttribute(currentAmount);
+		agent.addAttribute(currentIteration);
 		
 		for (int i = 1; i <= maxAmount; i++) {
 			new Bet(ACTION_BET, domain, winProb, i);
@@ -50,6 +55,7 @@ public class GamblingDomain implements DomainGenerator {
 		State s = new MutableState();
 		ObjectInstance agent = new MutableObjectInstance(domain.getObjectClass(CLASS_AGENT), "agent0");
 		agent.setValue(STATE_CURRENT_AMOUNT, initialAmount);
+		agent.setValue(STATE_CURRENT_ITERATION, 0);
 		s.addObject(agent);
 		return s;
 	}

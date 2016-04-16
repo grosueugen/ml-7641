@@ -64,18 +64,19 @@ public class Bet extends SimpleAction implements FullActionModel {
 		ObjectInstance agent = s.getFirstObjectOfClass(CLASS_AGENT);
 		int currentAmount = agent.getIntValForAttribute(STATE_CURRENT_AMOUNT);
 		int currentIteration = agent.getIntValForAttribute(STATE_CURRENT_ITERATION);
+		int newIteration = currentIteration + 1;
 		
 		State ns1 = s.copy();
 		ObjectInstance nagent1 = ns1.getFirstObjectOfClass(CLASS_AGENT);
 		nagent1.setValue(STATE_CURRENT_AMOUNT, currentAmount+betAmount);
-		nagent1.setValue(STATE_CURRENT_ITERATION, ++currentIteration);
+		nagent1.setValue(STATE_CURRENT_ITERATION, newIteration);
 		TransitionProbability win = new TransitionProbability(ns1, winProb);
 		tp.add(win);
 
 		State ns2 = s.copy();
 		ObjectInstance nagent2 = ns2.getFirstObjectOfClass(CLASS_AGENT);
 		nagent2.setValue(STATE_CURRENT_AMOUNT, currentAmount-betAmount);
-		nagent2.setValue(STATE_CURRENT_ITERATION, ++currentIteration);
+		nagent2.setValue(STATE_CURRENT_ITERATION, newIteration);
 		TransitionProbability lose = new TransitionProbability(ns2, (1-winProb));
 		tp.add(lose);
 		return tp;

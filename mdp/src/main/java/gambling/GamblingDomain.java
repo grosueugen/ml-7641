@@ -53,7 +53,7 @@ public class GamblingDomain implements DomainGenerator {
 	
 	public State createInitialState(Domain domain) {
 		State s = new MutableState();
-		ObjectInstance agent = new MutableObjectInstance(domain.getObjectClass(CLASS_AGENT), "agent0");
+		ObjectInstance agent = new MutableObjectInstance(domain.getObjectClass(CLASS_AGENT), "agentx0");
 		agent.setValue(STATE_CURRENT_AMOUNT, initialAmount);
 		agent.setValue(STATE_CURRENT_ITERATION, 0);
 		s.addObject(agent);

@@ -1,0 +1,18 @@
+!!burlap.behavior.singleagent.EpisodeAnalysis
+actionSequence: [!action 'bet']
+rewardSequence: [-100.0]
+stateSequence:
+- !!burlap.oomdp.stateserialization.simple.SimpleSerializableState
+  objects:
+  - name: agentx0
+    object_class: agent
+    values:
+    - {attribute: currentAmount, value: '100'}
+    - {attribute: currentIteration, value: '0'}
+- !!burlap.oomdp.stateserialization.simple.SimpleSerializableState
+  objects:
+  - name: agentx0
+    object_class: agent
+    values:
+    - {attribute: currentAmount, value: '100'}
+    - {attribute: currentIteration, value: '1'}

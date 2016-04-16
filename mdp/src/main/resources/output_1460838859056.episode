@@ -1,0 +1,82 @@
+!!burlap.behavior.singleagent.EpisodeAnalysis
+actionSequence: [!action 'bet', !action 'bet', !action 'bet', !action 'bet', !action 'bet',
+  !action 'bet', !action 'bet', !action 'bet', !action 'bet', !action 'bet']
+rewardSequence: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 100.0]
+stateSequence:
+- !!burlap.oomdp.stateserialization.simple.SimpleSerializableState
+  objects:
+  - name: agentx0
+    object_class: agent
+    values:
+    - {attribute: currentAmount, value: '10'}
+    - {attribute: currentIteration, value: '0'}
+- !!burlap.oomdp.stateserialization.simple.SimpleSerializableState
+  objects:
+  - name: agentx0
+    object_class: agent
+    values:
+    - {attribute: currentAmount, value: '10'}
+    - {attribute: currentIteration, value: '1'}
+- !!burlap.oomdp.stateserialization.simple.SimpleSerializableState
+  objects:
+  - name: agentx0
+    object_class: agent
+    values:
+    - {attribute: currentAmount, value: '10'}
+    - {attribute: currentIteration, value: '2'}
+- !!burlap.oomdp.stateserialization.simple.SimpleSerializableState
+  objects:
+  - name: agentx0
+    object_class: agent
+    values:
+    - {attribute: currentAmount, value: '10'}
+    - {attribute: currentIteration, value: '3'}
+- !!burlap.oomdp.stateserialization.simple.SimpleSerializableState
+  objects:
+  - name: agentx0
+    object_class: agent
+    values:
+    - {attribute: currentAmount, value: '10'}
+    - {attribute: currentIteration, value: '4'}
+- !!burlap.oomdp.stateserialization.simple.SimpleSerializableState
+  objects:
+  - name: agentx0
+    object_class: agent
+    values:
+    - {attribute: currentAmount, value: '10'}
+    - {attribute: currentIteration, value: '5'}
+- !!burlap.oomdp.stateserialization.simple.SimpleSerializableState
+  objects:
+  - name: agentx0
+    object_class: agent
+    values:
+    - {attribute: currentAmount, value: '10'}
+    - {attribute: currentIteration, value: '6'}
+- !!burlap.oomdp.stateserialization.simple.SimpleSerializableState
+  objects:
+  - name: agentx0
+    object_class: agent
+    values:
+    - {attribute: currentAmount, value: '10'}
+    - {attribute: currentIteration, value: '7'}
+- !!burlap.oomdp.stateserialization.simple.SimpleSerializableState
+  objects:
+  - name: agentx0
+    object_class: agent
+    values:
+    - {attribute: currentAmount, value: '10'}
+    - {attribute: currentIteration, value: '8'}
+- !!burlap.oomdp.stateserialization.simple.SimpleSerializableState
+  objects:
+  - name: agentx0
+    object_class: agent
+    values:
+    - {attribute: currentAmount, value: '10'}
+    - {attribute: currentIteration, value: '9'}
+- !!burlap.oomdp.stateserialization.simple.SimpleSerializableState
+  objects:
+  - name: agentx0
+    object_class: agent
+    values:
+    - {attribute: currentAmount, value: '10'}
+    - {attribute: currentIteration, value: '10'}

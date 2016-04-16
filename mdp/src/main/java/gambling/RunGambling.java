@@ -12,7 +12,7 @@ import burlap.oomdp.statehashing.SimpleHashableStateFactory;
 public class RunGambling {
 	
 	public static void main(String[] args) {
-		int initialAmount = 100;
+		int initialAmount = 10;
 		int rounds = 10;
 		double winProb = 0.6;
 		int goalAmount = new ExpectedValueCalculator(initialAmount, rounds, winProb).compute();
@@ -24,7 +24,8 @@ public class RunGambling {
 		GamblingTerminalState terminalState = new GamblingTerminalState(rounds);
 		
 		HashableStateFactory hashingFactory = new SimpleHashableStateFactory();
-		Planner planner = new ValueIteration(domain, reward, terminalState, 0.99, hashingFactory, 5, 100);
+		ValueIteration planner = new ValueIteration(domain, reward, terminalState, 0.99, hashingFactory, 1, 100);
+		planner.toggleReachabiltiyTerminalStatePruning(true);
 		Policy policy = planner.planFromState(initialState);
 		EpisodeAnalysis episodeAnalysis = policy.evaluateBehavior(initialState, reward, terminalState);
 		String output = "D:\\projects\\ml-7641\\mdp\\src\\main\\resources\\output_" + System.currentTimeMillis();

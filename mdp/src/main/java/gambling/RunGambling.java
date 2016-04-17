@@ -2,7 +2,6 @@ package gambling;
 
 import burlap.behavior.policy.Policy;
 import burlap.behavior.singleagent.EpisodeAnalysis;
-import burlap.behavior.singleagent.planning.Planner;
 import burlap.behavior.singleagent.planning.stochastic.valueiteration.ValueIteration;
 import burlap.oomdp.core.Domain;
 import burlap.oomdp.core.states.State;
@@ -12,8 +11,8 @@ import burlap.oomdp.statehashing.SimpleHashableStateFactory;
 public class RunGambling {
 	
 	public static void main(String[] args) {
-		int initialAmount = 10;
-		int rounds = 10;
+		int initialAmount = 50;
+		int rounds = 5;
 		double winProb = 0.6;
 		int goalAmount = new ExpectedValueCalculator(initialAmount, rounds, winProb).compute();
 		System.out.println("goalAmount = " + goalAmount);
@@ -29,7 +28,7 @@ public class RunGambling {
 		planner.toggleReachabiltiyTerminalStatePruning(true);
 		Policy policy = planner.planFromState(initialState);
 		EpisodeAnalysis episodeAnalysis = policy.evaluateBehavior(initialState, reward, terminalState);
-		String output = "D:\\projects\\ml-7641\\mdp\\src\\main\\resources\\output_" + System.currentTimeMillis();
+		String output = "C:\\Users\\Eugen\\Desktop\\mdp\\output_" + System.currentTimeMillis();
 		episodeAnalysis.writeToFile(output);
 	}
 

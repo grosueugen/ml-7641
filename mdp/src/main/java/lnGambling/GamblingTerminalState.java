@@ -1,6 +1,6 @@
-package gambling;
+package lnGambling;
 
-import static gambling.GamblingDomain.*;
+import static lnGambling.GamblingDomain.*;
 
 import burlap.oomdp.core.TerminalFunction;
 import burlap.oomdp.core.objects.ObjectInstance;
@@ -18,7 +18,8 @@ public class GamblingTerminalState implements TerminalFunction {
 	public boolean isTerminal(State s) {
 		ObjectInstance agent = s.getFirstObjectOfClass(CLASS_AGENT);
 		int currentIteration = agent.getIntValForAttribute(STATE_CURRENT_ITERATION);
-		return (rounds == currentIteration);
+		int currentAmount = agent.getIntValForAttribute(STATE_CURRENT_AMOUNT);
+		return (rounds == currentIteration || currentAmount <= 0);
 	}
 
 }

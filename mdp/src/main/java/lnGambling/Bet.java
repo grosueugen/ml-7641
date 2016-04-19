@@ -1,7 +1,6 @@
-package gambling;
+package lnGambling;
 
-import static gambling.GamblingDomain.*;
-import static gambling.GamblingDomain.STATE_CURRENT_AMOUNT;
+import static lnGambling.GamblingDomain.*;
 
 import java.util.ArrayList;
 import java.util.List;

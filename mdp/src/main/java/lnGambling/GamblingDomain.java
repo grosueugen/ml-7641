@@ -1,4 +1,4 @@
-package gambling;
+package lnGambling;
 
 import burlap.oomdp.auxiliary.DomainGenerator;
 import burlap.oomdp.core.Attribute;

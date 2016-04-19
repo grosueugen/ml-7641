@@ -1,4 +1,4 @@
-package gambling;
+package lnGambling;
 
 import java.util.Random;
 

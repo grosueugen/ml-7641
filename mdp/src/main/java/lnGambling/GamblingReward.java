@@ -1,6 +1,6 @@
-package gambling;
+package lnGambling;
 
-import static gambling.GamblingDomain.*;
+import static lnGambling.GamblingDomain.*;
 
 import burlap.oomdp.core.objects.ObjectInstance;
 import burlap.oomdp.core.states.State;

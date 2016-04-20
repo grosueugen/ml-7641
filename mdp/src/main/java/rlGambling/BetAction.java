@@ -42,10 +42,8 @@ public class BetAction extends SimpleAction implements FullActionModel {
 	protected State performActionHelper(State s, GroundedAction groundedAction) {
 		ObjectInstance agent = s.getFirstObjectOfClass(CLASS_AGENT);
 		int currentAmount = agent.getIntValForAttribute(STATE_CURRENT_AMOUNT);
-		int currentIteration = agent.getIntValForAttribute(STATE_CURRENT_ITERATION);
 		int newAmount = playOneRound(currentAmount);
 		agent.setValue(STATE_CURRENT_AMOUNT, newAmount);
-		agent.setValue(STATE_CURRENT_ITERATION, ++currentIteration);
 		return s;
 	}
 	
@@ -70,20 +68,16 @@ public class BetAction extends SimpleAction implements FullActionModel {
 		List<TransitionProbability> tp = new ArrayList<>();
 		ObjectInstance agent = s.getFirstObjectOfClass(CLASS_AGENT);
 		int currentAmount = agent.getIntValForAttribute(STATE_CURRENT_AMOUNT);
-		int currentIteration = agent.getIntValForAttribute(STATE_CURRENT_ITERATION);
-		int newIteration = currentIteration + 1;
 		
 		State ns1 = s.copy();
 		ObjectInstance nagent1 = ns1.getFirstObjectOfClass(CLASS_AGENT);
 		nagent1.setValue(STATE_CURRENT_AMOUNT, currentAmount+betAmount);
-		nagent1.setValue(STATE_CURRENT_ITERATION, newIteration);
 		TransitionProbability win = new TransitionProbability(ns1, winProb);
 		tp.add(win);
 
 		State ns2 = s.copy();
 		ObjectInstance nagent2 = ns2.getFirstObjectOfClass(CLASS_AGENT);
 		nagent2.setValue(STATE_CURRENT_AMOUNT, currentAmount-betAmount);
-		nagent2.setValue(STATE_CURRENT_ITERATION, newIteration);
 		TransitionProbability lose = new TransitionProbability(ns2, (1-winProb));
 		tp.add(lose);
 		return tp;

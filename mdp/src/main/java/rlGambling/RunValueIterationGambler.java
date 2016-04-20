@@ -1,4 +1,4 @@
-package lnGambling;
+package rlGambling;
 
 import burlap.behavior.policy.Policy;
 import burlap.behavior.singleagent.EpisodeAnalysis;
@@ -8,28 +8,21 @@ import burlap.oomdp.core.states.State;
 import burlap.oomdp.statehashing.HashableStateFactory;
 import burlap.oomdp.statehashing.SimpleHashableStateFactory;
 
-public class RunValueIterationGambling {
+public class RunValueIterationGambler {
 	
 	public static void main(String[] args) {
-		int initialAmount = 50;
-		int rounds = 3;
-		double winProb = 0.6;
-		int goalAmount = new ExpectedValueCalculator(initialAmount, rounds, winProb).compute();
-		goalAmount += 50;
-		System.out.println("goalAmount = " + goalAmount);
-		
-		GamblingDomain gamblingDomain = new GamblingDomain(initialAmount, rounds, winProb);
-		Domain domain = gamblingDomain.generateDomain();
-		State initialState = gamblingDomain.createInitialState(domain);
-		GamblingReward reward = new GamblingReward(rounds, goalAmount);
-		GamblingTerminalState terminalState = new GamblingTerminalState(rounds);
+		GamblerDomain gamblerDomain = new GamblerDomain(10, 0.1);
+		Domain domain = gamblerDomain.generateDomain();
+		State initialState = gamblerDomain.createInitialState(domain);
+		GamblerReward reward = new GamblerReward();
+		GamblerTerminalState terminalState = new GamblerTerminalState();
 		HashableStateFactory hashingFactory = new SimpleHashableStateFactory();
-
+		
 		ValueIteration planner = new ValueIteration(domain, reward, terminalState, 0.99, hashingFactory, 0.1, 100);
 		planner.toggleReachabiltiyTerminalStatePruning(true);
 		Policy policy = planner.planFromState(initialState);
 		EpisodeAnalysis episodeAnalysis = policy.evaluateBehavior(initialState, reward, terminalState);
-		String output = "C:\\Users\\Eugen\\Desktop\\mdp\\vi_output_" + System.currentTimeMillis();
+		String output = "C:\\Users\\Eugen\\Desktop\\mdp\\gambler_vi_output_" + System.currentTimeMillis();
 		System.out.println("writing to file: " + output);
 		episodeAnalysis.writeToFile(output);
 	}

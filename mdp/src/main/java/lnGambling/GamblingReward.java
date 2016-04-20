@@ -30,11 +30,7 @@ public class GamblingReward implements RewardFunction {
 		int currentIteration = agent.getIntValForAttribute(STATE_CURRENT_ITERATION);
 		int currentAmount = agent.getIntValForAttribute(STATE_CURRENT_AMOUNT);
 		if (currentIteration == rounds) {
-			if (currentAmount >= goalAmount) {
-				return 100;
-			} else {
-				return -100;
-			}
+			return currentAmount;
 		}
 		return 0;
 	}

@@ -22,7 +22,7 @@ public class RunQLearningGambler {
 		GamblerReward reward = new GamblerReward();
 		GamblerTerminalState terminalState = new GamblerTerminalState();
 		HashableStateFactory hashingFactory = new SimpleHashableStateFactory();
-		LearningAgent q = new QLearning(domain, 1, hashingFactory, 0, 1);
+		QLearning q = new QLearning(domain, 1, hashingFactory, 0, 1);
 		
 		int nrEpisodes = 50;
 		

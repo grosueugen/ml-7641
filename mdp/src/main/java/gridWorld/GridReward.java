@@ -11,7 +11,7 @@ public class GridReward implements RewardFunction {
 	
 	private GridWorldDomain domain;
 	
-	private GridReward(GridWorldDomain domain) {
+	public GridReward(GridWorldDomain domain) {
 		this.domain = domain;
 	}
 	

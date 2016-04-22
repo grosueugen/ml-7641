@@ -1,10 +1,21 @@
 package gridWorld;
 
+import java.util.List;
+
+import burlap.behavior.policy.Policy;
+import burlap.behavior.singleagent.auxiliary.valuefunctionvis.ValueFunctionVisualizerGUI;
+import burlap.behavior.valuefunction.ValueFunction;
 import burlap.oomdp.auxiliary.DomainGenerator;
 import burlap.oomdp.core.Attribute;
 import burlap.oomdp.core.Domain;
 import burlap.oomdp.core.ObjectClass;
+import burlap.oomdp.core.objects.MutableObjectInstance;
+import burlap.oomdp.core.objects.ObjectInstance;
+import burlap.oomdp.core.states.MutableState;
+import burlap.oomdp.core.states.State;
 import burlap.oomdp.singleagent.SADomain;
+import burlap.oomdp.singleagent.environment.SimulatedEnvironment;
+import burlap.oomdp.singleagent.explorer.VisualExplorer;
 import burlap.oomdp.visualizer.StateRenderLayer;
 import burlap.oomdp.visualizer.Visualizer;
 
@@ -19,12 +30,6 @@ public class GridWorldDomain implements DomainGenerator {
 	public static final String ACTIONSOUTH = "south";
 	public static final String ACTIONEAST = "east";
 	public static final String ACTIONWEST = "west";
-	
-	protected int[][] map2 = new int[][]{
-		{0,0,0,0},
-		{0,1,0,0},
-		{0,0,0,0}
-	};
 	
 	protected final Position[][] map;
 	{
@@ -105,10 +110,56 @@ public class GridWorldDomain implements DomainGenerator {
 		return map[x][y];
 	}
 	
+	public State getInitialState(){
+		State s = new MutableState();
+		ObjectInstance agent = new MutableObjectInstance(domain.getObjectClass(CLASSAGENT), "agent-grid-0");
+		agent.setValue(ATTX, 0);
+		agent.setValue(ATTY, 0);
+		s.addObject(agent);
+		return s;
+	}
+	
+	/**
+	 * Creates and returns a {@link burlap.behavior.singleagent.auxiliary.valuefunctionvis.ValueFunctionVisualizerGUI}
+	 * object for a grid world. The value of states
+	 * will be represented by colored cells from red (lowest value) to blue (highest value). North-south-east-west
+	 * actions will be rendered with arrows using {@link burlap.behavior.singleagent.auxiliary.valuefunctionvis.common.ArrowActionGlyph}
+	 * objects. The GUI will not be launched by default; call the
+	 * {@link burlap.behavior.singleagent.auxiliary.valuefunctionvis.ValueFunctionVisualizerGUI#initGUI()}
+	 * on the returned object to start it.
+	 * @param states the states whose value should be rendered.
+	 * @param valueFunction the value Function that can return the state values.
+	 * @param p the policy to render
+	 * @return a gridworld-based {@link burlap.behavior.singleagent.auxiliary.valuefunctionvis.ValueFunctionVisualizerGUI} object.
+	 */
+	public static ValueFunctionVisualizerGUI getGridWorldValueFunctionVisualization(List <State> states, ValueFunction valueFunction, Policy p){
+		return ValueFunctionVisualizerGUI.createGridWorldBasedValueFunctionVisualizerGUI(states, valueFunction, p,
+				CLASSAGENT, ATTX, ATTY,
+				ACTIONNORTH, ACTIONSOUTH, ACTIONEAST, ACTIONWEST);
+	}
+	
 	public static void main(String[] args) {
 		GridWorldDomain gridWorld = new GridWorldDomain();
 		Domain domain = gridWorld.generateDomain();
+		State initialState = gridWorld.getInitialState();
 		
+		GridReward reward = new GridReward(gridWorld);
+		GridTerminalState terminalState = new GridTerminalState(gridWorld);
+		
+		SimulatedEnvironment env = new SimulatedEnvironment(domain, reward, terminalState, initialState);
+
+		//TerminalExplorer exp = new TerminalExplorer(domain, env);
+		//exp.explore();
+
+		Visualizer v = gridWorld.getVisualizer();
+		VisualExplorer exp = new VisualExplorer(domain, env, v);
+
+		exp.addKeyAction("w", ACTIONNORTH);
+		exp.addKeyAction("s", ACTIONSOUTH);
+		exp.addKeyAction("d", ACTIONEAST);
+		exp.addKeyAction("a", ACTIONWEST);
+
+		exp.initGUI();
 	}
 
 }

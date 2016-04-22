@@ -26,15 +26,40 @@ public class GridWorldDomain implements DomainGenerator {
 		{0,0,0,0}
 	};
 	
-	protected Position[][] map = new Position[][] {
-		
-		{new Position(0,0), new Position(0,1), new Position(0,2), new Position(0,3, new Position(0,0))},
-		{new Position(1,0), new Position(1,1).setWall(true), new Position(1,2), new Position(1,3).setEnd(true)},
-		{new Position(2,0)}
-	};
+	protected final Position[][] map;
 	{
+		// first column
 		Position p00 = new Position(0,0);
+		Position p01 = new Position(0,1);
+		Position p02 = new Position(0,2);
 		
+		// second column
+		Position p10 = new Position(1,0);
+		Position p11 = new Position(1,1);
+		Position p12 = new Position(1,2);
+				
+		// third column
+		Position p20 = new Position(2,0);
+		Position p21 = new Position(2,1);
+		Position p22 = new Position(2,2);
+		
+		// fourth column
+		Position p30 = new Position(3,0);
+		Position p31 = new Position(3,1);
+		Position p32 = new Position(3,2);	
+		
+		//walls, jumps etc
+		p11.setWall(true);
+		p30.setJump(p00);
+		p32.setJump(p01);
+		p31.setEnd(true);
+		
+		map = new Position[][] {
+			{p00, p01, p02},
+			{p10, p11, p12},
+			{p20, p21, p22},
+			{p30, p31, p32}
+		};
 	}
 	
 	private SADomain domain; 
@@ -77,8 +102,13 @@ public class GridWorldDomain implements DomainGenerator {
 	}
 
 	public Position getPosition(int x, int y) {
-		// TODO Auto-generated method stub
-		return null;
+		return map[x][y];
+	}
+	
+	public static void main(String[] args) {
+		GridWorldDomain gridWorld = new GridWorldDomain();
+		Domain domain = gridWorld.generateDomain();
+		
 	}
 
 }

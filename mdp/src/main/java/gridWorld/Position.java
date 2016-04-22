@@ -42,6 +42,9 @@ public class Position implements Serializable {
 	public Position getJump() {
 		return jumpPosition;
 	}
+	public void setJump(Position jumpPosition) {
+		this.jumpPosition = jumpPosition;
+	}
 	
 	public boolean isEnd() {
 		return end;
@@ -92,5 +95,5 @@ public class Position implements Serializable {
 		if (isEnd()) sb.append(", end");
 		return sb.toString();
 	}
-
+	
 }

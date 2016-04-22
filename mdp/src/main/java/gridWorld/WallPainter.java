@@ -36,7 +36,7 @@ public class WallPainter implements StaticPainter {
 			for(int j = 0; j < domain.map[0].length; j++){
 
 				//is there a wall here?
-				if(domain.map[i][j] == 1){
+				if(domain.map[i][j].isWall()){
 
 					//left coordinate of cell on our canvas
 					float rx = i*width;

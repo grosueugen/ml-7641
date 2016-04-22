@@ -1,11 +1,12 @@
 package gridWorld;
 
-import static gridWorld.GridWorldDomain.*;
+import static gridWorld.GridWorldDomain.ATTX;
+import static gridWorld.GridWorldDomain.ATTY;
+import static gridWorld.GridWorldDomain.CLASSAGENT;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import burlap.oomdp.core.Domain;
 import burlap.oomdp.core.TransitionProbability;
 import burlap.oomdp.core.objects.ObjectInstance;
 import burlap.oomdp.core.states.State;
@@ -18,13 +19,11 @@ public class Movement extends SimpleAction implements FullActionModel {
 	//0: north; 1: south; 2:east; 3: west
 	protected double [] directionProbs = new double[4];
 	
-	private int[][] map;
-	
 	private GridWorldDomain gwDomain;
 
 	public Movement(String actionName, GridWorldDomain gwDomain, int direction){
 		super(actionName, gwDomain.getDomain());
-		this.map = gwDomain.map;
+		this.gwDomain = gwDomain;
 		for(int i = 0; i < 4; i++){
 			if(i == direction){
 				directionProbs[i] = 0.8;
@@ -136,16 +135,15 @@ public class Movement extends SimpleAction implements FullActionModel {
 		int nx = curX + xdelta;
 		int ny = curY + ydelta;
 
-		int width = map.length;
-		int height = map[0].length;
+		int width = gwDomain.map.length;
+		int height = gwDomain.map[0].length;
 
 		//make sure new position is valid (not a wall or off bounds)
 		if(nx < 0 || nx >= width || ny < 0 || ny >= height ||
-				map[nx][ny] == 1){
+				gwDomain.map[nx][ny].isWall()) {
 			nx = curX;
 			ny = curY;
 		}
-
 
 		return new int[]{nx,ny};
 

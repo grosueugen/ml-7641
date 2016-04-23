@@ -94,6 +94,8 @@ public class RunGridWorld {
 		gui.setBgColor(Color.GRAY);
 
 		//start it
+		gui.setWidth(350);
+		gui.setHeight(250);
 		gui.initGUI();
 	}
 	
@@ -105,30 +107,26 @@ public class RunGridWorld {
 
 	}
 	
-	public void runValueIteration(String outputPath){
-		ValueIteration planner = new ValueIteration(domain, reward, terminalState, 0.99, hashingFactory, 0.001, 100);
-		Policy p = planner.planFromState(initialState);
+	public void runPolicyIteration(String outputPath) {
+		PolicyIteration pi = new PolicyIteration(domain, reward, terminalState, 0.99, hashingFactory, 0.001, 1000, 100);
+		Policy p = pi.planFromState(initialState);
+		String path = outputPath + "pi_" + (System.currentTimeMillis()%100);
+		System.out.println("pi: writing to path: " + path);
 		p.evaluateBehavior(initialState, reward, terminalState).writeToFile(
-				outputPath + "vi_" + (System.currentTimeMillis()%100));
+				path);
+		manualValueFunctionVis(pi, p);
+	}
+	
+	public void runValueIteration(String outputPath){
+		ValueIteration planner = new ValueIteration(domain, reward, terminalState, 0.99, hashingFactory, 0.001, 2);
+		Policy p = planner.planFromState(initialState);
+		String path = outputPath + "vi_" + (System.currentTimeMillis()%100);
+		System.out.println("vi: writing to path: " + path);
+		p.evaluateBehavior(initialState, reward, terminalState).writeToFile(
+				path);
 
 		//simpleValueFunctionVis((ValueFunction)planner, p);
 		manualValueFunctionVis((ValueFunction)planner, p);
-	}
-	
-	public void runQLearning2(String outputPath) {
-		LearningAgent agent = new QLearning(domain, 0.99, hashingFactory, 0., 1.);
-		//run learning for 50 episodes
-		for(int i = 0; i < 50; i++){
-			EpisodeAnalysis ea = agent.runLearningEpisode(env);
-
-			ea.writeToFile(outputPath + "ql_" + i);
-			System.out.println(i + ": " + ea.maxTimeStep());
-
-			//reset environment for next learning episode
-			env.resetEnvironment();
-		}
-
-		simpleValueFunctionVis((ValueFunction)agent, new GreedyQPolicy((QFunction)agent));
 	}
 	
 	public void runQLearning(String outputPath) {
@@ -137,21 +135,15 @@ public class RunGridWorld {
 		agent.setTf(terminalState);
 		agent.setMaximumEpisodesForPlanning(50);
 		GreedyQPolicy p = agent.planFromState(initialState);
+		String path = outputPath + "ql_" + (System.currentTimeMillis()%100);
+		System.out.println("ql: writing to path: " + path);
 		p.evaluateBehavior(initialState, reward, terminalState).writeToFile(
-				outputPath + "ql_" + (System.currentTimeMillis()%100));
+				path);
 		simpleValueFunctionVis(agent, p);
 		int nrEpisodes = agent.getIterations();
 		System.out.println("nrEpisodes: " + nrEpisodes);
 	}
 	
-	public void runPolicyIteration(String outputPath) {
-		Planner planner = new PolicyIteration(domain, reward, terminalState, 0.99, hashingFactory, 0.001, 100, 100);
-		Policy p = planner.planFromState(initialState);
-		p.evaluateBehavior(initialState, reward, terminalState).writeToFile(
-				outputPath + "pi_" + (System.currentTimeMillis()%100));
-		manualValueFunctionVis((ValueFunction)planner, p);
-	}
-
 	//todo: to run QL with different nr of iterations
 	public static void main(String[] args) {
 		RunGridWorld rgw = new RunGridWorld();

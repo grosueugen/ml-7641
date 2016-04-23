@@ -11,11 +11,17 @@ import burlap.oomdp.statehashing.SimpleHashableStateFactory;
 public class RunPolicyIterationGambler {
 	
 	public static void main(String[] args) {
-		GamblerDomain gamblerDomain = new GamblerDomain(51, 0.5);
+		if (args.length != 3) 
+			throw new IllegalArgumentException("3 params are required: max amount, initial amount, win probability");
+		int maxAmount = Integer.parseInt(args[0]);
+		int initialAmount = Integer.parseInt(args[1]);
+		double winProb = Double.parseDouble(args[2]);
+		
+		GamblerDomain gamblerDomain = new GamblerDomain(maxAmount, initialAmount, winProb);
 		Domain domain = gamblerDomain.generateDomain();
 		State initialState = gamblerDomain.createInitialState(domain);
-		GamblerReward reward = new GamblerReward();
-		GamblerTerminalState terminalState = new GamblerTerminalState();
+		GamblerReward reward = new GamblerReward(maxAmount);
+		GamblerTerminalState terminalState = new GamblerTerminalState(maxAmount);
 		HashableStateFactory hashingFactory = new SimpleHashableStateFactory();
 		
 		PolicyIteration planner = new PolicyIteration(domain, reward, terminalState, 1, hashingFactory, 1, 100, 100);

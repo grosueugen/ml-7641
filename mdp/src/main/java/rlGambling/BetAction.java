@@ -17,11 +17,13 @@ public class BetAction extends SimpleAction implements FullActionModel {
 
 	private double winProb;
 	private int betAmount;
+	private int maxAmount;
 	
-	public BetAction(String actionName, Domain domain, double winProb, int betAmount) {
+	public BetAction(String actionName, Domain domain, double winProb, int betAmount, int maxAmount) {
 		super(actionName, domain);
 		this.winProb = winProb;
 		this.betAmount = betAmount;
+		this.maxAmount = maxAmount;
 	}
 	
 	@Override
@@ -29,12 +31,12 @@ public class BetAction extends SimpleAction implements FullActionModel {
 		ObjectInstance agent = s.getFirstObjectOfClass(CLASS_AGENT);
 		int currentAmount = agent.getIntValForAttribute(STATE_CURRENT_AMOUNT);
 		if (currentAmount == 0) throw new IllegalStateException("current amount = 0! end game!");
-		if (currentAmount <= MAX_AMOUNT/2) {
+		if (currentAmount <= maxAmount/2) {
 			// currentAmount = 30
 			return (betAmount <= currentAmount);
 		} else {
 			//currentAmount = 70 -> max bet allowed=30
-			return (betAmount <= (MAX_AMOUNT - currentAmount));
+			return (betAmount <= (maxAmount - currentAmount));
 		}
 	}
 	

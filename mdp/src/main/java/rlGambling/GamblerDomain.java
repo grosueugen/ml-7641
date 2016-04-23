@@ -18,16 +18,16 @@ public class GamblerDomain implements DomainGenerator {
 	public static final String CLASS_AGENT = "agent";
 	public static final String ACTION_BET = "bet";
 	
-	public static final int MAX_AMOUNT = 100;
+	private final int maxAmount;
+	private final int initialAmount;
+	private final double winProb;
 	
-	private int initialAmount;
-	private double winProb;
-	
-	public GamblerDomain(int initialAmount, double winProb) {
-		if (initialAmount < 1 || initialAmount > MAX_AMOUNT) 
-			throw new RuntimeException("initial amount must be within $1 and $99");
+	public GamblerDomain(int maxAmount, int initialAmount, double winProb) {
+		if (initialAmount < 1 || initialAmount > maxAmount) 
+			throw new RuntimeException("initial amount must be > 1 and can not exceed max amount!");
 		if (winProb < 0 || winProb > 1)
 			throw new RuntimeException("probability must be within 0 and 1");
+		this.maxAmount = maxAmount;
 		this.initialAmount = initialAmount;
 		this.winProb = winProb;
 	}
@@ -36,13 +36,13 @@ public class GamblerDomain implements DomainGenerator {
 	public Domain generateDomain() {
 		Domain domain = new SADomain();
 		Attribute currentAmount = new Attribute(domain, STATE_CURRENT_AMOUNT, AttributeType.INT);
-		currentAmount.setLims(0, MAX_AMOUNT);
+		currentAmount.setLims(0, maxAmount);
 		
 		ObjectClass agent = new ObjectClass(domain, CLASS_AGENT);
 		agent.addAttribute(currentAmount);
 		
-		for (int i = 1; i <= MAX_AMOUNT/2; i++) {
-			new BetAction(ACTION_BET + "_" + i, domain, winProb, i);
+		for (int i = 1; i <= maxAmount/2; i++) {
+			new BetAction(ACTION_BET + "_" + i, domain, winProb, i, maxAmount);
 		}
 		
 		return domain;
@@ -54,5 +54,15 @@ public class GamblerDomain implements DomainGenerator {
 		agent.setValue(STATE_CURRENT_AMOUNT, initialAmount);
 		s.addObject(agent);
 		return s;
+	}
+	
+	public int getMaxAmount() {
+		return maxAmount;
+	}
+	public int getInitialAmount() {
+		return initialAmount;
+	}
+	public double getWinProb() {
+		return winProb;
 	}
 }

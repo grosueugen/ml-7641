@@ -13,6 +13,18 @@ applicationDistribution.into("bin") {
     fileMode = 0755
 }
 
+task gridWorld(type: CreateStartScripts) {
+    mainClassName = "gridWorld.RunGridWorld"
+    applicationName = "gridWorld" 
+    outputDir = new File(project.buildDir, 'scripts')
+    classpath = jar.outputs.files + project.configurations.runtime
+}
+
+applicationDistribution.into("bin") {
+    from(gridWorld)
+    fileMode = 0755
+}
+
 dependencies {
 	compile 'commons-cli:commons-cli:1.3.1',
 			fileTree(dir: 'local_libs', include: ['*.jar']),

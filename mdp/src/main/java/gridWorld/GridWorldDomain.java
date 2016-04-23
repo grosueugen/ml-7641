@@ -56,7 +56,7 @@ public class GridWorldDomain implements DomainGenerator {
 		//walls, jumps etc
 		p11.setWall(true);
 		p30.setJump(p00);
-		p32.setJump(p01);
+		p32.setJump(p00);
 		p31.setEnd(true);
 		
 		map = new Position[][] {
@@ -152,7 +152,7 @@ public class GridWorldDomain implements DomainGenerator {
 		//exp.explore();
 
 		Visualizer v = gridWorld.getVisualizer();
-		VisualExplorer exp = new VisualExplorer(domain, env, v);
+		VisualExplorer exp = new VisualExplorer(domain, env, v, 300, 300);
 
 		exp.addKeyAction("w", ACTIONNORTH);
 		exp.addKeyAction("s", ACTIONSOUTH);

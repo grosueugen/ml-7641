@@ -27,7 +27,7 @@ public class GamblerPolicyIteration {
 	private int startInitialAmount;
 	private double winProb;
 	
-	private int iterations;
+	private int nrRepeats;
 	
 	private int stepSize;
 	private int stepIterations;
@@ -38,20 +38,20 @@ public class GamblerPolicyIteration {
 		this.winProb = winProb;
 	}
 	
-	public void setRunParameters(int stepSize, int stepIterations, int iterations) {
+	public void setRunParameters(int stepSize, int stepIterations, int nrRepeats) {
 		this.stepSize = stepSize;
 		this.stepIterations = stepIterations;
-		this.iterations = iterations;
+		this.nrRepeats = nrRepeats;
 	}
 	
 	public PolicyIterationResults execute() {
-		PolicyIterationResults res = new PolicyIterationResults(iterations);
+		PolicyIterationResults res = new PolicyIterationResults(nrRepeats);
 		int maxAmount = startMaxAmount;
 		int initialAmount = startInitialAmount;
 		int divBy = maxAmount/initialAmount;
 		
 		for (int i = 1; i <= stepIterations; i++) {
-			for (int j = 1; j <= iterations; j++) {
+			for (int j = 1; j <= nrRepeats; j++) {
 				PolicyIterationInput input = new PolicyIterationInput(maxAmount, initialAmount, winProb);
 				PolicyIterationOutput output = executeInternal(input);
 				res.add(input, output);

@@ -94,6 +94,9 @@ public class RunGambler {
 			SimpleGroundedAction simpleAction = (SimpleGroundedAction) action;
 			BetAction betAction = (BetAction) simpleAction.action;
 			System.out.println(currentAmount + " - " + betAction.getBetAmount());
+			
+			double value = planner.value(s);
+			System.out.println(currentAmount + "-" + value);
 		}
 		
 		System.out.println("writing to file: " + outputPath);

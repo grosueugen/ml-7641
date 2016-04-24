@@ -1,4 +1,4 @@
-package rlGambling;
+package rlGambling.pi;
 
 import burlap.behavior.policy.Policy;
 import burlap.behavior.singleagent.EpisodeAnalysis;
@@ -7,6 +7,9 @@ import burlap.oomdp.core.Domain;
 import burlap.oomdp.core.states.State;
 import burlap.oomdp.statehashing.HashableStateFactory;
 import burlap.oomdp.statehashing.SimpleHashableStateFactory;
+import rlGambling.GamblerDomain;
+import rlGambling.GamblerReward;
+import rlGambling.GamblerTerminalState;
 
 public class RunPolicyIterationGambler {
 	

@@ -86,4 +86,8 @@ public class BetAction extends SimpleAction implements FullActionModel {
 		return tp;
 	}
 	
+	public int getBetAmount() {
+		return betAmount;
+	}
+	
 }

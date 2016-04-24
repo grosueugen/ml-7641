@@ -1,13 +1,22 @@
 package rlGambling;
 
+import static rlGambling.GamblerDomain.CLASS_AGENT;
+import static rlGambling.GamblerDomain.STATE_CURRENT_AMOUNT;
+
+import java.util.List;
+
 import burlap.behavior.policy.GreedyQPolicy;
 import burlap.behavior.policy.Policy;
 import burlap.behavior.singleagent.EpisodeAnalysis;
 import burlap.behavior.singleagent.learning.tdmethods.QLearning;
 import burlap.behavior.singleagent.planning.stochastic.policyiteration.PolicyIteration;
 import burlap.behavior.singleagent.planning.stochastic.valueiteration.ValueIteration;
+import burlap.oomdp.core.AbstractGroundedAction;
 import burlap.oomdp.core.Domain;
+import burlap.oomdp.core.objects.ObjectInstance;
 import burlap.oomdp.core.states.State;
+import burlap.oomdp.singleagent.Action;
+import burlap.oomdp.singleagent.common.SimpleGroundedAction;
 import burlap.oomdp.statehashing.HashableStateFactory;
 import burlap.oomdp.statehashing.SimpleHashableStateFactory;
 
@@ -69,10 +78,24 @@ public class RunGambler {
 		GamblerTerminalState terminalState = new GamblerTerminalState(maxAmount);
 		HashableStateFactory hashingFactory = new SimpleHashableStateFactory();
 		
-		PolicyIteration planner = new PolicyIteration(domain, reward, terminalState, 0.99, hashingFactory, 0.001, 100, 100);
+		PolicyIteration planner = new PolicyIteration(domain, reward, terminalState, 0.99, hashingFactory, 0, 100, 100);
 		
 		Policy policy = planner.planFromState(initialState);
 		EpisodeAnalysis episodeAnalysis = policy.evaluateBehavior(initialState, reward, terminalState);
+		
+		List<State> allStates = planner.getAllStates();
+		for (State s : allStates) {
+			ObjectInstance agent = s.getFirstObjectOfClass(CLASS_AGENT);
+			int currentAmount = agent.getIntValForAttribute(STATE_CURRENT_AMOUNT);
+			if (currentAmount == 0 || currentAmount == maxAmount) {
+				continue;
+			}
+			AbstractGroundedAction action = policy.getAction(s);
+			SimpleGroundedAction simpleAction = (SimpleGroundedAction) action;
+			BetAction betAction = (BetAction) simpleAction.action;
+			System.out.println(currentAmount + " - " + betAction.getBetAmount());
+		}
+		
 		System.out.println("writing to file: " + outputPath);
 		episodeAnalysis.writeToFile(outputPath);
 		double discountedReturn = episodeAnalysis.getDiscountedReturn(0.99);
@@ -87,7 +110,7 @@ public class RunGambler {
 		GamblerTerminalState terminalState = new GamblerTerminalState(maxAmount);
 		HashableStateFactory hashingFactory = new SimpleHashableStateFactory();
 		
-		ValueIteration planner = new ValueIteration(domain, reward, terminalState, 0.99, hashingFactory, 0.001, 100);
+		ValueIteration planner = new ValueIteration(domain, reward, terminalState, 0.99, hashingFactory, 0.0001, 100);
 		planner.toggleReachabiltiyTerminalStatePruning(true);
 		Policy policy = planner.planFromState(initialState);
 		EpisodeAnalysis episodeAnalysis = policy.evaluateBehavior(initialState, reward, terminalState);

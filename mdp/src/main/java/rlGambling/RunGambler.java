@@ -69,7 +69,7 @@ public class RunGambler {
 		GamblerTerminalState terminalState = new GamblerTerminalState(maxAmount);
 		HashableStateFactory hashingFactory = new SimpleHashableStateFactory();
 		
-		PolicyIteration planner = new PolicyIteration(domain, reward, terminalState, 0.99, hashingFactory, 1, 100, 100);
+		PolicyIteration planner = new PolicyIteration(domain, reward, terminalState, 0.99, hashingFactory, 0.001, 100, 100);
 		
 		Policy policy = planner.planFromState(initialState);
 		EpisodeAnalysis episodeAnalysis = policy.evaluateBehavior(initialState, reward, terminalState);
@@ -87,7 +87,7 @@ public class RunGambler {
 		GamblerTerminalState terminalState = new GamblerTerminalState(maxAmount);
 		HashableStateFactory hashingFactory = new SimpleHashableStateFactory();
 		
-		ValueIteration planner = new ValueIteration(domain, reward, terminalState, 0.99, hashingFactory, 0.1, 100);
+		ValueIteration planner = new ValueIteration(domain, reward, terminalState, 0.99, hashingFactory, 0.001, 100);
 		planner.toggleReachabiltiyTerminalStatePruning(true);
 		Policy policy = planner.planFromState(initialState);
 		EpisodeAnalysis episodeAnalysis = policy.evaluateBehavior(initialState, reward, terminalState);

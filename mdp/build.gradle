@@ -13,15 +13,15 @@ applicationDistribution.into("bin") {
     fileMode = 0755
 }
 
-task gridWorld(type: CreateStartScripts) {
-    mainClassName = "gridWorld.RunGridWorld"
-    applicationName = "gridWorld" 
+task gambler(type: CreateStartScripts) {
+    mainClassName = "rlGambling.RunGambler"
+    applicationName = "gambler" 
     outputDir = new File(project.buildDir, 'scripts')
     classpath = jar.outputs.files + project.configurations.runtime
 }
 
 applicationDistribution.into("bin") {
-    from(gridWorld)
+    from(gambler)
     fileMode = 0755
 }
 

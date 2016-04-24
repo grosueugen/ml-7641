@@ -1,6 +1,7 @@
 package rlGambling;
 
-import static rlGambling.GamblerDomain.*;
+import static rlGambling.GamblerDomain.CLASS_AGENT;
+import static rlGambling.GamblerDomain.STATE_CURRENT_AMOUNT;
 
 import java.util.ArrayList;
 import java.util.List;
